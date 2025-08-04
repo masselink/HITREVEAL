@@ -1,0 +1,58 @@
+import React from 'react';
+import { Header } from './components/Header';
+import { MainGame } from './components/MainGame';
+import { GameSession } from './components/GameSession';
+import { Footer } from './components/Footer';
+import { useLanguage } from './hooks/useLanguage';
+import { SongList } from './types';
+import './styles/App.css';
+
+function App() {
+  const { currentLanguage, changeLanguage } = useLanguage();
+  const [showGameSelection, setShowGameSelection] = React.useState(false);
+  const [gameSession, setGameSession] = React.useState<SongList | null>(null);
+
+  const handleLogoClick = () => {
+    setShowGameSelection(false);
+    setGameSession(null);
+  };
+
+  const handleStartGame = (gameType: string, songList?: SongList) => {
+    if (songList) {
+      setGameSession(songList);
+    }
+  };
+
+  const handleBackFromGame = () => {
+    setGameSession(null);
+  };
+
+  return (
+    <div className="app">
+      <Header 
+        currentLanguage={currentLanguage}
+        onLanguageChange={changeLanguage}
+        onLogoClick={handleLogoClick}
+      />
+      
+      {gameSession ? (
+        <GameSession
+          currentLanguage={currentLanguage}
+          songList={gameSession}
+          onBack={handleBackFromGame}
+        />
+      ) : (
+        <MainGame 
+          currentLanguage={currentLanguage}
+          showGameSelection={showGameSelection}
+          onShowGameSelection={setShowGameSelection}
+          onStartGame={handleStartGame}
+        />
+      )}
+      
+      <Footer currentLanguage={currentLanguage} />
+    </div>
+  );
+}
+
+export default App;
