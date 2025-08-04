@@ -28,3 +28,9 @@ I'm not a developer, this is a vibe coded project. In eed help translating all g
 -Play/Stop and Restart controls
 
 -Song reveal system
+
+✅ Songlists
+
+- Songs are managed via: https://github.com/masselink/HITREVEAL-Songs
+
+- Custom CSV usage is on the roadmap
