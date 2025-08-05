@@ -31,6 +31,6 @@ I'm not a developer, this is a vibe coded project. In eed help translating all g
 
 ✅ Songlists
 
-- Songs are managed via: https://github.com/masselink/HITREVEAL-Songs
+- Songs are managed via: https://github.com/masselink/HITREVEAL-songs
 
 - Custom CSV usage is on the roadmap
