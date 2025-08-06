@@ -41,4 +41,16 @@ export interface GameSession {
   songs: Song[];
   currentSong?: Song;
   isPlaying: boolean;
+  gameType?: string;
+}
+
+export interface CompetitionSettings {
+  numberOfPlayers: number;
+  targetScore: number;
+  artistPoints: number;
+  titlePoints: number;
+  yearPoints: number;
+  bonusPoints: number;
+  skipsPerPlayer: number;
+  skipCost: number;
 }

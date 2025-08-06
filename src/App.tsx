@@ -20,6 +20,8 @@ function App() {
   const handleStartGame = (gameType: string, songList?: SongList) => {
     if (songList) {
       setGameSession(songList);
+      // Store the game type for the session
+      setGameSession(prev => prev ? { ...prev, gameType } : null);
     }
   };
 
@@ -40,6 +42,7 @@ function App() {
           currentLanguage={currentLanguage}
           songList={gameSession}
           onBack={handleBackFromGame}
+          gameType={(gameSession as any).gameType}
         />
       ) : (
         <MainGame 
