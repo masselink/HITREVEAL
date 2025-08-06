@@ -46,6 +46,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
     skipsPerPlayer: 3,
     skipCost: 5
   });
+  const [playerNames, setPlayerNames] = useState<string[]>(['', '']);
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -537,11 +538,34 @@ export const GameSession: React.FC<GameSessionProps> = ({
   };
 
   // Competition game settings handlers
-  const handleSettingChange = (setting: string, value: number) => {
+    const newCount = Math.max(1, Math.min(10, competitionSettings.numberOfPlayers + change));
     setCompetitionSettings(prev => ({
       ...prev,
       [setting]: value
     }));
+    
+    // Update player names array to match the new count
+    setPlayerNames(prev => {
+      const newNames = [...prev];
+      if (newCount > prev.length) {
+        // Add empty names for new players
+        for (let i = prev.length; i < newCount; i++) {
+          newNames.push('');
+        }
+      } else if (newCount < prev.length) {
+        // Remove excess names
+        newNames.splice(newCount);
+      }
+      return newNames;
+    });
+  };
+
+  const updatePlayerName = (index: number, name: string) => {
+    setPlayerNames(prev => {
+      const newNames = [...prev];
+      newNames[index] = name;
+      return newNames;
+    });
   };
 
   const handleStartCompetitionGame = () => {
@@ -723,15 +747,36 @@ export const GameSession: React.FC<GameSessionProps> = ({
                   <span className="number-display">{competitionSettings.numberOfPlayers}</span>
                   <button 
                     className="number-button"
-                    onClick={() => handleSettingChange('numberOfPlayers', Math.min(8, competitionSettings.numberOfPlayers + 1))}
-                    disabled={competitionSettings.numberOfPlayers >= 8}
+                    onClick={() => updateNumberOfPlayers(1)} 
+                    disabled={competitionSettings.numberOfPlayers >= 10}
                   >
                     +
                   </button>
                 </div>
-                <span className="setting-note">
-                  {translations.minimum2Players?.[currentLanguage] || 'Minimum 2 players required'}
-                </span>
+              </div>
+              
+              {/* Player Names Section */}
+              <div className="setting-group">
+                <label className="setting-label">
+                  {translations.playerNames?.[currentLanguage] || 'Player Names'}
+                </label>
+                <div className="player-names-grid">
+                  {playerNames.map((name, index) => (
+                    <div key={index} className="player-name-input">
+                      <label className="player-label">
+                        {translations.playerName?.[currentLanguage] || 'Player'} {index + 1}
+                      </label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => updatePlayerName(index, e.target.value)}
+                        placeholder={`${translations.enterPlayerName?.[currentLanguage] || 'Enter player name'}`}
+                        className="player-name-field"
+                        maxLength={20}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
               
               <div className="setting-group">
@@ -1255,10 +1300,18 @@ export const GameSession: React.FC<GameSessionProps> = ({
                 <button
                   className="preview-close"
                   onClick={closePreview}
-                  aria-label={translations.close?.[currentLanguage] || 'Close'}
+                  disabled={competitionSettings.numberOfPlayers < 1 || playerNames.some(name => name.trim() === '')}
                 >
                   <X size={20} />
                 </button>
+                {(competitionSettings.numberOfPlayers < 1 || playerNames.some(name => name.trim() === '')) && (
+                  <p className="setting-note" style={{ color: '#ef4444', marginTop: 'var(--spacing-3)' }}>
+                    {playerNames.some(name => name.trim() === '') 
+                      ? (translations.allPlayerNameRequired?.[currentLanguage] || 'All player names are required')
+                      : (translations.minimum2Players?.[currentLanguage] || 'Minimum 1 player required')
+                    }
+                  </p>
+                )}
               </div>
               
               <div className="preview-content">

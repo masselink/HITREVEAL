@@ -1871,6 +1871,60 @@ body::before {
     padding: var(--spacing-4) var(--spacing-6);
   }
 }
+
+/* Player Names Styles */
+.player-names-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-3);
+}
+
+.player-name-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.player-label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.player-name-field {
+  padding: var(--spacing-3);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
+  background-color: var(--color-secondary);
+  color: var(--color-accent);
+  transition: var(--transition);
+}
+
+.player-name-field:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(242, 92, 126, 0.2);
+}
+
+.player-name-field::placeholder {
+  color: var(--color-text-light);
+  font-style: italic;
+}
+
+/* Mobile responsiveness for player names */
+@media (max-width: 768px) {
+  .player-names-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-3);
+  }
+  
+  .player-name-field {
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+}
 /* QR Scanner Styles */
 .qr-scanner-section {
   background-color: var(--color-secondary);

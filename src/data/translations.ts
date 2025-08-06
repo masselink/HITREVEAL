@@ -483,10 +483,34 @@ export const translations: Translations = {
     fr: 'Commencer la compétition'
   },
   minimum2Players: {
-    en: 'Minimum 2 players required',
-    nl: 'Minimaal 2 spelers vereist',
-    de: 'Mindestens 2 Spieler erforderlich',
-    fr: 'Minimum 2 joueurs requis'
+    en: 'Minimum 1 player required',
+    nl: 'Minimaal 1 speler vereist',
+    de: 'Mindestens 1 Spieler erforderlich',
+    fr: 'Minimum 1 joueur requis'
+  },
+  playerNames: {
+    en: 'Player Names',
+    nl: 'Spelersnamen',
+    de: 'Spielernamen',
+    fr: 'Noms des joueurs'
+  },
+  playerName: {
+    en: 'Player',
+    nl: 'Speler',
+    de: 'Spieler',
+    fr: 'Joueur'
+  },
+  enterPlayerName: {
+    en: 'Enter player name',
+    nl: 'Voer spelersnaam in',
+    de: 'Spielername eingeben',
+    fr: 'Entrez le nom du joueur'
+  },
+  allPlayerNameRequired: {
+    en: 'All player names are required',
+    nl: 'Alle spelersnamen zijn vereist',
+    de: 'Alle Spielernamen sind erforderlich',
+    fr: 'Tous les noms de joueurs sont requis'
   },
   gameRules: {
     en: 'Game Rules',
