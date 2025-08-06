@@ -46,13 +46,15 @@ export interface GameSession {
 
 export interface CompetitionSettings {
   numberOfPlayers: number;
-  gameMode: 'target-score' | 'time-based';
+  gameMode: 'points' | 'time-based' | 'rounds';
   targetScore: number;
   gameDuration: number;
+  maximumRounds: number;
   artistPoints: number;
   titlePoints: number;
   yearPoints: number;
   bonusPoints: number;
   skipsPerPlayer: number;
   skipCost: number;
+  drawType: 'highest-score' | 'multiple-winners' | 'sudden-death';
 }

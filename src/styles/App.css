@@ -1729,6 +1729,11 @@ body::before {
   margin-bottom: var(--spacing-6);
 }
 
+.setting-group.points-style {
+  align-items: center;
+  text-align: center;
+}
+
 .setting-group:last-child {
   margin-bottom: 0;
 }
@@ -1798,6 +1803,7 @@ body::before {
   gap: var(--spacing-3);
   justify-content: center;
   margin-bottom: var(--spacing-4);
+  flex-wrap: wrap;
 }
 
 .mode-button {
@@ -1813,7 +1819,8 @@ body::before {
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
-  min-width: 140px;
+  min-width: 120px;
+  flex: 1;
 }
 
 .mode-button:hover {
@@ -1838,6 +1845,25 @@ body::before {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-6);
+}
+
+.mode-specific-settings {
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.mode-rules {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  font-style: italic;
+  text-align: center;
+  margin-top: var(--spacing-3);
+  line-height: 1.5;
+}
+
+.draw-type-description {
+  margin-top: var(--spacing-3);
 }
 
 .start-game-section {
