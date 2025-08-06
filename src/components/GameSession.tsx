@@ -539,10 +539,26 @@ export const GameSession: React.FC<GameSessionProps> = ({
 
   // Competition game settings handlers
   const handleSettingChange = (setting: string, value: number) => {
+    const newCount = Math.max(1, Math.min(10, competitionSettings.numberOfPlayers + value));
     setCompetitionSettings(prev => ({
       ...prev,
       [setting]: value
     }));
+    
+    // Update player names array to match the new count
+    setPlayerNames(prev => {
+      const newNames = [...prev];
+      if (newCount > prev.length) {
+        // Add empty names for new players
+        for (let i = prev.length; i < newCount; i++) {
+          newNames.push('');
+        }
+      } else if (newCount < prev.length) {
+        // Remove excess names
+        newNames.splice(newCount);
+      }
+      return newNames;
+    });
   };
 
   const updateNumberOfPlayers = (change: number) => {
@@ -747,7 +763,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
                 <div className="number-input-container">
                   <button 
                     className="number-button"
-                    onClick={() => handleSettingChange('numberOfPlayers', Math.max(2, competitionSettings.numberOfPlayers - 1))}
+                    onClick={() => updateNumberOfPlayers(-1)}
                     disabled={competitionSettings.numberOfPlayers <= 2}
                   >
                     -
@@ -1081,7 +1097,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
               {!detailsRevealed ? (
                 <h3 className="song-found-title">
                   <Music size={24} />
-                  {translations.songFoundReveal[currentLanguage]}
+                  {translations.songFoundReveal?.[currentLanguage]}
                 </h3>
               ) : (
                 <div className="revealed-song-info">
