@@ -1887,6 +1887,7 @@ body::before {
   transition: var(--transition);
   box-shadow: var(--shadow-lg);
   min-width: 250px;
+  margin: 0 auto;
 }
 
 .start-competition-button:hover {
