@@ -98,6 +98,18 @@ export const translations: Translations = {
   },
   
   // Game Selection
+  competitionGame: {
+    en: 'Competition Game',
+    nl: 'Competitie Spel',
+    de: 'Wettbewerbsspiel',
+    fr: 'Jeu de Compétition'
+  },
+  competitionSubtitle: {
+    en: 'Challenge your friends',
+    nl: 'Daag je vrienden uit',
+    de: 'Fordere deine Freunde heraus',
+    fr: 'Défiez vos amis'
+  },
   back: {
     en: 'Back',
     nl: 'Terug',

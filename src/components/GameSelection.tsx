@@ -25,11 +25,17 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   const [showHitsterOptions, setShowHitsterOptions] = useState(false);
   const [selectedGameType, setSelectedGameType] = useState<string>('');
   const [songListsLoaded, setSongListsLoaded] = useState(false);
+  const [competitionSongListsLoaded, setCompetitionSongListsLoaded] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [showCompetitionPreview, setShowCompetitionPreview] = useState(false);
   const [previewSongs, setPreviewSongs] = useState<any[]>([]);
+  const [competitionPreviewSongs, setCompetitionPreviewSongs] = useState<any[]>([]);
   const [previewLoading, setPreviewLoading] = useState(false);
+  const [competitionPreviewLoading, setCompetitionPreviewLoading] = useState(false);
   const [previewError, setPreviewError] = useState<string | null>(null);
+  const [competitionPreviewError, setCompetitionPreviewError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [competitionSearchTerm, setCompetitionSearchTerm] = useState('');
 
   // Reset state when component mounts (when "Start Game" is pressed)
   useEffect(() => {
@@ -42,6 +48,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     setShowHitsterOptions(false);
     setSelectedGameType('');
     setSongListsLoaded(false);
+    setCompetitionSongListsLoaded(false);
   }, []);
 
   const gameTypes = [
@@ -64,12 +71,18 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     {
       id: 'game-type-2',
       name: {
-        en: 'Game Type 2',
-        nl: 'Speltype 2',
-        de: 'Spieltyp 2',
-        fr: 'Type de jeu 2'
+        en: 'Competition Game',
+        nl: 'Competitie Spel',
+        de: 'Wettbewerbsspiel',
+        fr: 'Jeu de Compétition'
       },
-      status: 'coming-soon' as const
+      subtitle: {
+        en: 'Challenge your friends',
+        nl: 'Daag je vrienden uit',
+        de: 'Fordere deine Freunde heraus',
+        fr: 'Défiez vos amis'
+      },
+      status: 'available' as const
     }
   ];
 
@@ -147,6 +160,45 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     }
   };
 
+  const fetchCompetitionSongLists = async () => {
+    if (competitionSongListsLoaded) {
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      const response = await fetch('https://raw.githubusercontent.com/masselink/HITREVEAL-Songs/refs/heads/main/songlists/config.csv');
+      const csvText = await response.text();
+      
+      Papa.parse(csvText, {
+        header: true,
+        complete: (results) => {
+          const data = results.data as SongList[];
+          // Filter out empty rows and rows without hitstercode
+          const validData = data.filter(row => 
+            row.name && 
+            row.name.trim() !== '' && 
+            row.hitstercode && 
+            row.hitstercode.trim() !== ''
+          );
+          setSongLists(validData);
+          setFilteredSongLists(validData);
+          setCompetitionSongListsLoaded(true);
+          setLoading(false);
+        },
+        error: (error) => {
+          console.error('Error parsing CSV:', error);
+          setError('Failed to load song lists');
+          setLoading(false);
+        }
+      });
+    } catch (err) {
+      console.error('Error fetching song lists:', err);
+      setError('Failed to load song lists');
+      setLoading(false);
+    }
+  };
+
   // Get unique countries from song lists
   const getUniqueCountries = () => {
     const countries = songLists.map(list => list.country.toLowerCase()).filter(Boolean);
@@ -179,6 +231,18 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     }
   };
 
+  const handleStartCompetition = () => {
+    // Only allow starting if game type 2 is selected
+    if (selectedGameType !== 'game-type-2') {
+      return;
+    }
+    
+    const selectedList = filteredSongLists.find(list => list.name === selectedSongList);
+    if (selectedList) {
+      onStartGame('game-type-2', selectedList);
+    }
+  };
+
   const handleDropdownSelect = (songListName: string) => {
     setSelectedSongList(songListName);
     setDropdownOpen(false);
@@ -196,6 +260,11 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
       setShowHitsterOptions(true);
       if (!songListsLoaded) {
         fetchSongLists();
+      }
+    } else if (gameType.id === 'game-type-2') {
+      setShowHitsterOptions(true);
+      if (!competitionSongListsLoaded) {
+        fetchCompetitionSongLists();
       }
     }
   };
@@ -251,6 +320,55 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     setSearchTerm('');
   };
 
+  const handleShowCompetitionPreview = async () => {
+    if (!selectedList) return;
+    
+    setShowCompetitionPreview(true);
+    setCompetitionPreviewLoading(true);
+    setCompetitionPreviewError(null);
+    
+    try {
+      const response = await fetch(selectedList.github_link);
+      if (!response.ok) {
+        throw new Error('Failed to fetch song list');
+      }
+      
+      const csvText = await response.text();
+      
+      Papa.parse(csvText, {
+        header: true,
+        complete: (results) => {
+          const data = results.data as any[];
+          const validData = data.filter(row => 
+            row.hitster_url && 
+            row.youtube_url && 
+            row.title && 
+            row.artist &&
+            row.year
+          );
+          setCompetitionPreviewSongs(validData);
+          setCompetitionPreviewLoading(false);
+        },
+        error: (error) => {
+          console.error('Error parsing preview CSV:', error);
+          setCompetitionPreviewError('Failed to load song list preview');
+          setCompetitionPreviewLoading(false);
+        }
+      });
+    } catch (err) {
+      console.error('Error fetching preview:', err);
+      setCompetitionPreviewError('Failed to load song list preview');
+      setCompetitionPreviewLoading(false);
+    }
+  };
+
+  const closeCompetitionPreview = () => {
+    setShowCompetitionPreview(false);
+    setCompetitionPreviewSongs([]);
+    setCompetitionPreviewError(null);
+    setCompetitionSearchTerm('');
+  };
+
   const extractIdFromUrl = (url: string) => {
     // Extract ID from hitster_url and remove leading zeros
     const match = url.match(/(\d+)$/);
@@ -263,6 +381,18 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   // Filter songs based on search term
   const filteredSongs = previewSongs.filter(song => {
     const searchLower = searchTerm.toLowerCase();
+    const id = extractIdFromUrl(song.hitster_url);
+    return (
+      song.title.toLowerCase().includes(searchLower) ||
+      song.artist.toLowerCase().includes(searchLower) ||
+      song.year.toString().includes(searchLower) ||
+      id.includes(searchLower)
+    );
+  });
+
+  // Filter competition songs based on search term
+  const filteredCompetitionSongs = competitionPreviewSongs.filter(song => {
+    const searchLower = competitionSearchTerm.toLowerCase();
     const id = extractIdFromUrl(song.hitster_url);
     return (
       song.title.toLowerCase().includes(searchLower) ||
@@ -319,14 +449,14 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         </div>
 
         {/* HITSTER Song List Selection */}
-        {selectedGameType === 'hitster-youtube' && showHitsterOptions && (
+        {(selectedGameType === 'hitster-youtube' || selectedGameType === 'game-type-2') && showHitsterOptions && (
         <div className="hitster-options">
           <h3 className="options-title">
             {translations.selectSongList?.[currentLanguage] || 'Select Song List'}
           </h3>
           
-          {/* Country Filter - Game Type 1 Specific */}
-          {!loading && !error && songLists.length > 0 && selectedGameType === 'hitster-youtube' && (
+          {/* Country Filter */}
+          {!loading && !error && songLists.length > 0 && (selectedGameType === 'hitster-youtube' || selectedGameType === 'game-type-2') && (
             <div className="country-filter">
               <div className="filter-buttons">
                 <button
@@ -362,22 +492,22 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             </div>
           )}
           
-          {/* Loading State - Game Type 1 Specific */}
+          {/* Loading State */}
           {loading && (
             <div className="loading-message">
               {translations.loadingSongLists?.[currentLanguage] || 'Loading song lists...'}
             </div>
           )}
           
-          {/* Error State - Game Type 1 Specific */}
+          {/* Error State */}
           {error && (
             <div className="error-message">
               {error}
             </div>
           )}
           
-          {/* Song List Selection - Game Type 1 Specific */}
-          {!loading && !error && selectedGameType === 'hitster-youtube' && (
+          {/* Song List Selection */}
+          {!loading && !error && (selectedGameType === 'hitster-youtube' || selectedGameType === 'game-type-2') && (
             <>
               <div className="custom-dropdown">
                 <button
@@ -454,7 +584,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                 </p>
               </div>
               
-              {/* Preview Section - Game Type 1 Specific */}
+              {/* Preview Section */}
               {selectedSongList && selectedGameType === 'hitster-youtube' && (
                 <div className="preview-section">
                   <button
@@ -468,32 +598,55 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                 </div>
               )}
               
-              {/* Start Button - Game Type 1 Specific */}
-              <button
-                className="start-hitster-button"
-                onClick={handleStartHitster}
-                disabled={!selectedSongList || selectedGameType !== 'hitster-youtube'}
-              >
-                <Play size={20} />
-                <span>
-                  {translations.startHitster?.[currentLanguage] || 'Start HITSTER'}
-                </span>
-              </button>
+              {/* Preview Section for Competition */}
+              {selectedSongList && selectedGameType === 'game-type-2' && (
+                <div className="preview-section">
+                  <button
+                    className="preview-button"
+                    onClick={handleShowCompetitionPreview}
+                    type="button"
+                  >
+                    <Eye size={16} />
+                    <span>{translations.previewSongs?.[currentLanguage] || 'Preview Songs'}</span>
+                  </button>
+                </div>
+              )}
+              
+              {/* Start Button for Hitster */}
+              {selectedGameType === 'hitster-youtube' && (
+                <button
+                  className="start-hitster-button"
+                  onClick={handleStartHitster}
+                  disabled={!selectedSongList}
+                >
+                  <Play size={20} />
+                  <span>
+                    {translations.startHitster?.[currentLanguage] || 'Start HITSTER'}
+                  </span>
+                </button>
+              )}
+              
+              {/* Start Button for Competition */}
+              {selectedGameType === 'game-type-2' && (
+                <button
+                  className="start-hitster-button"
+                  onClick={handleStartCompetition}
+                  disabled={!selectedSongList}
+                >
+                  <Play size={20} />
+                  <span>
+                    {translations.competitionGame?.[currentLanguage] || 'Start Competition'}
+                  </span>
+                </button>
+              )}
             </>
           )}
         </div>
         )}
         
-        {/* Future Game Types can be added here */}
-        {selectedGameType === 'game-type-2' && (
-          <div className="game-type-2-options">
-            {/* Game Type 2 specific options will go here */}
-            <p>Game Type 2 options coming soon...</p>
-          </div>
-        )}
       </div>
       
-      {/* Song List Preview Popup - Game Type 1 Specific */}
+      {/* Song List Preview Popup for Hitster */}
       {showPreview && selectedGameType === 'hitster-youtube' && (
         <div className="preview-overlay">
           <div className="preview-popup">
@@ -573,6 +726,95 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
               )}
               
               {!previewLoading && !previewError && previewSongs.length === 0 && (
+                <div className="no-songs">
+                  {translations.noValidSongs?.[currentLanguage] || 'No valid songs found in this list.'}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Song List Preview Popup for Competition */}
+      {showCompetitionPreview && selectedGameType === 'game-type-2' && (
+        <div className="preview-overlay">
+          <div className="preview-popup">
+            <div className="preview-header">
+              <h3 className="preview-title">
+                {selectedList?.name} - {translations.songList?.[currentLanguage] || 'Song List'}
+              </h3>
+              <button
+                className="preview-close"
+                onClick={closeCompetitionPreview}
+                aria-label={translations.close?.[currentLanguage] || 'Close'}
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="preview-content">
+              {competitionPreviewLoading && (
+                <div className="preview-loading">
+                  {translations.loadingSongs?.[currentLanguage] || 'Loading songs...'}
+                </div>
+              )}
+              
+              {competitionPreviewError && (
+                <div className="preview-error">
+                  {competitionPreviewError}
+                </div>
+              )}
+              
+              {!competitionPreviewLoading && !competitionPreviewError && competitionPreviewSongs.length > 0 && (
+                <>
+                  <div className="search-section">
+                    <input
+                      type="text"
+                      placeholder={translations.searchPlaceholder?.[currentLanguage] || 'Search songs, artists, years, or IDs...'}
+                      value={competitionSearchTerm}
+                      onChange={(e) => setCompetitionSearchTerm(e.target.value)}
+                      className="search-input"
+                    />
+                    <div className="search-results-count">
+                      {filteredCompetitionSongs.length} {translations.songsCount?.[currentLanguage] || 'of'} {competitionPreviewSongs.length} {translations.songsTotal?.[currentLanguage] || 'songs'}
+                    </div>
+                  </div>
+                  
+                  <div className="songs-list">
+                    <div className="list-header">
+                      <div className="header-id">{translations.id?.[currentLanguage] || 'ID'}</div>
+                      <div className="header-title">{translations.title?.[currentLanguage] || 'Title'}</div>
+                      <div className="header-artist">{translations.artist?.[currentLanguage] || 'Artist'}</div>
+                      <div className="header-year">{translations.year?.[currentLanguage] || 'Year'}</div>
+                    </div>
+                    
+                    <div className="list-body">
+                      {filteredCompetitionSongs.map((song, index) => {
+                        const songId = extractIdFromUrl(song.hitster_url);
+                        
+                        return (
+                        <div key={index} className="song-row">
+                          <div className="row-id">
+                            #{songId}
+                          </div>
+                          <div className="row-title">{song.title}</div>
+                          <div className="row-artist">{song.artist}</div>
+                          <div className="row-year">{song.year}</div>
+                        </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </>
+              )}
+              
+              {!competitionPreviewLoading && !competitionPreviewError && competitionPreviewSongs.length > 0 && filteredCompetitionSongs.length === 0 && competitionSearchTerm && (
+                <div className="no-results">
+                  {translations.noSongsFound?.[currentLanguage] || 'No songs found matching'} "{competitionSearchTerm}"
+                </div>
+              )}
+              
+              {!competitionPreviewLoading && !competitionPreviewError && competitionPreviewSongs.length === 0 && (
                 <div className="no-songs">
                   {translations.noValidSongs?.[currentLanguage] || 'No valid songs found in this list.'}
                 </div>
