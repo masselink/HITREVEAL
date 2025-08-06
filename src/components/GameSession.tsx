@@ -811,8 +811,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
                   ))}
                 </div>
               </div>
-            {/* Number of Players */}
-            <div className="setting-group points-style">
+            </div>
             
             {/* Game Mode Selection */}
             <div className="settings-section">
@@ -1121,7 +1120,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
                   
                   {gameSession.songs.length === 0 && (
                     <div className="no-songs">
-              <div className="setting-group points-style">
+                      {translations.noSongsAvailable?.[currentLanguage] || 'No songs available'}
                     </div>
                   )}
                 </div>
@@ -1145,7 +1144,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
             </button>
             <button className="game-session-title-button" disabled>
               {songList.name} | {translations.songs?.[currentLanguage] || 'Songs'}: {gameSession.songs.length}
-              <div className="setting-group points-style">
+            </button>
           </div>
           
           {/* Music Player Section */}
@@ -1169,7 +1168,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
               <div className="song-info">
                 {/* YouTube Player */}
                 <div className="youtube-player" style={{ marginTop: 'var(--spacing-8)', marginBottom: 'var(--spacing-8)' }}>
-              <div className="setting-group points-style">
+                  {showSongDetails ? (
                     <iframe
                       ref={visiblePlayerRef}
                       width="560"
@@ -1199,7 +1198,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
                   {playerState === 'playing' 
                     ? translations.playingInBackground?.[currentLanguage] || 'Playing'
                     : translations.stopped?.[currentLanguage] || 'Stopped'
-              <div className="setting-group points-style">
+                  }
                 </p>
               </div>
             </div>
@@ -1222,7 +1221,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
                 <RotateCcw size={16} />
                 <span>{translations.restart?.[currentLanguage] || 'Restart'}</span>
               </button>
-              <div className="setting-group points-style">
+            </div>
             
             {/* Scan Another Section */}
             <div className="scan-another-section" style={{ display: 'flex', justifyContent: 'center', gap: 'var(--spacing-4)', marginTop: 'var(--spacing-8)' }}>
@@ -1409,147 +1408,44 @@ export const GameSession: React.FC<GameSessionProps> = ({
                         <div className="header-title">{translations.title?.[currentLanguage] || 'Title'}</div>
                         <div className="header-artist">{translations.artist?.[currentLanguage] || 'Artist'}</div>
                         <div className="header-year">{translations.year?.[currentLanguage] || 'Year'}</div>
-                  className={`mode-button ${competitionSettings.gameMode === 'points' ? 'active' : ''}`}
-                  onClick={() => updateGameMode('points')}
+                      </div>
+                      
                       <div className="list-body">
                         {filteredSongs.map((song, index) => {
-                  {translations.pointsMode?.[currentLanguage] || 'Points'}
+                          const songId = extractIdFromUrl(song.hitster_url);
                           
                           return (
-              {competitionSettings.gameMode === 'points' && (
-                <div className="mode-specific-settings">
-                  <div className="setting-group points-style">
-                    <label className="setting-label">{translations.targetScorePoints?.[currentLanguage] || 'Target Score'}</label>
-                    <div className="number-input-container">
-                      <button
-                        className="number-button"
-                        onClick={() => updateCompetitionSetting('targetScore', Math.max(10, competitionSettings.targetScore - 10))}
-                        disabled={competitionSettings.targetScore <= 10}
-                        type="button"
-                      >
-                        -10
-                      </button>
-                      <span className="number-display">{competitionSettings.targetScore}</span>
-                      <button
-                        className="number-button"
-                        onClick={() => updateCompetitionSetting('targetScore', Math.min(500, competitionSettings.targetScore + 10))}
-                        disabled={competitionSettings.targetScore >= 500}
-                        type="button"
-                      >
-                        +10
-                      </button>
-                    </div>
-                    <p className="setting-note">{translations.points?.[currentLanguage] || 'points'}</p>
-                  </div>
-                  <p className="mode-rules">{translations.pointsModeRules?.[currentLanguage] || 'First player to reach the target score wins.'}</p>
-                </div>
-              )}
-              
-              {competitionSettings.gameMode === 'time-based' && (
+                            <div key={index} className="song-row">
                               <div className="row-id">
-                  <div className="setting-group points-style">
-                    <label className="setting-label">{translations.gameDuration?.[currentLanguage] || 'Game Duration (Minutes)'}</label>
-                    <div className="number-input-container">
-                      <button
-                        className="number-button"
-                        onClick={() => updateCompetitionSetting('gameDuration', Math.max(5, competitionSettings.gameDuration - 5))}
-                        disabled={competitionSettings.gameDuration <= 5}
-                        type="button"
-                      >
-                        -5
-                      </button>
-                      <span className="number-display">{competitionSettings.gameDuration}</span>
-                      <button
-                        className="number-button"
-                        onClick={() => updateCompetitionSetting('gameDuration', Math.min(120, competitionSettings.gameDuration + 5))}
-                        disabled={competitionSettings.gameDuration >= 120}
-                        type="button"
-                      >
-                        +5
-                      </button>
-                    </div>
-                    <p className="setting-note">{translations.minutes?.[currentLanguage] || 'minutes'}</p>
-                  </div>
-                  <p className="mode-rules">{translations.timeBasedRules?.[currentLanguage] || 'Game plays for the set duration and completes the current round when time expires.'}</p>
+                                #{songId}
                               </div>
                               <div className="row-title">{song.title}</div>
                               <div className="row-artist">{song.artist}</div>
-              {competitionSettings.gameMode === 'rounds' && (
+                              <div className="row-year">{song.year}</div>
                             </div>
-                  <div className="setting-group points-style">
-                    <label className="setting-label">{translations.maximumRounds?.[currentLanguage] || 'Maximum Rounds'}</label>
+                          );
+                        })}
                       </div>
                     </div>
                   </>
-                        onClick={() => updateCompetitionSetting('maximumRounds', Math.max(1, competitionSettings.maximumRounds - 1))}
-                        disabled={competitionSettings.maximumRounds <= 1}
+                )}
+                
                 {gameSession.songs.length > 0 && filteredSongs.length === 0 && searchTerm && (
                   <div className="no-results">
-                        -1
-                  </div>
-                      <span className="number-display">{competitionSettings.maximumRounds}</span>
-                
-                  onClick={() => updateGameMode('time-based')}
-                        onClick={() => updateCompetitionSetting('maximumRounds', Math.min(50, competitionSettings.maximumRounds + 1))}
-                        disabled={competitionSettings.maximumRounds >= 50}
+                    {translations.noSongsFound?.[currentLanguage] || 'No songs found matching'} "{searchTerm}"
                   </div>
                 )}
-                        +1
-                  className={`mode-button ${competitionSettings.gameMode === 'rounds' ? 'active' : ''}`}
-                  onClick={() => updateGameMode('rounds')}
-                    <p className="setting-note">{translations.rounds?.[currentLanguage] || 'rounds'}</p>
-                >
-                  <p className="mode-rules">{translations.roundsModeRules?.[currentLanguage] || 'Game ends after the specified number of rounds. Winner determined by draw type.'}</p>
-                </button>
+                
+                {gameSession.songs.length === 0 && (
+                  <div className="no-songs">
+                    {translations.noSongsAvailable?.[currentLanguage] || 'No songs available'}
+                  </div>
+                )}
               </div>
             </div>
-
-            {/* Draw Type Selection - Only show for time-based and rounds modes */}
-            {(competitionSettings.gameMode === 'time-based' || competitionSettings.gameMode === 'rounds') && (
-              <div className="setting-group">
-                <label className="setting-label">{translations.drawType?.[currentLanguage] || 'Draw Type'}</label>
-                <div className="game-mode-selection">
-                  <button
-                    className={`mode-button ${competitionSettings.drawType === 'highest-score' ? 'active' : ''}`}
-                    onClick={() => updateDrawType('highest-score')}
-                    type="button"
-                  >
-                    {translations.highestScoreWins?.[currentLanguage] || 'Highest Score Wins'}
-                  </button>
-                  <button
-                    className={`mode-button ${competitionSettings.drawType === 'multiple-winners' ? 'active' : ''}`}
-                    onClick={() => updateDrawType('multiple-winners')}
-                    type="button"
-                  >
-                    {translations.multipleWinners?.[currentLanguage] || 'Multiple Winners'}
-                  </button>
-                  <button
-                    className={`mode-button ${competitionSettings.drawType === 'sudden-death' ? 'active' : ''}`}
-                    onClick={() => updateDrawType('sudden-death')}
-                    type="button"
-                  >
-                    {translations.suddenDeath?.[currentLanguage] || 'Sudden Death'}
-                  </button>
-                </div>
-                
-                {/* Draw type descriptions */}
-                <div className="draw-type-description">
-                  {competitionSettings.drawType === 'highest-score' && (
-                    <p className="mode-rules">{translations.highestScoreWinsDesc?.[currentLanguage] || 'Player with highest score wins, regardless of ties.'}</p>
-                  )}
-                  {competitionSettings.drawType === 'multiple-winners' && (
-                    <p className="mode-rules">{translations.multipleWinnersDesc?.[currentLanguage] || 'All players with the highest score are declared winners.'}</p>
-                  )}
-                  {competitionSettings.drawType === 'sudden-death' && (
-                    <p className="mode-rules">{translations.suddenDeathDesc?.[currentLanguage] || 'Players with highest score play additional rounds until there is a single winner.'}</p>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
         )}
       </div>
     </div>
   );
 };
-              <div className="setting-group points-style">
