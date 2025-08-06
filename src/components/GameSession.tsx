@@ -796,6 +796,19 @@ export const GameSession: React.FC<GameSessionProps> = ({
                 </div>
               )}
               
+              
+            
+            {/* Game Rules Description */}
+            <div className="rules-section">
+              <h3 className="rules-title">
+                {translations.gameRules?.[currentLanguage] || 'Game Rules'}
+              </h3>
+              <p className="rules-description">
+                {competitionSettings.gameMode === 'time-based' 
+                  ? translations.timeBasedRules?.[currentLanguage] || 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The player with the most points when time runs out wins.'
+                  : translations.targetScoreRules?.[currentLanguage] || 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.'
+                }
+              </p>
               {/* Game Duration (for time-based mode) */}
               {competitionSettings.gameMode === 'time-based' && (
                 <div className="setting-group">
@@ -819,18 +832,6 @@ export const GameSession: React.FC<GameSessionProps> = ({
                   </div>
                 </div>
               )}
-            
-            {/* Game Rules Description */}
-            <div className="rules-section">
-              <h3 className="rules-title">
-                {translations.gameRules?.[currentLanguage] || 'Game Rules'}
-              </h3>
-              <p className="rules-description">
-                {competitionSettings.gameMode === 'time-based' 
-                  ? translations.timeBasedRules?.[currentLanguage] || 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The player with the most points when time runs out wins.'
-                  : translations.targetScoreRules?.[currentLanguage] || 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.'
-                }
-              </p>
             </div>
             
             {/* Basic Settings */}
