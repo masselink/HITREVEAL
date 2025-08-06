@@ -749,6 +749,28 @@ export const GameSession: React.FC<GameSessionProps> = ({
             <h2 className="settings-title">
               {translations.gameSettings?.[currentLanguage] || 'Game Settings'}
             </h2>
+
+            {/* Game Mode Selection */}
+            <div className="settings-section">
+              <h3 className="section-title">{translations.gameMode?.[currentLanguage] || 'Game Mode'}</h3>
+              
+              <div className="game-mode-selection">
+                <button
+                  className={`mode-button ${competitionSettings.gameMode === 'target-score' ? 'active' : ''}`}
+                  onClick={() => updateGameMode('target-score')}
+                  type="button"
+                >
+                  {translations.targetScoreMode?.[currentLanguage] || 'Target Score'}
+                </button>
+                <button
+                  className={`mode-button ${competitionSettings.gameMode === 'time-based' ? 'active' : ''}`}
+                  onClick={() => updateGameMode('time-based')}
+                  type="button"
+                >
+                  {translations.timeBasedMode?.[currentLanguage] || 'Time Based'}
+                </button>
+              </div>
+            </div>
             
             {/* Game Rules Description */}
             <div className="rules-section">
@@ -810,28 +832,6 @@ export const GameSession: React.FC<GameSessionProps> = ({
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
-            
-            {/* Game Mode Selection */}
-            <div className="settings-section">
-              <h3 className="section-title">{translations.gameMode?.[currentLanguage] || 'Game Mode'}</h3>
-              
-              <div className="game-mode-selection">
-                <button
-                  className={`mode-button ${competitionSettings.gameMode === 'target-score' ? 'active' : ''}`}
-                  onClick={() => updateGameMode('target-score')}
-                  type="button"
-                >
-                  {translations.targetScoreMode?.[currentLanguage] || 'Target Score'}
-                </button>
-                <button
-                  className={`mode-button ${competitionSettings.gameMode === 'time-based' ? 'active' : ''}`}
-                  onClick={() => updateGameMode('time-based')}
-                  type="button"
-                >
-                  {translations.timeBasedMode?.[currentLanguage] || 'Time Based'}
-                </button>
               </div>
             </div>
 
