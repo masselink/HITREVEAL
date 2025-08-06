@@ -239,7 +239,17 @@ export const GameSession: React.FC<GameSessionProps> = ({
               console.log('Video playing successfully, starting QR scan...');
               scanForQRCode();
             }).catch(err => {
-              console.error('Error playing video:', err);
+              console.error('Error
+              )
+            }
+            )
+          }
+        }
+      }
+    }
+  }
+  )
+} playing video:', err);
               setScannerError('Failed to start video playback');
             });
           }
@@ -747,36 +757,15 @@ export const GameSession: React.FC<GameSessionProps> = ({
                   <span className="number-display">{competitionSettings.numberOfPlayers}</span>
                   <button 
                     className="number-button"
-                    onClick={() => updateNumberOfPlayers(1)} 
-                    disabled={competitionSettings.numberOfPlayers >= 10}
+                    onClick={() => handleSettingChange('numberOfPlayers', Math.min(8, competitionSettings.numberOfPlayers + 1))}
+                    disabled={competitionSettings.numberOfPlayers >= 8}
                   >
                     +
                   </button>
                 </div>
-              </div>
-              
-              {/* Player Names Section */}
-              <div className="setting-group">
-                <label className="setting-label">
-                  {translations.playerNames?.[currentLanguage] || 'Player Names'}
-                </label>
-                <div className="player-names-grid">
-                  {playerNames.map((name, index) => (
-                    <div key={index} className="player-name-input">
-                      <label className="player-label">
-                        {translations.playerName?.[currentLanguage] || 'Player'} {index + 1}
-                      </label>
-                      <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => updatePlayerName(index, e.target.value)}
-                        placeholder={`${translations.enterPlayerName?.[currentLanguage] || 'Enter player name'}`}
-                        className="player-name-field"
-                        maxLength={20}
-                      />
-                    </div>
-                  ))}
-                </div>
+                <span className="setting-note">
+                  {translations.minimum2Players?.[currentLanguage] || 'Minimum 2 players required'}
+                </span>
               </div>
               
               <div className="setting-group">
@@ -1300,18 +1289,10 @@ export const GameSession: React.FC<GameSessionProps> = ({
                 <button
                   className="preview-close"
                   onClick={closePreview}
-                  disabled={competitionSettings.numberOfPlayers < 1 || playerNames.some(name => name.trim() === '')}
+                  aria-label={translations.close?.[currentLanguage] || 'Close'}
                 >
                   <X size={20} />
                 </button>
-                {(competitionSettings.numberOfPlayers < 1 || playerNames.some(name => name.trim() === '')) && (
-                  <p className="setting-note" style={{ color: '#ef4444', marginTop: 'var(--spacing-3)' }}>
-                    {playerNames.some(name => name.trim() === '') 
-                      ? (translations.allPlayerNameRequired?.[currentLanguage] || 'All player names are required')
-                      : (translations.minimum2Players?.[currentLanguage] || 'Minimum 1 player required')
-                    }
-                  </p>
-                )}
               </div>
               
               <div className="preview-content">
