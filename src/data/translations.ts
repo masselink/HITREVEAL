@@ -91,10 +91,10 @@ export const translations: Translations = {
     fr: 'Faire un don'
   },
   footerCopyright: {
-    en: '© 2025 HITREVEAL',
-    nl: '© 2025 HITREVEAL',
-    de: '© 2025 HITREVEAL',
-    fr: '© 2025 HITREVEAL'
+    en: '© 2025 HITREVEAL Music Quiz Game.\nMade with ❤️ by CollectingVibes.',
+    nl: '© 2025 HITREVEAL Music Quiz Game.\nMade with ❤️ by CollectingVibes.',
+    de: '© 2025 HITREVEAL Music Quiz Game.\nMade with ❤️ by CollectingVibes.',
+    fr: '© 2025 HITREVEAL Music Quiz Game.\nMade with ❤️ by CollectingVibes.'
   },
   
   // Game Selection
