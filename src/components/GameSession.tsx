@@ -239,17 +239,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
               console.log('Video playing successfully, starting QR scan...');
               scanForQRCode();
             }).catch(err => {
-              console.error('Error
-              )
-            }
-            )
-          }
-        }
-      }
-    }
-  }
-  )
-} playing video:', err);
+              console.error('Error playing video:', err);
               setScannerError('Failed to start video playback');
             });
           }
@@ -548,10 +538,18 @@ export const GameSession: React.FC<GameSessionProps> = ({
   };
 
   // Competition game settings handlers
-    const newCount = Math.max(1, Math.min(10, competitionSettings.numberOfPlayers + change));
+  const handleSettingChange = (setting: string, value: number) => {
     setCompetitionSettings(prev => ({
       ...prev,
       [setting]: value
+    }));
+  };
+
+  const updateNumberOfPlayers = (change: number) => {
+    const newCount = Math.max(2, Math.min(10, competitionSettings.numberOfPlayers + change));
+    setCompetitionSettings(prev => ({
+      ...prev,
+      numberOfPlayers: newCount
     }));
     
     // Update player names array to match the new count
@@ -757,15 +755,36 @@ export const GameSession: React.FC<GameSessionProps> = ({
                   <span className="number-display">{competitionSettings.numberOfPlayers}</span>
                   <button 
                     className="number-button"
-                    onClick={() => handleSettingChange('numberOfPlayers', Math.min(8, competitionSettings.numberOfPlayers + 1))}
-                    disabled={competitionSettings.numberOfPlayers >= 8}
+                    onClick={() => updateNumberOfPlayers(1)} 
+                    disabled={competitionSettings.numberOfPlayers >= 10}
                   >
                     +
                   </button>
                 </div>
-                <span className="setting-note">
-                  {translations.minimum2Players?.[currentLanguage] || 'Minimum 2 players required'}
-                </span>
+              </div>
+              
+              {/* Player Names Section */}
+              <div className="setting-group">
+                <label className="setting-label">
+                  {translations.playerNames?.[currentLanguage] || 'Player Names'}
+                </label>
+                <div className="player-names-grid">
+                  {playerNames.map((name, index) => (
+                    <div key={index} className="player-name-input">
+                      <label className="player-label">
+                        {translations.playerName?.[currentLanguage] || 'Player'} {index + 1}
+                      </label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => updatePlayerName(index, e.target.value)}
+                        placeholder={`${translations.enterPlayerName?.[currentLanguage] || 'Enter player name'}`}
+                        className="player-name-field"
+                        maxLength={20}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
               
               <div className="setting-group">
