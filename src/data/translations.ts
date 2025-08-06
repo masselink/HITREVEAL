@@ -483,10 +483,10 @@ export const translations: Translations = {
     fr: 'Commencer la compétition'
   },
   minimum2Players: {
-    en: 'Minimum 1 player required',
-    nl: 'Minimaal 1 speler vereist',
-    de: 'Mindestens 1 Spieler erforderlich',
-    fr: 'Minimum 1 joueur requis'
+    en: 'Single player mode available',
+    nl: 'Enkele speler modus beschikbaar',
+    de: 'Einzelspieler-Modus verfügbar',
+    fr: 'Mode solo disponible'
   },
   playerNames: {
     en: 'Player Names',
@@ -523,5 +523,53 @@ export const translations: Translations = {
     nl: 'Spelers raden om de beurt artiest, titel en jaar. Punten worden toegekend op basis van juiste antwoorden. De eerste speler die de doelscore behaalt wint. Bij gelijkstand bepalen Sudden Death rondes de winnaar.',
     de: 'Die Spieler raten abwechselnd Künstler, Titel und Jahr. Punkte werden basierend auf richtigen Antworten vergeben. Der erste Spieler, der die Zielpunktzahl erreicht, gewinnt. Bei Gleichstand entscheiden Sudden Death-Runden über den Gewinner.',
     fr: 'Les joueurs devinent à tour de rôle l\'artiste, le titre et l\'année. Les points sont attribués en fonction des bonnes réponses. Le premier joueur à atteindre le score cible gagne. En cas d\'égalité, les rounds de Sudden Death déterminent le gagnant.'
+  },
+  gameMode: {
+    en: 'Game Mode',
+    nl: 'Spelmodus',
+    de: 'Spielmodus',
+    fr: 'Mode de jeu'
+  },
+  targetScoreMode: {
+    en: 'Target Score',
+    nl: 'Doelscore',
+    de: 'Zielpunktzahl',
+    fr: 'Score cible'
+  },
+  timeBasedMode: {
+    en: 'Time Based',
+    nl: 'Tijd gebaseerd',
+    de: 'Zeitbasiert',
+    fr: 'Basé sur le temps'
+  },
+  gameDuration: {
+    en: 'Game Duration (Minutes)',
+    nl: 'Spelduur (Minuten)',
+    de: 'Spieldauer (Minuten)',
+    fr: 'Durée du jeu (Minutes)'
+  },
+  minutes: {
+    en: 'minutes',
+    nl: 'minuten',
+    de: 'Minuten',
+    fr: 'minutes'
+  },
+  targetScorePoints: {
+    en: 'Target Score',
+    nl: 'Doelscore',
+    de: 'Zielpunktzahl',
+    fr: 'Score cible'
+  },
+  timeBasedRules: {
+    en: 'Game plays for the set duration and completes the current round when time expires.',
+    nl: 'Het spel speelt voor de ingestelde duur en voltooit de huidige ronde wanneer de tijd afloopt.',
+    de: 'Das Spiel läuft für die eingestellte Dauer und beendet die aktuelle Runde, wenn die Zeit abläuft.',
+    fr: 'Le jeu se joue pendant la durée définie et termine le tour en cours à l\'expiration du temps.'
+  },
+  targetScoreRules: {
+    en: 'First player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.',
+    nl: 'De eerste speler die de doelscore behaalt wint. Bij gelijkstand bepalen Sudden Death rondes de winnaar.',
+    de: 'Der erste Spieler, der die Zielpunktzahl erreicht, gewinnt. Bei Gleichstand entscheiden Sudden Death-Runden über den Gewinner.',
+    fr: 'Le premier joueur à atteindre le score cible gagne. En cas d\'égalité, les rounds de Sudden Death déterminent le gagnant.'
   }
 };
