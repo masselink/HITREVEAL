@@ -836,9 +836,9 @@ export const GameSession: React.FC<GameSessionProps> = ({
             {/* Basic Settings */}
             <div className="settings-section">
               <div className="setting-group">
-                <label className="setting-label">
-                  {translations.numberOfPlayers?.[currentLanguage] || 'Number of Players'}
-                </label>
+                 <h3 className="section-title">
+                   {translations.numberOfPlayers?.[currentLanguage] || 'Number of Players'}
+                </h3>
                 <div className="number-input-container">
                   <button 
                     className="number-button"
