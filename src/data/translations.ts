@@ -401,5 +401,103 @@ export const translations: Translations = {
     nl: 'Nummer gevonden! Heb je een onthulling nodig?',
     de: 'Lied gefunden! Brauchst du eine Enthüllung?',
     fr: 'Chanson trouvée ! Avez-vous besoin d\'une révélation ?'
+  },
+  
+  // Competition Game Settings
+  gameSettings: {
+    en: 'Game Settings',
+    nl: 'Spelinstellingen',
+    de: 'Spieleinstellungen',
+    fr: 'Paramètres du jeu'
+  },
+  numberOfPlayers: {
+    en: 'Number of Players',
+    nl: 'Aantal spelers',
+    de: 'Anzahl der Spieler',
+    fr: 'Nombre de joueurs'
+  },
+  targetScore: {
+    en: 'Target Score',
+    nl: 'Doelscore',
+    de: 'Zielpunktzahl',
+    fr: 'Score cible'
+  },
+  pointsSystem: {
+    en: 'Points System',
+    nl: 'Puntensysteem',
+    de: 'Punktesystem',
+    fr: 'Système de points'
+  },
+  artistCorrect: {
+    en: 'Artist Correct',
+    nl: 'Artiest goed',
+    de: 'Künstler richtig',
+    fr: 'Artiste correct'
+  },
+  titleCorrect: {
+    en: 'Title Correct',
+    nl: 'Titel goed',
+    de: 'Titel richtig',
+    fr: 'Titre correct'
+  },
+  yearCorrect: {
+    en: 'Year Correct',
+    nl: 'Jaar goed',
+    de: 'Jahr richtig',
+    fr: 'Année correcte'
+  },
+  bonusAllCorrect: {
+    en: 'Bonus (All Correct)',
+    nl: 'Bonus (alles goed)',
+    de: 'Bonus (alles richtig)',
+    fr: 'Bonus (tout correct)'
+  },
+  skipsSettings: {
+    en: 'Skip Settings',
+    nl: 'Skip instellingen',
+    de: 'Skip-Einstellungen',
+    fr: 'Paramètres de skip'
+  },
+  skipsPerPlayer: {
+    en: 'Skips per Player',
+    nl: 'Skips per speler',
+    de: 'Skips pro Spieler',
+    fr: 'Skips par joueur'
+  },
+  skipCost: {
+    en: 'Skip Cost (Points)',
+    nl: 'Skip kosten (punten)',
+    de: 'Skip-Kosten (Punkte)',
+    fr: 'Coût du skip (points)'
+  },
+  points: {
+    en: 'points',
+    nl: 'punten',
+    de: 'Punkte',
+    fr: 'points'
+  },
+  startCompetition: {
+    en: 'Start Competition',
+    nl: 'Start Competitie',
+    de: 'Wettbewerb starten',
+    fr: 'Commencer la compétition'
+  },
+  minimum2Players: {
+    en: 'Minimum 2 players required',
+    nl: 'Minimaal 2 spelers vereist',
+    de: 'Mindestens 2 Spieler erforderlich',
+    fr: 'Minimum 2 joueurs requis'
+  },
+  gameRules: {
+    en: 'Game Rules',
+    nl: 'Spelregels',
+    de: 'Spielregeln',
+    fr: 'Règles du jeu'
+  },
+  rulesDescription: {
+    en: 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.',
+    nl: 'Spelers raden om de beurt artiest, titel en jaar. Punten worden toegekend op basis van juiste antwoorden. De eerste speler die de doelscore behaalt wint. Bij gelijkstand bepalen Sudden Death rondes de winnaar.',
+    de: 'Die Spieler raten abwechselnd Künstler, Titel und Jahr. Punkte werden basierend auf richtigen Antworten vergeben. Der erste Spieler, der die Zielpunktzahl erreicht, gewinnt. Bei Gleichstand entscheiden Sudden Death-Runden über den Gewinner.',
+    fr: 'Les joueurs devinent à tour de rôle l\'artiste, le titre et l\'année. Les points sont attribués en fonction des bonnes réponses. Le premier joueur à atteindre le score cible gagne. En cas d\'égalité, les rounds de Sudden Death déterminent le gagnant.'
   }
 };
