@@ -1792,6 +1792,42 @@ body::before {
   text-align: center;
 }
 
+/* Game Mode Selection */
+.game-mode-selection {
+  display: flex;
+  gap: var(--spacing-3);
+  justify-content: center;
+  margin-bottom: var(--spacing-4);
+}
+
+.mode-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: var(--color-secondary);
+  color: var(--color-text-light);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  min-width: 140px;
+}
+
+.mode-button:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-secondary);
+  border-color: var(--color-primary-light);
+}
+
+.mode-button.active {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  border-color: var(--color-primary);
+}
+
 .points-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1846,6 +1882,16 @@ body::before {
   .skip-settings-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-4);
+  }
+  
+  .game-mode-selection {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mode-button {
+    width: 100%;
+    max-width: 200px;
   }
   
   .number-input-container {

@@ -46,7 +46,9 @@ export interface GameSession {
 
 export interface CompetitionSettings {
   numberOfPlayers: number;
+  gameMode: 'target-score' | 'time-based';
   targetScore: number;
+  gameDuration: number;
   artistPoints: number;
   titlePoints: number;
   yearPoints: number;
