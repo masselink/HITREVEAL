@@ -771,6 +771,54 @@ export const GameSession: React.FC<GameSessionProps> = ({
                 </button>
               </div>
             </div>
+
+            {/* Target Score (moved here) */}
+              {competitionSettings.gameMode === 'target-score' && (
+                <div className="setting-group">
+                  <label className="setting-label">{translations.targetScorePoints?.[currentLanguage] || 'Target Score'}</label>
+                  <div className="number-input-container">
+                    <button
+                      className="number-button"
+                      onClick={() => handleSettingChange('targetScore', Math.max(10, competitionSettings.targetScore - 10))}
+                      type="button"
+                    >
+                      -10
+                    </button>
+                    <div className="number-display">{competitionSettings.targetScore}</div>
+                    <button
+                      className="number-button"
+                      onClick={() => handleSettingChange('targetScore', Math.min(500, competitionSettings.targetScore + 10))}
+                      type="button"
+                    >
+                      +10
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {/* Game Duration (for time-based mode) */}
+              {competitionSettings.gameMode === 'time-based' && (
+                <div className="setting-group">
+                  <label className="setting-label">{translations.gameDuration?.[currentLanguage] || 'Game Duration'}</label>
+                  <div className="number-input-container">
+                    <button
+                      className="number-button"
+                      onClick={() => handleSettingChange('gameDuration', Math.max(5, competitionSettings.gameDuration - 5))}
+                      type="button"
+                    >
+                      -5
+                    </button>
+                    <div className="number-display">{competitionSettings.gameDuration} {translations.minutes?.[currentLanguage] || 'minutes'}</div>
+                    <button
+                      className="number-button"
+                      onClick={() => handleSettingChange('gameDuration', Math.min(120, competitionSettings.gameDuration + 5))}
+                      type="button"
+                    >
+                      +5
+                    </button>
+                  </div>
+                </div>
+              )}
             
             {/* Game Rules Description */}
             <div className="rules-section">
@@ -840,54 +888,6 @@ export const GameSession: React.FC<GameSessionProps> = ({
               <h3 className="section-title">
                 {translations.pointsSystem?.[currentLanguage] || 'Points System'}
               </h3>
-              
-              {/* Target Score (moved here) */}
-              {competitionSettings.gameMode === 'target-score' && (
-                <div className="setting-group">
-                  <label className="setting-label">{translations.targetScorePoints?.[currentLanguage] || 'Target Score'}</label>
-                  <div className="number-input-container">
-                    <button
-                      className="number-button"
-                      onClick={() => handleSettingChange('targetScore', Math.max(10, competitionSettings.targetScore - 10))}
-                      type="button"
-                    >
-                      -10
-                    </button>
-                    <div className="number-display">{competitionSettings.targetScore}</div>
-                    <button
-                      className="number-button"
-                      onClick={() => handleSettingChange('targetScore', Math.min(500, competitionSettings.targetScore + 10))}
-                      type="button"
-                    >
-                      +10
-                    </button>
-                  </div>
-                </div>
-              )}
-              
-              {/* Game Duration (for time-based mode) */}
-              {competitionSettings.gameMode === 'time-based' && (
-                <div className="setting-group">
-                  <label className="setting-label">{translations.gameDuration?.[currentLanguage] || 'Game Duration'}</label>
-                  <div className="number-input-container">
-                    <button
-                      className="number-button"
-                      onClick={() => handleSettingChange('gameDuration', Math.max(5, competitionSettings.gameDuration - 5))}
-                      type="button"
-                    >
-                      -5
-                    </button>
-                    <div className="number-display">{competitionSettings.gameDuration} {translations.minutes?.[currentLanguage] || 'minutes'}</div>
-                    <button
-                      className="number-button"
-                      onClick={() => handleSettingChange('gameDuration', Math.min(120, competitionSettings.gameDuration + 5))}
-                      type="button"
-                    >
-                      +5
-                    </button>
-                  </div>
-                </div>
-              )}
               
               <div className="points-grid">
                 <div className="setting-group">
