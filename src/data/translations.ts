@@ -571,5 +571,83 @@ export const translations: Translations = {
     nl: 'De eerste speler die de doelscore behaalt wint. Bij gelijkstand bepalen Sudden Death rondes de winnaar.',
     de: 'Der erste Spieler, der die Zielpunktzahl erreicht, gewinnt. Bei Gleichstand entscheiden Sudden Death-Runden über den Gewinner.',
     fr: 'Le premier joueur à atteindre le score cible gagne. En cas d\'égalité, les rounds de Sudden Death déterminent le gagnant.'
+  },
+  pointsMode: {
+    en: 'Points',
+    nl: 'Punten',
+    de: 'Punkte',
+    fr: 'Points'
+  },
+  roundsMode: {
+    en: 'Rounds',
+    nl: 'Rondes',
+    de: 'Runden',
+    fr: 'Rounds'
+  },
+  maximumRounds: {
+    en: 'Maximum Rounds',
+    nl: 'Maximum Rondes',
+    de: 'Maximum Runden',
+    fr: 'Rounds Maximum'
+  },
+  rounds: {
+    en: 'rounds',
+    nl: 'rondes',
+    de: 'Runden',
+    fr: 'rounds'
+  },
+  drawType: {
+    en: 'Draw Type',
+    nl: 'Gelijkspel Type',
+    de: 'Unentschieden Typ',
+    fr: 'Type d\'Égalité'
+  },
+  highestScoreWins: {
+    en: 'Highest Score Wins',
+    nl: 'Hoogste Score Wint',
+    de: 'Höchste Punktzahl Gewinnt',
+    fr: 'Score le Plus Élevé Gagne'
+  },
+  multipleWinners: {
+    en: 'Multiple Winners',
+    nl: 'Meerdere Winnaars',
+    de: 'Mehrere Gewinner',
+    fr: 'Plusieurs Gagnants'
+  },
+  suddenDeath: {
+    en: 'Sudden Death',
+    nl: 'Sudden Death',
+    de: 'Sudden Death',
+    fr: 'Sudden Death'
+  },
+  pointsModeRules: {
+    en: 'First player to reach the target score wins.',
+    nl: 'De eerste speler die de doelscore behaalt wint.',
+    de: 'Der erste Spieler, der die Zielpunktzahl erreicht, gewinnt.',
+    fr: 'Le premier joueur à atteindre le score cible gagne.'
+  },
+  roundsModeRules: {
+    en: 'Game ends after the specified number of rounds. Winner determined by draw type.',
+    nl: 'Het spel eindigt na het opgegeven aantal rondes. Winnaar bepaald door gelijkspel type.',
+    de: 'Das Spiel endet nach der angegebenen Anzahl von Runden. Gewinner wird durch Unentschieden-Typ bestimmt.',
+    fr: 'Le jeu se termine après le nombre spécifié de rounds. Le gagnant est déterminé par le type d\'égalité.'
+  },
+  highestScoreWinsDesc: {
+    en: 'Player with highest score wins, regardless of ties.',
+    nl: 'Speler met hoogste score wint, ongeacht gelijkstand.',
+    de: 'Spieler mit der höchsten Punktzahl gewinnt, unabhängig von Unentschieden.',
+    fr: 'Le joueur avec le score le plus élevé gagne, indépendamment des égalités.'
+  },
+  multipleWinnersDesc: {
+    en: 'All players with the highest score are declared winners.',
+    nl: 'Alle spelers met de hoogste score worden tot winnaar uitgeroepen.',
+    de: 'Alle Spieler mit der höchsten Punktzahl werden zu Gewinnern erklärt.',
+    fr: 'Tous les joueurs avec le score le plus élevé sont déclarés gagnants.'
+  },
+  suddenDeathDesc: {
+    en: 'Players with highest score play additional rounds until there is a single winner.',
+    nl: 'Spelers met hoogste score spelen extra rondes tot er één winnaar is.',
+    de: 'Spieler mit der höchsten Punktzahl spielen zusätzliche Runden, bis es einen einzigen Gewinner gibt.',
+    fr: 'Les joueurs avec le score le plus élevé jouent des rounds supplémentaires jusqu\'à ce qu\'il y ait un seul gagnant.'
   }
 };
