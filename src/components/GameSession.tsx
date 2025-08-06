@@ -770,9 +770,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
                   {translations.timeBasedMode?.[currentLanguage] || 'Time Based'}
                 </button>
               </div>
-            </div>
-
-            {/* Target Score (moved here) */}
+              {/* Target Score (moved here) */}
               {competitionSettings.gameMode === 'target-score' && (
                 <div className="setting-group">
                   <label className="setting-label">{translations.targetScorePoints?.[currentLanguage] || 'Target Score'}</label>
@@ -795,6 +793,9 @@ export const GameSession: React.FC<GameSessionProps> = ({
                   </div>
                 </div>
               )}
+            </div>
+            
+            
               
               
             
