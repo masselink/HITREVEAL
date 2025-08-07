@@ -811,7 +811,7 @@
   flex-wrap: wrap;
   gap: var(--spacing-3);
   justify-content: center;
-  margin-bottom: var(--spacing-6);
+  margin: var(--spacing-6) 0;
 }
 
 .control-button {
