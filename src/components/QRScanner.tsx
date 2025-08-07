@@ -73,21 +73,26 @@ export const QRScanner: React.FC<QRScannerProps> = ({
       if (videoRef.current) {
         console.log('Setting video source');
         setDebugInfo('Setting video source...');
+        
+        // Set the stream immediately
         videoRef.current.srcObject = stream;
         
-        // Set scanning state immediately and try to play
+        // Set scanning state immediately
         setIsScanning(true);
         scanningRef.current = true;
         
-        // Try to play the video immediately
-        const playVideo = async () => {
+        // Wait for video to load metadata, then play
+        videoRef.current.onloadedmetadata = async () => {
           try {
-            console.log('Attempting to play video...');
-            setDebugInfo('Attempting to play video...');
-            await videoRef.current!.play();
-            console.log('Video playing successfully');
-            setDebugInfo('Video playing, starting QR detection...');
-            startQRDetection();
+            console.log('Video metadata loaded, attempting to play...');
+            setDebugInfo('Video metadata loaded, attempting to play...');
+            
+            if (videoRef.current) {
+              await videoRef.current.play();
+              console.log('Video playing successfully');
+              setDebugInfo('Video playing, starting QR detection...');
+              startQRDetection();
+            }
           } catch (error: any) {
             console.error('Error playing video:', error);
             setDebugInfo('Error playing video: ' + error.message);
@@ -96,9 +101,6 @@ export const QRScanner: React.FC<QRScannerProps> = ({
             scanningRef.current = false;
           }
         };
-        
-        // Wait a moment for the stream to be ready, then play
-        setTimeout(playVideo, 100);
 
         videoRef.current.onerror = (error) => {
           console.error('Video error:', error);
