@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Play, Pause, RotateCcw, Square, Eye, QrCode, List, X } from 'lucide-react';
+import { Play, Pause, RotateCcw, Square, Eye, QrCode, List, X, Music } from 'lucide-react';
 import { Language, Song } from '../types';
 import { translations } from '../data/translations';
 
@@ -145,6 +145,14 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   return (
     <>
       <div className="simple-player-section">
+        {/* Reveal Section Header */}
+        <div className="reveal-section-header">
+          <h3 className="reveal-section-title">
+            <Music size={24} />
+            {translations.songFoundReveal?.[currentLanguage] || 'Song Found! Do you need a reveal?'}
+          </h3>
+        </div>
+
         {/* Song Info (only show when revealed) */}
         {showReveal && (
           <div className="revealed-song-info">
