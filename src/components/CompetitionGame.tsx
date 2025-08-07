@@ -284,6 +284,263 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     );
   }
 
+  // Game Dashboard View
+  if (gameStarted) {
+    const currentPlayer = getCurrentPlayer();
+    const leaderboard = getLeaderboard();
+    const remainingTime = getRemainingTime();
+    const availableSongs = songs.length - gameState.usedSongs.size;
+
+    return (
+      <div className="game-session">
+        <div className="competition-dashboard">
+          {/* Header */}
+          <div className="game-session-header">
+            <button className="primary-button quit-game-button" onClick={handleQuitGame}>
+              <X size={20} />
+              <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+            </button>
+            <button className="primary-button game-session-title-button" disabled>
+              {songList.name}
+            </button>
+            <button className="scan-another-button" onClick={handleShowSongList}>
+              <List size={16} />
+              <span>{translations.songList?.[currentLanguage] || 'Song List'}</span>
+            </button>
+          </div>
+
+          {/* Game Status */}
+          <div className="game-status-section">
+            <div className="status-cards">
+              <div className="status-card">
+                <div className="status-icon">
+                  {settings.gameMode === 'time-based' ? <Clock size={24} /> : 
+                   settings.gameMode === 'rounds' ? <Users size={24} /> : <Target size={24} />}
+                </div>
+                <div className="status-content">
+                  <div className="status-title">
+                    {settings.gameMode === 'time-based' 
+                      ? (remainingTime !== null ? `${remainingTime} ${translations.minutes?.[currentLanguage] || 'min'} left` : 'Time Based')
+                      : settings.gameMode === 'rounds' 
+                      ? `${translations.round?.[currentLanguage] || 'Round'} ${gameState.currentRound}`
+                      : `${translations.targetScore?.[currentLanguage] || 'Target'}`
+                    }
+                  </div>
+                  <div className="status-subtitle">
+                    {gameState.songsPlayed} {translations.songsTotal?.[currentLanguage] || 'songs'} {translations.played?.[currentLanguage] || 'played'}
+                  </div>
+                </div>
+              </div>
+
+              <div className="status-card">
+                <div className="status-icon">
+                  <Target size={24} />
+                </div>
+                <div className="status-content">
+                  <div className="status-title">
+                    {getGameStatusText()}
+                  </div>
+                  <div className="status-subtitle">
+                    {settings.gameMode === 'points' 
+                      ? `${translations.targetScore?.[currentLanguage] || 'Target Score'}`
+                      : settings.gameMode === 'time-based'
+                      ? `${translations.gameDuration?.[currentLanguage] || 'Game Duration'}`
+                      : `${translations.maximumRounds?.[currentLanguage] || 'Maximum Rounds'}`
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <div className="status-card">
+                <div className="status-icon">
+                  <Music size={24} />
+                </div>
+                <div className="status-content">
+                  <div className="status-title">
+                    {availableSongs} {translations.songsTotal?.[currentLanguage] || 'songs'} {translations.left?.[currentLanguage] || 'left'}
+                  </div>
+                  <div className="status-subtitle">
+                    {songs.length} {translations.total?.[currentLanguage] || 'total'} {translations.songsTotal?.[currentLanguage] || 'songs'}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Current Player */}
+          <div className="current-player-section">
+            <div className="current-player-card">
+              <div className="player-indicator">
+                <div className="player-avatar">
+                  {currentPlayer?.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="player-info">
+                  <h3 className="player-name">{currentPlayer?.name}</h3>
+                  <p className="player-status">
+                    {translations.yourTurn?.[currentLanguage] || 'Your Turn'}
+                  </p>
+                </div>
+              </div>
+              <div className="player-score">
+                <span className="score-value">{currentPlayer?.score || 0}</span>
+                <span className="score-label">{translations.points?.[currentLanguage] || 'points'}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Leaderboard */}
+          <div className="leaderboard-section">
+            <h3 className="leaderboard-title">
+              {translations.leaderboard?.[currentLanguage] || 'Leaderboard'}
+            </h3>
+            <div className="leaderboard">
+              {leaderboard.map((player, index) => (
+                <div 
+                  key={player.id} 
+                  className={`leaderboard-row ${player.id === currentPlayer?.id ? 'current-player' : ''}`}
+                >
+                  <div className="player-rank">
+                    {index === 0 ? (
+                      <Crown size={20} className="crown-icon" />
+                    ) : (
+                      <span className="rank-number">#{index + 1}</span>
+                    )}
+                  </div>
+                  <div className="player-details">
+                    <div className="player-name">{player.name}</div>
+                    <div className="score-breakdown">
+                      {player.artistPoints > 0 && (
+                        <span className="score-part artist">
+                          A: {player.artistPoints}
+                        </span>
+                      )}
+                      {player.titlePoints > 0 && (
+                        <span className="score-part title">
+                          T: {player.titlePoints}
+                        </span>
+                      )}
+                      {player.yearPoints > 0 && (
+                        <span className="score-part year">
+                          Y: {player.yearPoints}
+                        </span>
+                      )}
+                      {player.bonusPoints > 0 && (
+                        <span className="score-part bonus">
+                          B: {player.bonusPoints}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="player-total-score">
+                    {player.score}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Song List Modal */}
+        {showSongList && (
+          <div className="preview-overlay">
+            <div className="preview-popup">
+              <div className="preview-header">
+                <h3 className="preview-title">
+                  {translations.songList?.[currentLanguage] || 'Song List'}
+                </h3>
+                <button
+                  className="preview-close"
+                  onClick={closeSongList}
+                  aria-label={translations.close?.[currentLanguage] || 'Close'}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              
+              <div className="preview-content">
+                <div className="search-section">
+                  <input
+                    type="text"
+                    placeholder={translations.searchPlaceholder?.[currentLanguage] || 'Search songs, artists, years, or IDs...'}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-input"
+                  />
+                  <div className="search-results-count">
+                    {filteredSongs.length} {translations.songsCount?.[currentLanguage] || 'of'} {songs.length} {translations.songsTotal?.[currentLanguage] || 'songs'}
+                  </div>
+                </div>
+                
+                <div className="songs-list">
+                  <div className="list-header">
+                    <div className="header-id">{translations.id?.[currentLanguage] || 'ID'}</div>
+                    <div className="header-title">{translations.title?.[currentLanguage] || 'Title'}</div>
+                    <div className="header-artist">{translations.artist?.[currentLanguage] || 'Artist'}</div>
+                    <div className="header-year">{translations.year?.[currentLanguage] || 'Year'}</div>
+                  </div>
+                  
+                  <div className="list-body">
+                    {filteredSongs.map((song, index) => {
+                      const songId = extractIdFromUrl(song.hitster_url);
+                      const isUsed = gameState.usedSongs.has(index);
+                      
+                      return (
+                        <div key={index} className={`song-row ${isUsed ? 'used-song' : ''}`}>
+                          <div className="row-id">
+                            #{songId}
+                          </div>
+                          <div className="row-title">{song.title}</div>
+                          <div className="row-artist">{song.artist}</div>
+                          <div className="row-year">{song.year}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                
+                {filteredSongs.length === 0 && searchTerm && (
+                  <div className="no-results">
+                    {translations.noSongsFound?.[currentLanguage] || 'No songs found matching'} "{searchTerm}"
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Quit Confirmation Modal */}
+        {showQuitConfirmation && (
+          <div className="preview-overlay">
+            <div className="quit-confirmation-modal">
+              <div className="quit-modal-header">
+                <h3 className="quit-modal-title">
+                  {translations.quitGameConfirmTitle?.[currentLanguage] || 'Quit Game?'}
+                </h3>
+              </div>
+              
+              <div className="quit-modal-content">
+                <p className="quit-warning-text">
+                  {translations.quitGameWarning?.[currentLanguage] || 'Are you sure you want to quit this game? Your current progress will be lost.'}
+                </p>
+                
+                <div className="quit-modal-buttons">
+                  <button className="cancel-quit-button" onClick={cancelQuit}>
+                    <span>{translations.cancel?.[currentLanguage] || 'Cancel'}</span>
+                  </button>
+                  <button className="confirm-quit-button" onClick={confirmQuit}>
+                    <X size={16} />
+                    <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Settings View (existing code)
   return (
     <div className="game-session">
       <div className="competition-settings">

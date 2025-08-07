@@ -691,5 +691,41 @@ export const translations: Translations = {
     nl: 'Annuleren',
     de: 'Abbrechen',
     fr: 'Annuler'
+  },
+  round: {
+    en: 'Round',
+    nl: 'Ronde',
+    de: 'Runde',
+    fr: 'Round'
+  },
+  played: {
+    en: 'played',
+    nl: 'gespeeld',
+    de: 'gespielt',
+    fr: 'joués'
+  },
+  left: {
+    en: 'left',
+    nl: 'over',
+    de: 'übrig',
+    fr: 'restantes'
+  },
+  total: {
+    en: 'total',
+    nl: 'totaal',
+    de: 'gesamt',
+    fr: 'total'
+  },
+  yourTurn: {
+    en: 'Your Turn',
+    nl: 'Jouw Beurt',
+    de: 'Du bist dran',
+    fr: 'Votre Tour'
+  },
+  leaderboard: {
+    en: 'Leaderboard',
+    nl: 'Klassement',
+    de: 'Bestenliste',
+    fr: 'Classement'
   }
 };
