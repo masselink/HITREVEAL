@@ -293,21 +293,23 @@ export const QRScanner: React.FC<QRScannerProps> = ({
               <span>{translations.stopScanning?.[currentLanguage] || 'Stop Scanning'}</span>
             </button>
           ) : (
-            <button className="primary-button" onClick={startScanning}>
-              <QrCode size={16} />
-              <span>{translations.startScanning?.[currentLanguage] || 'Start Scanning'}</span>
-            </button>
+            <>
+              <button className="primary-button" onClick={startScanning}>
+                <QrCode size={16} />
+                <span>{translations.startScanning?.[currentLanguage] || 'Start Scanning'}</span>
+              </button>
+              
+              <button className="scan-another-button" onClick={handleShowSongList}>
+                <List size={16} />
+                <span>
+                  {translations.songList?.[currentLanguage] || 'Song List'}
+                  {songListViewCount > 0 && (
+                    <span className="view-counter"> ({songListViewCount})</span>
+                  )}
+                </span>
+              </button>
+            </>
           )}
-          
-          <button className="scan-another-button" onClick={handleShowSongList}>
-            <List size={16} />
-            <span>
-              {translations.songList?.[currentLanguage] || 'Song List'}
-              {songListViewCount > 0 && (
-                <span className="view-counter"> ({songListViewCount})</span>
-              )}
-            </span>
-          </button>
         </div>
       </div>
       

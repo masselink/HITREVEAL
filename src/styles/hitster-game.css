@@ -958,15 +958,15 @@
 /* No Match Message */
 /* Quit Game Button Styles */
 .quit-game-button {
-  background-color: #ef4444;
+  background-color: #ec4899;
   color: var(--color-secondary);
-  border-color: #ef4444;
+  border-color: #ec4899;
 }
 
 .quit-game-button:hover {
-  background-color: #dc2626;
+  background-color: #db2777;
   color: var(--color-secondary);
-  border-color: #dc2626;
+  border-color: #db2777;
 }
 
 /* Quit Confirmation Modal */
