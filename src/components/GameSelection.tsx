@@ -672,8 +672,6 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         )}
         </div>
         
-      </div>
-      
       {/* Song List Preview Popup for Hitster */}
       {showPreview && selectedGameType === 'hitster-youtube' && (
         <div className="preview-overlay">
