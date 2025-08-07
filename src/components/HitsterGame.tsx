@@ -178,6 +178,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
             </div>
           )}
         </div>
+        )}
 
         {/* YouTube Player Section */}
         {currentSong && (
@@ -216,9 +217,8 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
                   <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
                 </button>
               </div>
-            )}
+            </div>
           </div>
-        )}
         </div>
       )}
     </div>
