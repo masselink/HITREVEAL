@@ -298,6 +298,12 @@
   color: #be185d;
 }
 
+.score-part.no-points {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  font-style: italic;
+}
+
 .player-total-score {
   font-size: var(--font-size-xl);
   font-weight: 700;

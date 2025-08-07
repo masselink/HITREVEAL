@@ -601,6 +601,11 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                           B: {player.bonusPoints}
                         </span>
                       )}
+                     {player.score === 0 && (
+                       <span className="score-part no-points">
+                         No points yet
+                       </span>
+                     )}
                     </div>
                   </div>
                   <div className="player-total-score">
