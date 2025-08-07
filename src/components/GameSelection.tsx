@@ -579,7 +579,9 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                 <p className="description-text">
                   {!selectedSongList 
                     ? translations.selectHitsterGame?.[currentLanguage] || 'Please select the Hitster Game you would like to play'
-                    : filteredSongLists.find(list => list.name === selectedSongList)?.description || translations.noDescriptionAvailable?.[currentLanguage] || 'No description available for this song list'
+                    : (filteredSongLists.find(list => list.name === selectedSongList)?.description && 
+                       filteredSongLists.find(list => list.name === selectedSongList)?.description?.trim()) || 
+                      translations.noDescriptionAvailable?.[currentLanguage] || 'No description available for this song list'
                   }
                 </p>
               </div>
