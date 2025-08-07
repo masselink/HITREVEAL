@@ -442,39 +442,14 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             <div className="status-cards">
               <div className="status-card">
                 <div className="status-icon">
-                  {settings.gameMode === 'time-based' ? <Clock size={24} /> : 
-                   settings.gameMode === 'rounds' ? <Users size={24} /> : <Target size={24} />}
+                  <Users size={24} />
                 </div>
                 <div className="status-content">
                   <div className="status-title">
-                    {settings.gameMode === 'time-based' 
-                      ? (remainingTime !== null ? `${remainingTime} ${translations.minutes?.[currentLanguage] || 'min'} left` : 'Time Based')
-                      : settings.gameMode === 'rounds' 
-                      ? `${translations.round?.[currentLanguage] || 'Round'} ${gameState.currentRound}`
-                      : `${translations.targetScore?.[currentLanguage] || 'Target'}`
-                    }
+                    {translations.round?.[currentLanguage] || 'Round'} {gameState.currentRound}
                   </div>
                   <div className="status-subtitle">
                     {gameState.songsPlayed} {translations.songsTotal?.[currentLanguage] || 'songs'} {translations.played?.[currentLanguage] || 'played'}
-                  </div>
-                </div>
-              </div>
-
-              <div className="status-card">
-                <div className="status-icon">
-                  <Target size={24} />
-                </div>
-                <div className="status-content">
-                  <div className="status-title">
-                    {getGameStatusText()}
-                  </div>
-                  <div className="status-subtitle">
-                    {settings.gameMode === 'points' 
-                      ? `${translations.targetScore?.[currentLanguage] || 'Target Score'}`
-                      : settings.gameMode === 'time-based'
-                      ? `${translations.gameDuration?.[currentLanguage] || 'Game Duration'}`
-                      : `${translations.maximumRounds?.[currentLanguage] || 'Maximum Rounds'}`
-                    }
                   </div>
                 </div>
               </div>
@@ -489,6 +464,20 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   </div>
                   <div className="status-subtitle">
                     {songs.length} {translations.total?.[currentLanguage] || 'total'} {translations.songsTotal?.[currentLanguage] || 'songs'}
+                  </div>
+                </div>
+              </div>
+
+              <div className="status-card">
+                <div className="status-icon">
+                  <Clock size={24} />
+                </div>
+                <div className="status-content">
+                  <div className="status-title">
+                    {Math.floor((Date.now() - gameState.gameStartTime) / 1000 / 60)}m {Math.floor(((Date.now() - gameState.gameStartTime) / 1000) % 60)}s
+                  </div>
+                  <div className="status-subtitle">
+                    Time Played
                   </div>
                 </div>
               </div>
