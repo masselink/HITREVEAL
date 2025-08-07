@@ -1883,20 +1883,35 @@ body::before {
   font-size: 14px;
   font-weight: 500;
   margin-top: 16px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  transition: all 0.2s ease;
 }
 
 .validation-status.validating {
-  background-color: #f3f4f6;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
   color: #6b7280;
 }
 
 .validation-status.valid {
-  background-color: #dcfce7;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
   color: #166534;
 }
 
 .validation-status.invalid {
-  background-color: #fef2f2;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
   color: #dc2626;
   align-items: center;
   justify-content: center;
