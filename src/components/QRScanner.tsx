@@ -11,6 +11,7 @@ interface QRScannerProps {
   onNoMatch: (scannedData: string) => void;
   onSongListView: () => void;
   songListViewCount: number;
+  autoStart?: boolean;
 }
 
 export const QRScanner: React.FC<QRScannerProps> = ({
@@ -19,7 +20,8 @@ export const QRScanner: React.FC<QRScannerProps> = ({
   onSongFound,
   onNoMatch,
   onSongListView,
-  songListViewCount
+  songListViewCount,
+  autoStart = false
 }) => {
   const [isScanning, setIsScanning] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -30,6 +32,13 @@ export const QRScanner: React.FC<QRScannerProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number>();
+
+  // Auto-start scanning when autoStart prop is true
+  useEffect(() => {
+    if (autoStart && !isScanning && !scannerError) {
+      startScanning();
+    }
+  }, [autoStart]);
 
   // Handle camera initialization when scanning starts
   useEffect(() => {

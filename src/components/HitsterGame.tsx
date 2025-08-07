@@ -24,6 +24,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
   const [loadingError, setLoadingError] = useState<string>('');
   const [songListViewCount, setSongListViewCount] = useState(0);
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
+  const [shouldAutoStartScanning, setShouldAutoStartScanning] = useState(false);
 
   // Load songs from CSV
   useEffect(() => {
@@ -66,16 +67,19 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
   const handleSongFound = (song: Song) => {
     setCurrentSong(song);
     setScannedData('');
+    setShouldAutoStartScanning(false);
   };
 
   const handleNoMatch = (data: string) => {
     setScannedData(data);
     setCurrentSong(null);
+    setShouldAutoStartScanning(false);
   };
 
   const handleScanAnother = () => {
     setCurrentSong(null);
     setScannedData('');
+    setShouldAutoStartScanning(true);
   };
 
   const handleSongListView = () => {
@@ -154,6 +158,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
               onNoMatch={handleNoMatch}
               onSongListView={handleSongListView}
               songListViewCount={songListViewCount}
+              autoStart={shouldAutoStartScanning}
             />
 
             {/* No Match Message */}
