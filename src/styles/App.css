@@ -942,6 +942,46 @@ body::before {
   text-align: center;
 }
 
+/* Platform Toggle */
+.platform-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  justify-content: center;
+}
+
+.platform-button {
+  padding: 8px 16px;
+  border: 2px solid #374151;
+  border-radius: 8px;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.platform-button.active {
+  background: linear-gradient(135deg, #ec4899, #be185d);
+  border-color: #ec4899;
+  color: white;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+}
+
+.platform-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #4b5563;
+  color: #6b7280;
+}
+
+.platform-button:not(.disabled):not(.active):hover {
+  border-color: #6b7280;
+  color: #d1d5db;
+}
+
 /* Country Filter Styles */
 .country-filter {
   margin-bottom: var(--spacing-6);
