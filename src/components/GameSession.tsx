@@ -319,6 +319,10 @@ export const GameSession: React.FC<GameSessionProps> = ({
                 row.artist
               );
               
+              // Check if all songs have year data
+              const hasAllYears = validData.every(song => song.year && song.year.toString().trim() !== '');
+              setAllSongsHaveYear(hasAllYears);
+              
               if (validData.length === 0) {
                 throw new Error('No valid songs found in the song list');
               }
