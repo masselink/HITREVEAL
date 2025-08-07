@@ -598,15 +598,8 @@
 }
 
 .game-session-title-button {
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
-  border: none;
-  border-radius: var(--border-radius);
-  padding: var(--spacing-3) var(--spacing-6);
-  font-size: var(--font-size-base);
-  font-weight: 600;
-  cursor: default;
   opacity: 0.9;
+  cursor: default;
 }
 
 .qr-scanner-section {
