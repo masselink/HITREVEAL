@@ -748,7 +748,6 @@
 /* Song Found and Music Player Styles */
 .simple-player-section {
   background-color: var(--color-secondary);
-  border: 2px solid var(--color-border);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-8);
   margin-bottom: var(--spacing-8);
