@@ -958,15 +958,15 @@
 /* No Match Message */
 /* Quit Game Button Styles */
 .quit-game-button {
-  background-color: #ec4899;
+  background-color: var(--color-primary);
   color: var(--color-secondary);
-  border-color: #ec4899;
+  border-color: var(--color-primary);
 }
 
 .quit-game-button:hover {
-  background-color: #db2777;
+  background-color: var(--color-primary-hover);
   color: var(--color-secondary);
-  border-color: #db2777;
+  border-color: var(--color-primary-hover);
 }
 
 /* Quit Confirmation Modal */
@@ -1036,9 +1036,9 @@
   align-items: center;
   gap: var(--spacing-2);
   padding: var(--spacing-3) var(--spacing-6);
-  background-color: #ef4444;
+  background-color: var(--color-primary);
   color: var(--color-secondary);
-  border: 2px solid #ef4444;
+  border: 2px solid var(--color-primary);
   border-radius: var(--border-radius);
   font-size: var(--font-size-base);
   font-weight: 500;
@@ -1047,8 +1047,8 @@
 }
 
 .confirm-quit-button:hover {
-  background-color: #dc2626;
-  border-color: #dc2626;
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
 }
 
 .no-match-message {
