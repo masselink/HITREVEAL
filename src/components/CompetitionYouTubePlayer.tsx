@@ -392,9 +392,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
             </>
           )}
           {showReveal && (
-            <button className="scan-another-button score-button" onClick={onScoreAndBack || onScanAnother}>
-              <span>SCORE!</span>
-            </button>
+            <></>
           )}
         </div>
 
