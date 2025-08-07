@@ -79,7 +79,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   });
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
-  const [showPlayer, setShowPlayer] = useState(false);
+  const [showPlayerPage, setShowPlayerPage] = useState(false);
 
   // Load songs and check year data
   useEffect(() => {
@@ -201,7 +201,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     const originalIndex = songs.findIndex(song => song === selectedSong);
     
     setCurrentSong(selectedSong);
-    setShowPlayer(true);
+    setShowPlayerPage(true);
     
     // Mark song as used
     setGameState(prev => ({
@@ -211,6 +211,16 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     }));
   };
 
+  const handleBackToDashboard = () => {
+    setShowPlayerPage(false);
+    setCurrentSong(null);
+    
+    // Move to next player
+    setGameState(prev => ({
+      ...prev,
+      currentPlayerIndex: (prev.currentPlayerIndex + 1) % settings.numberOfPlayers
+    }));
+  };
 
   const handleQuitGame = () => {
     setShowQuitConfirmation(true);
@@ -337,6 +347,77 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
 
   // Game Dashboard View
   if (gameStarted) {
+    // Show Player Page
+    if (showPlayerPage && currentSong) {
+      return (
+        <div className="game-session">
+          <div className="game-session-container">
+            {/* Header */}
+            <div className="game-session-header">
+              <button className="back-button" onClick={handleBackToDashboard}>
+                <ArrowLeft size={20} />
+                <span>Back to Game</span>
+              </button>
+              <button className="primary-button game-session-title-button" disabled>
+                {getCurrentPlayer()?.name}'s Turn
+              </button>
+            </div>
+
+            {/* Competition YouTube Player */}
+            <div className="simple-player-section">
+              <CompetitionYouTubePlayer
+                currentLanguage={currentLanguage}
+                currentSong={currentSong}
+                allSongs={songs}
+                onScanAnother={handleBackToDashboard}
+                onSongListView={() => {}}
+                songListViewCount={0}
+                onGuess={(guessType, isCorrect) => {
+                  console.log(`Player guessed ${guessType}: ${isCorrect ? 'correct' : 'incorrect'}`);
+                  // TODO: Update player scores based on guess
+                }}
+                onSkip={() => {
+                  console.log('Player skipped the song');
+                  // TODO: Handle skip logic (deduct points if applicable)
+                  handleBackToDashboard();
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Quit Confirmation Modal */}
+          {showQuitConfirmation && (
+            <div className="preview-overlay">
+              <div className="quit-confirmation-modal">
+                <div className="quit-modal-header">
+                  <h3 className="quit-modal-title">
+                    {translations.quitGameConfirmTitle?.[currentLanguage] || 'Quit Game?'}
+                  </h3>
+                </div>
+                
+                <div className="quit-modal-content">
+                  <p className="quit-warning-text">
+                    {translations.quitGameWarning?.[currentLanguage] || 'Are you sure you want to quit this game? Your current progress will be lost.'}
+                  </p>
+                  
+                  <div className="quit-modal-buttons">
+                    <button className="cancel-quit-button" onClick={cancelQuit}>
+                      <span>{translations.cancel?.[currentLanguage] || 'Cancel'}</span>
+                    </button>
+                    <button className="confirm-quit-button" onClick={confirmQuit}>
+                      <X size={16} />
+                      <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Show Dashboard
     const currentPlayer = getCurrentPlayer();
     const leaderboard = getLeaderboard();
     const remainingTime = getRemainingTime();
@@ -489,29 +570,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             </div>
           </div>
         </div>
-
-        {/* Competition YouTube Player */}
-        {showPlayer && currentSong && (
-          <CompetitionYouTubePlayer
-            currentLanguage={currentLanguage}
-            currentSong={currentSong}
-            allSongs={songs}
-            onScanAnother={() => {
-              setShowPlayer(false);
-              setCurrentSong(null);
-            }}
-            onSongListView={() => {}}
-            songListViewCount={0}
-            onGuess={(guessType, isCorrect) => {
-              console.log(`Player guessed ${guessType}: ${isCorrect ? 'correct' : 'incorrect'}`);
-              // TODO: Update player scores based on guess
-            }}
-            onSkip={() => {
-              console.log('Player skipped the song');
-              // TODO: Handle skip logic (deduct points if applicable)
-            }}
-          />
-        )}
 
         {/* Quit Confirmation Modal */}
         {showQuitConfirmation && (
