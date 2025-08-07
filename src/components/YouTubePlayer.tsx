@@ -22,6 +22,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
+  const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const playerRef = useRef<any>(null);
 
@@ -44,6 +45,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           events: {
             onReady: () => {
               console.log('YouTube player ready');
+              setIsPlayerReady(true);
               // Autostart playing when player is ready
               if (currentSong) {
                 const videoId = extractVideoId(currentSong.youtube_url);
@@ -84,7 +86,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
   // Autostart when currentSong changes and player is ready
   useEffect(() => {
-    if (currentSong && playerRef.current && playerRef.current.loadVideoById) {
+    if (currentSong && playerRef.current && playerRef.current.loadVideoById && isPlayerReady) {
       const videoId = extractVideoId(currentSong.youtube_url);
       if (videoId) {
         playerRef.current.loadVideoById(videoId);
@@ -92,7 +94,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         setIsPlaying(true);
       }
     }
-  }, [currentSong]);
+  }, [currentSong, isPlayerReady]);
 
   const extractVideoId = (url: string): string => {
     const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
@@ -108,21 +110,21 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   };
 
   const playMusic = () => {
-    if (playerRef.current) {
+    if (playerRef.current && isPlayerReady) {
       playerRef.current.playVideo();
       setIsPlaying(true);
     }
   };
 
   const pauseMusic = () => {
-    if (playerRef.current) {
+    if (playerRef.current && isPlayerReady) {
       playerRef.current.pauseVideo();
       setIsPlaying(false);
     }
   };
 
   const restartMusic = () => {
-    if (playerRef.current) {
+    if (playerRef.current && isPlayerReady) {
       playerRef.current.seekTo(0);
       playerRef.current.playVideo();
       setIsPlaying(true);
@@ -130,7 +132,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   };
 
   const stopMusic = () => {
-    if (playerRef.current) {
+    if (playerRef.current && isPlayerReady) {
       playerRef.current.stopVideo();
       setIsPlaying(false);
     }
@@ -157,6 +159,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           <button 
             className="control-button start-pause-button" 
             onClick={togglePlayPause}
+            disabled={!isPlayerReady}
           >
             {isPlaying ? <Pause size={16} /> : <Play size={16} />}
             <span>{isPlaying ? translations.pause?.[currentLanguage] || 'Pause' : translations.start?.[currentLanguage] || 'Start'}</span>
@@ -165,6 +168,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           <button 
             className="control-button restart-button secondary-blue" 
             onClick={restartMusic}
+            disabled={!isPlayerReady}
           >
             <RotateCcw size={16} />
             <span>{translations.restart?.[currentLanguage] || 'Restart'}</span>
@@ -173,6 +177,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           <button 
             className="control-button stop-button secondary-blue" 
             onClick={stopMusic}
+            disabled={!isPlayerReady}
           >
             <Square size={16} />
             <span>{translations.stop?.[currentLanguage] || 'Stop'}</span>
