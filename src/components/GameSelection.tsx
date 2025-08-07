@@ -36,6 +36,8 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   const [competitionPreviewError, setCompetitionPreviewError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [competitionSearchTerm, setCompetitionSearchTerm] = useState('');
+  const [validationStatus, setValidationStatus] = useState<{ [key: string]: 'validating' | 'valid' | 'invalid' }>({});
+  const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({});
 
   // Reset state when component mounts (when "Start Game" is pressed)
   useEffect(() => {
@@ -246,6 +248,12 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   const handleDropdownSelect = (songListName: string) => {
     setSelectedSongList(songListName);
     setDropdownOpen(false);
+    
+    // Start validation when a song list is selected
+    const selectedList = filteredSongLists.find(list => list.name === songListName);
+    if (selectedList) {
+      validateSongList(selectedList);
+    }
   };
 
   const handleGameTypeClick = (gameType: typeof gameTypes[0]) => {
@@ -270,6 +278,51 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   };
 
   const selectedList = filteredSongLists.find(list => list.name === selectedSongList);
+
+  const validateSongList = async (songList: SongList) => {
+    setValidationStatus(prev => ({ ...prev, [songList.name]: 'validating' }));
+    setValidationMessages(prev => ({ ...prev, [songList.name]: '' }));
+    
+    try {
+      const response = await fetch(songList.github_link);
+      if (!response.ok) {
+        throw new Error('Failed to fetch song list');
+      }
+      
+      const csvText = await response.text();
+      
+      Papa.parse(csvText, {
+        header: true,
+        complete: (results) => {
+          const data = results.data as any[];
+          const validData = data.filter(row => 
+            row.hitster_url && 
+            row.youtube_url && 
+            row.title && 
+            row.artist &&
+            row.year
+          );
+          
+          if (validData.length > 0) {
+            setValidationStatus(prev => ({ ...prev, [songList.name]: 'valid' }));
+            setValidationMessages(prev => ({ ...prev, [songList.name]: `${validData.length} valid songs found` }));
+          } else {
+            setValidationStatus(prev => ({ ...prev, [songList.name]: 'invalid' }));
+            setValidationMessages(prev => ({ ...prev, [songList.name]: 'No valid songs found in this song list' }));
+          }
+        },
+        error: (error) => {
+          console.error('Error parsing validation CSV:', error);
+          setValidationStatus(prev => ({ ...prev, [songList.name]: 'invalid' }));
+          setValidationMessages(prev => ({ ...prev, [songList.name]: 'Failed to validate song list' }));
+        }
+      });
+    } catch (err) {
+      console.error('Error validating song list:', err);
+      setValidationStatus(prev => ({ ...prev, [songList.name]: 'invalid' }));
+      setValidationMessages(prev => ({ ...prev, [songList.name]: 'Failed to validate song list' }));
+    }
+  };
 
   const handleShowPreview = async () => {
     if (!selectedList) return;
@@ -367,6 +420,8 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     setCompetitionPreviewSongs([]);
     setCompetitionPreviewError(null);
     setCompetitionSearchTerm('');
+    setValidationStatus({});
+    setValidationMessages({});
   };
 
   const extractIdFromUrl = (url: string) => {
@@ -582,6 +637,21 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                     : filteredSongLists.find(list => list.name === selectedSongList)?.description || translations.noDescriptionAvailable?.[currentLanguage] || 'No description available for this song list'
                   }
                 </p>
+                
+                {/* Validation Status */}
+                {selectedSongList && validationStatus[selectedSongList] && (
+                  <div className={`validation-status ${validationStatus[selectedSongList]}`}>
+                    {validationStatus[selectedSongList] === 'validating' && (
+                      <span>🔄 Validating song list...</span>
+                    )}
+                    {validationStatus[selectedSongList] === 'valid' && (
+                      <span>✅ {validationMessages[selectedSongList]}</span>
+                    )}
+                    {validationStatus[selectedSongList] === 'invalid' && (
+                      <span>❌ {validationMessages[selectedSongList]}</span>
+                    )}
+                  </div>
+                )}
               </div>
               
               {/* Preview Section */}
@@ -617,7 +687,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                 <button
                   className="start-hitster-button"
                   onClick={handleStartHitster}
-                  disabled={!selectedSongList}
+                  disabled={!selectedSongList || validationStatus[selectedSongList] !== 'valid'}
                 >
                   <Play size={20} />
                   <span>
@@ -631,7 +701,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                 <button
                   className="start-hitster-button"
                   onClick={handleStartCompetition}
-                  disabled={!selectedSongList}
+                  disabled={!selectedSongList || validationStatus[selectedSongList] !== 'valid'}
                 >
                   <Play size={20} />
                   <span>

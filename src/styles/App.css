@@ -1873,6 +1873,30 @@ body::before {
 
 .start-competition-button {
   display: flex;
+}
+
+/* Validation Status Styles */
+.validation-status {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.validation-status.validating {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.validation-status.valid {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.validation-status.invalid {
+  background-color: #fef2f2;
+  color: #dc2626;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-3);
