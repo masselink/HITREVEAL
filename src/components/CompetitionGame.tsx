@@ -156,6 +156,9 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
 
   const handleStartGame = () => {
     if (canStartGame()) {
+      // Randomly select starting player
+      const randomStartingPlayer = Math.floor(Math.random() * settings.numberOfPlayers);
+      
       // Initialize players
       const initialPlayers: Player[] = playerNames.map((name, index) => ({
         id: index,
@@ -172,13 +175,19 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       setGameState({
         currentRound: 1,
         songsPlayed: 0,
-        currentPlayerIndex: 0,
+        currentPlayerIndex: randomStartingPlayer,
         usedSongs: new Set(),
         gameStartTime: Date.now(),
         isGameActive: true
       });
       setGameStarted(true);
     }
+  };
+
+  const handlePlayerGo = () => {
+    // This function will handle when a player starts their turn
+    // For now, it's a placeholder for future turn logic
+    console.log(`${getCurrentPlayer()?.name} is starting their turn!`);
   };
 
   const handleQuitGame = () => {
@@ -356,6 +365,9 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   </p>
                 </div>
               </div>
+              <button className="player-go-button" onClick={handlePlayerGo}>
+                GO
+              </button>
               <div className="player-score">
                 <span className="score-value">{currentPlayer?.score || 0}</span>
                 <span className="score-label">{translations.points?.[currentLanguage] || 'points'}</span>
