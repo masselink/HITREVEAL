@@ -29,14 +29,22 @@ export const QRScanner: React.FC<QRScannerProps> = ({
     try {
       setCameraError('');
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment' }
+        video: { 
+          facingMode: 'environment',
+          width: { ideal: 640 },
+          height: { ideal: 480 }
+        }
       });
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         streamRef.current = stream;
-        setIsScanning(true);
-        startQRScanning();
+        
+        // Wait for video to be ready before starting scanning
+        videoRef.current.onloadedmetadata = () => {
+          setIsScanning(true);
+          startQRScanning();
+        };
       }
     } catch (error) {
       console.error('Camera error:', error);
