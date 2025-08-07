@@ -372,6 +372,11 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 onScanAnother={handleBackToDashboard}
                 onSongListView={() => {}}
                 songListViewCount={0}
+                artistPoints={settings.artistPoints}
+                titlePoints={settings.titlePoints}
+                yearPoints={settings.yearPoints}
+                bonusPoints={settings.bonusPoints}
+                onScoreAndBack={handleBackToDashboard}
                 onGuess={(guessType, isCorrect) => {
                   console.log(`Player guessed ${guessType}: ${isCorrect ? 'correct' : 'incorrect'}`);
                   // TODO: Update player scores based on guess

@@ -306,6 +306,168 @@
   text-align: right;
 }
 
+/* Competition Scoring Interface */
+.competition-scoring-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  padding: var(--spacing-6);
+  background-color: #f8fafc;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+}
+
+.scoring-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  background-color: var(--color-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.scoring-item:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.scoring-item.selected {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+.scoring-item.selected .scoring-label,
+.scoring-item.selected .scoring-value,
+.scoring-item.selected .scoring-points {
+  color: var(--color-secondary);
+}
+
+.scoring-checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-secondary);
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.scoring-item.selected .scoring-checkbox {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: var(--color-primary);
+}
+
+.scoring-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.scoring-label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-1);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.scoring-value {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-accent);
+  line-height: 1.2;
+}
+
+.scoring-points {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.bonus-item {
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: #f3f4f6;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--border-radius);
+  opacity: 0.5;
+  transition: var(--transition);
+}
+
+.bonus-item.active {
+  background-color: #10b981;
+  border-color: #059669;
+  border-style: solid;
+  color: var(--color-secondary);
+  opacity: 1;
+}
+
+.bonus-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bonus-label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.bonus-points {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.total-score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4);
+  background-color: var(--color-accent);
+  color: var(--color-secondary);
+  border-radius: var(--border-radius);
+  margin-top: var(--spacing-3);
+}
+
+.total-label {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.total-points {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+}
+
+.score-button {
+  background-color: #10b981 !important;
+  color: var(--color-secondary) !important;
+  border-color: #059669 !important;
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  padding: var(--spacing-4) var(--spacing-8);
+}
+
+.score-button:hover {
+  background-color: #059669 !important;
+  border-color: #047857 !important;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
 /* Used Song Styling */
 .song-row.used-song {
   opacity: 0.5;
