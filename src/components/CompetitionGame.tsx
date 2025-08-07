@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Play, X, List, Crown, Clock, Target, Music, Users } from 'lucide-react';
 import { Language, SongList, Song } from '../types';
 import { translations } from '../data/translations';
-import { QRScanner } from './QRScanner';
 import { CompetitionYouTubePlayer } from './CompetitionYouTubePlayer';
 import Papa from 'papaparse';
 
@@ -79,10 +78,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     gameStartTime: 0,
     isGameActive: false
   });
-  const [currentSong, setCurrentSong] = useState<Song | null>(null);
-  const [scannedData, setScannedData] = useState<string>('');
-  const [songListViewCount, setSongListViewCount] = useState(0);
-  const [showSongList, setShowSongList] = useState(false);
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
 
   // Load songs and check year data
@@ -195,24 +190,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     console.log(`${getCurrentPlayer()?.name} is starting their turn!`);
   };
 
-  const handleSongFound = (song: Song) => {
-    setCurrentSong(song);
-    setScannedData('');
-  };
-
-  const handleNoMatch = (data: string) => {
-    setScannedData(data);
-    setCurrentSong(null);
-  };
-
-  const handleScanAnother = () => {
-    setCurrentSong(null);
-    setScannedData('');
-  };
-
-  const handleSongListView = () => {
-    setSongListViewCount(prev => prev + 1);
-  };
 
   const handleQuitGame = () => {
     setShowQuitConfirmation(true);
@@ -252,13 +229,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     return [...players].sort((a, b) => b.score - a.score);
   };
 
-  const extractIdFromUrl = (url: string) => {
-    const match = url.match(/(\d+)$/);
-    if (match) {
-      return parseInt(match[1], 10).toString();
-    }
-    return '';
-  };
 
   if (!songsLoaded && !loadingError) {
     return (
@@ -399,33 +369,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             </div>
           </div>
 
-          {/* QR Scanner Section - Only show when no current song */}
-          {!currentSong && (
-            <div className="qr-scanner-section">
-              <QRScanner
-                currentLanguage={currentLanguage}
-                songs={songs}
-                onSongFound={handleSongFound}
-                onNoMatch={handleNoMatch}
-                onSongListView={handleSongListView}
-                songListViewCount={songListViewCount}
-                autoStart={false}
-              />
-            </div>
-          )}
-
-          {/* YouTube Player Section */}
-          {currentSong && (
-            <CompetitionYouTubePlayer
-              currentLanguage={currentLanguage}
-              currentSong={currentSong}
-              allSongs={songs}
-              onScanAnother={handleScanAnother}
-              onSongListView={handleSongListView}
-              songListViewCount={songListViewCount}
-            />
-          )}
-
           {/* Leaderboard */}
           <div className="leaderboard-section">
             <h3 className="leaderboard-title">
@@ -499,54 +442,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             </div>
           </div>
         </div>
-
-        {/* No Match Popover */}
-        {scannedData && (
-          <div className="preview-overlay">
-            <div className="no-match-popover">
-              <div className="no-match-header">
-                <h3 className="no-match-title">
-                  {translations.noMatch?.[currentLanguage] || 'Song Not Found'}
-                </h3>
-                <button
-                  className="preview-close"
-                  onClick={() => setScannedData('')}
-                  aria-label={translations.close?.[currentLanguage] || 'Close'}
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              
-              <div className="no-match-content">
-                <p className="no-match-description">
-                  {translations.qrCodeNotRecognized?.[currentLanguage] || 'We don\'t recognize this QR code. It might not be a HITSTER card or it\'s not in our database yet.'}
-                </p>
-                
-                <p className="no-match-help">
-                  {translations.helpBySharing?.[currentLanguage] || 'Help us by sharing the information on your cards! You can contribute by visiting:'}
-                </p>
-                
-                <div className="no-match-link-container">
-                  <a 
-                    href="https://github.com/masselink/HITREVEAL-Songs" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="github-link"
-                  >
-                    HITREVEAL GITHUB
-                  </a>
-                </div>
-                
-                <div className="no-match-actions">
-                  <button className="primary-button" onClick={() => setScannedData('')}>
-                    <ArrowLeft size={16} />
-                    {translations.back?.[currentLanguage] || 'Back'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Quit Confirmation Modal */}
         {showQuitConfirmation && (
