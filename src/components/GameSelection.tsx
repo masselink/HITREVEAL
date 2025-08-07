@@ -458,6 +458,24 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
           {/* Country Filter */}
           {!loading && !error && songLists.length > 0 && (selectedGameType === 'hitster-youtube' || selectedGameType === 'game-type-2') && (
             <div className="country-filter">
+              {/* Platform Toggle */}
+              <div className="platform-toggle">
+                <button
+                  className="platform-button active"
+                  disabled={false}
+                  type="button"
+                >
+                  <span>YouTube</span>
+                </button>
+                <button
+                  className="platform-button disabled"
+                  disabled={true}
+                  type="button"
+                >
+                  <span>Spotify</span>
+                </button>
+              </div>
+              
               <div className="filter-buttons">
                 <button
                   className={`filter-button ${selectedCountryFilter === 'all' ? 'active' : ''}`}
