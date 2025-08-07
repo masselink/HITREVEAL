@@ -319,10 +319,6 @@ export const GameSession: React.FC<GameSessionProps> = ({
                 row.artist
               );
               
-              // Check if all songs have year data
-              const hasAllYears = validData.every(song => song.year && song.year.toString().trim() !== '');
-              setAllSongsHaveYear(hasAllYears);
-              
               if (validData.length === 0) {
                 throw new Error('No valid songs found in the song list');
               }
@@ -959,11 +955,19 @@ export const GameSession: React.FC<GameSessionProps> = ({
                     <button 
                       className="number-button"
                       onClick={() => handleSettingChange('yearPoints', Math.min(50, competitionSettings.yearPoints + 1))}
-                      disabled={competitionSettings.yearPoints >= 50}
+                      disabled={!allSongsHaveYear}
                     >
                       +
                     </button>
                   </div>
+                  {!allSongsHaveYear && (
+                    <p className="setting-note" style={{ color: '#dc2626', fontWeight: '600' }}>
+                      {currentLanguage === 'en' && 'Year scoring disabled - some songs missing year data'}
+                      {currentLanguage === 'nl' && 'Jaar scoring uitgeschakeld - sommige nummers missen jaar gegevens'}
+                      {currentLanguage === 'de' && 'Jahr-Bewertung deaktiviert - einige Songs fehlen Jahresangaben'}
+                      {currentLanguage === 'fr' && 'Score d\'année désactivé - certaines chansons manquent de données d\'année'}
+                    </p>
+                  )}
                 </div>
                 
                 <div className="setting-group">
