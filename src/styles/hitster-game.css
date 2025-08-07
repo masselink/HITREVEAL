@@ -937,6 +937,24 @@
   font-weight: 700;
   font-size: var(--font-size-sm);
 }
+
+/* Counter Explanation */
+.counter-explanation {
+  margin-top: var(--spacing-4);
+  text-align: center;
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+
+.counter-explanation-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.5;
+}
 /* No Match Message */
 .no-match-message {
   background-color: var(--color-secondary);

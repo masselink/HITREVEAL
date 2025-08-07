@@ -661,5 +661,11 @@ export const translations: Translations = {
     nl: 'Bonus vereist jaar gegevens',
     de: 'Bonus erfordert Jahresangaben',
     fr: 'Le bonus nécessite des données d\'année'
+  },
+  songListCounterExplanation: {
+    en: 'The number in parentheses shows how many times you\'ve viewed the song list during this game session.',
+    nl: 'Het getal tussen haakjes toont hoe vaak je de songlijst hebt bekeken tijdens deze spelsessie.',
+    de: 'Die Zahl in Klammern zeigt, wie oft du die Songliste während dieser Spielsitzung angesehen hast.',
+    fr: 'Le nombre entre parenthèses indique combien de fois vous avez consulté la liste de chansons pendant cette session de jeu.'
   }
 };

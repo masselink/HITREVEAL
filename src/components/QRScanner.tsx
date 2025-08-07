@@ -230,6 +230,15 @@ export const QRScanner: React.FC<QRScannerProps> = ({
           </button>
         </div>
       </div>
+      
+      {/* Counter Explanation */}
+      {songListViewCount > 0 && (
+        <div className="counter-explanation">
+          <p className="counter-explanation-text">
+            {translations.songListCounterExplanation?.[currentLanguage] || 'The number in parentheses shows how many times you\'ve viewed the song list during this game session.'}
+          </p>
+        </div>
+      )}
 
       {/* Song List Overlay */}
       {showSongList && (

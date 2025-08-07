@@ -236,6 +236,15 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           </div>
         </div>
 
+        {/* Counter Explanation */}
+        {songListViewCount > 0 && (
+          <div className="counter-explanation">
+            <p className="counter-explanation-text">
+              {translations.songListCounterExplanation?.[currentLanguage] || 'The number in parentheses shows how many times you\'ve viewed the song list during this game session.'}
+            </p>
+          </div>
+        )}
+
         {/* Hidden YouTube Player */}
         <div className="background-video-container">
           <div id="youtube-player"></div>
