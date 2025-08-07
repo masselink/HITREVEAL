@@ -25,81 +25,130 @@ export const QRScanner: React.FC<QRScannerProps> = ({
   const [cameraError, setCameraError] = useState<string>('');
   const [showSongList, setShowSongList] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [debugInfo, setDebugInfo] = useState<string>('');
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const animationFrameRef = useRef<number | null>(null);
+  const scanningRef = useRef<boolean>(false);
 
   const startCamera = async () => {
+    console.log('Starting camera...');
+    setDebugInfo('Starting camera...');
+    setCameraError('');
+    
     try {
-      setCameraError('');
-      
-      // Stop any existing stream first
+      // Stop any existing stream
       if (streamRef.current) {
-        streamRef.current.getTracks().forEach(track => track.stop());
+        console.log('Stopping existing stream');
+        streamRef.current.getTracks().forEach(track => {
+          console.log('Stopping track:', track.kind);
+          track.stop();
+        });
+        streamRef.current = null;
       }
+
+      // Check if getUserMedia is available
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Camera not supported by this browser');
+      }
+
+      console.log('Requesting camera access...');
+      setDebugInfo('Requesting camera access...');
 
       const constraints = {
         video: {
           facingMode: 'environment',
-          width: { ideal: 1280, max: 1920 },
-          height: { ideal: 720, max: 1080 }
+          width: { ideal: 640 },
+          height: { ideal: 480 }
         }
       };
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      console.log('Camera access granted, stream:', stream);
+      setDebugInfo('Camera access granted');
+      
       streamRef.current = stream;
 
       if (videoRef.current) {
+        console.log('Setting video source');
         videoRef.current.srcObject = stream;
         
-        // Wait for video to be ready
+        // Set scanning state immediately
+        setIsScanning(true);
+        scanningRef.current = true;
+        setDebugInfo('Video source set, starting playback...');
+
+        // Wait for video to load and start playing
         videoRef.current.onloadedmetadata = () => {
+          console.log('Video metadata loaded');
+          setDebugInfo('Video metadata loaded');
+          
           if (videoRef.current) {
-            videoRef.current.play().then(() => {
-              setIsScanning(true);
-              startQRDetection();
-            }).catch((error) => {
-              console.error('Error playing video:', error);
-              setCameraError('Failed to start camera playback');
-            });
+            videoRef.current.play()
+              .then(() => {
+                console.log('Video playing successfully');
+                setDebugInfo('Video playing, starting QR detection...');
+                startQRDetection();
+              })
+              .catch((error) => {
+                console.error('Error playing video:', error);
+                setDebugInfo('Error playing video: ' + error.message);
+                setCameraError('Failed to start video playback: ' + error.message);
+                setIsScanning(false);
+                scanningRef.current = false;
+              });
           }
         };
+
+        videoRef.current.onerror = (error) => {
+          console.error('Video error:', error);
+          setDebugInfo('Video error occurred');
+          setCameraError('Video error occurred');
+          setIsScanning(false);
+          scanningRef.current = false;
+        };
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Camera access error:', error);
-      setCameraError('Unable to access camera. Please check permissions and try again.');
+      setDebugInfo('Camera error: ' + error.message);
+      setCameraError(`Camera access failed: ${error.message}`);
       setIsScanning(false);
+      scanningRef.current = false;
     }
   };
 
   const stopCamera = () => {
-    // Stop QR detection
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-      animationFrameRef.current = null;
-    }
-
-    // Stop video stream
+    console.log('Stopping camera...');
+    setDebugInfo('Stopping camera...');
+    
+    scanningRef.current = false;
+    
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current.getTracks().forEach(track => {
+        console.log('Stopping track:', track.kind);
+        track.stop();
+      });
       streamRef.current = null;
     }
 
-    // Clear video element
     if (videoRef.current) {
       videoRef.current.srcObject = null;
       videoRef.current.onloadedmetadata = null;
+      videoRef.current.onerror = null;
     }
 
     setIsScanning(false);
     setCameraError('');
+    setDebugInfo('Camera stopped');
   };
 
   const startQRDetection = () => {
+    console.log('Starting QR detection...');
+    
     const detectQR = () => {
-      if (!isScanning || !videoRef.current || !canvasRef.current) {
+      if (!scanningRef.current || !videoRef.current || !canvasRef.current) {
+        console.log('Stopping QR detection - conditions not met');
         return;
       }
 
@@ -108,55 +157,46 @@ export const QRScanner: React.FC<QRScannerProps> = ({
       const context = canvas.getContext('2d');
 
       if (video.readyState === video.HAVE_ENOUGH_DATA && context) {
-        // Set canvas dimensions to match video
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        // Draw current video frame to canvas
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Get image data for QR detection
-        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        
-        // Try to detect QR code
-        const qrCode = jsQR(imageData.data, imageData.width, imageData.height, {
-          inversionAttempts: 'dontInvert'
-        });
-
-        if (qrCode && qrCode.data) {
-          handleQRCodeDetected(qrCode.data);
-          return; // Stop scanning after successful detection
+        try {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+          
+          const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+          
+          if (qrCode && qrCode.data) {
+            console.log('QR Code detected:', qrCode.data);
+            handleQRCodeDetected(qrCode.data);
+            return;
+          }
+        } catch (error) {
+          console.error('QR detection error:', error);
         }
       }
 
-      // Continue scanning
-      animationFrameRef.current = requestAnimationFrame(detectQR);
+      if (scanningRef.current) {
+        requestAnimationFrame(detectQR);
+      }
     };
 
-    // Start the detection loop
-    animationFrameRef.current = requestAnimationFrame(detectQR);
+    requestAnimationFrame(detectQR);
   };
 
   const handleQRCodeDetected = (data: string) => {
-    console.log('QR Code detected:', data);
-    
-    // Stop camera and scanning
+    console.log('Processing QR code:', data);
     stopCamera();
     
-    // Find matching song
     const matchedSong = songs.find(song => {
       if (!song.hitster_url) return false;
       
       const hitsterUrl = song.hitster_url.toLowerCase().trim();
       const scannedData = data.toLowerCase().trim();
       
-      // Direct match
       if (hitsterUrl === scannedData) return true;
-      
-      // Check if URLs contain each other
       if (hitsterUrl.includes(scannedData) || scannedData.includes(hitsterUrl)) return true;
       
-      // Extract ID from URLs and compare
       const extractId = (url: string) => {
         const match = url.match(/(\d+)$/);
         return match ? match[1] : '';
@@ -169,8 +209,10 @@ export const QRScanner: React.FC<QRScannerProps> = ({
     });
 
     if (matchedSong) {
+      console.log('Song found:', matchedSong);
       onSongFound(matchedSong);
     } else {
+      console.log('No matching song found');
       onNoMatch(data);
     }
   };
@@ -193,7 +235,6 @@ export const QRScanner: React.FC<QRScannerProps> = ({
     return '';
   };
 
-  // Filter songs based on search term
   const filteredSongs = songs.filter(song => {
     const searchLower = searchTerm.toLowerCase();
     const id = song.hitster_url ? extractIdFromUrl(song.hitster_url) : '';
@@ -205,9 +246,9 @@ export const QRScanner: React.FC<QRScannerProps> = ({
     );
   });
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
+      console.log('Component unmounting, cleaning up...');
       stopCamera();
     };
   }, []);
@@ -230,11 +271,26 @@ export const QRScanner: React.FC<QRScannerProps> = ({
         </p>
       </div>
 
+      {/* Debug Info */}
+      {debugInfo && (
+        <div style={{ 
+          padding: '10px', 
+          margin: '10px 0', 
+          backgroundColor: '#f0f0f0', 
+          borderRadius: '5px',
+          fontSize: '12px',
+          color: '#666'
+        }}>
+          Debug: {debugInfo}
+        </div>
+      )}
+
       {cameraError && (
         <div className="scanner-error">
           <p>{cameraError}</p>
           <button className="primary-button" onClick={() => {
             setCameraError('');
+            setDebugInfo('');
             startCamera();
           }}>
             {translations.retry?.[currentLanguage] || 'Retry'}
@@ -250,6 +306,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
             autoPlay
             playsInline
             muted
+            style={{ display: 'block' }}
           />
           <canvas ref={canvasRef} style={{ display: 'none' }} />
           <div className="scanner-overlay">
@@ -294,7 +351,6 @@ export const QRScanner: React.FC<QRScannerProps> = ({
         </div>
       </div>
       
-      {/* Counter Explanation */}
       {songListViewCount > 0 && (
         <div className="counter-explanation">
           <p className="counter-explanation-text">
@@ -303,7 +359,6 @@ export const QRScanner: React.FC<QRScannerProps> = ({
         </div>
       )}
 
-      {/* Song List Overlay */}
       {showSongList && (
         <div className="preview-overlay">
           <div className="preview-popup">
