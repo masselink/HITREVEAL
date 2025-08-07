@@ -482,7 +482,12 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                 <div className="platform-subtext">
                   {translations.spotifyNotSupported?.[currentLanguage] || 'Spotify not yet supported'}
                 </div>
-                
+
+          {/* Songlist Selection Section */}
+          <div className="songlist-selection-section">
+            <h3 className="options-title">
+              {translations.selectSongList?.[currentLanguage] || 'Select Songlist'}
+            </h3>
                 <div className="filter-buttons">
                   <button
                     className={`filter-button ${selectedCountryFilter === 'all' ? 'active' : ''}`}
@@ -518,11 +523,6 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             )}
           </div>
           
-          {/* Songlist Selection Section */}
-          <div className="songlist-selection-section">
-            <h3 className="options-title">
-              {translations.selectSongList?.[currentLanguage] || 'Select Songlist'}
-            </h3>
             
             {/* Loading State */}
             {loading && (
