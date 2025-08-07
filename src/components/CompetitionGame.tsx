@@ -180,59 +180,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           {translations.gameSettings?.[currentLanguage] || 'Game Settings'}
         </h2>
 
-        {/* Game Rules */}
-        <div className="rules-section">
-          <h3 className="rules-title">
-            {translations.gameRules?.[currentLanguage] || 'Game Rules'}
-          </h3>
-          <p className="rules-description">
-            {translations.rulesDescription?.[currentLanguage] || 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.'}
-          </p>
-        </div>
-
-        {/* Number of Players */}
-        <div className="settings-section">
-          <h3 className="section-title">
-            {translations.numberOfPlayers?.[currentLanguage] || 'Number of Players'}
-          </h3>
-          <div className="setting-group">
-            <div className="player-number-selection">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => (
-                <button
-                  key={number}
-                  className={`player-number-button ${settings.numberOfPlayers === number ? 'active' : ''}`}
-                  onClick={() => handlePlayerNumberChange(number)}
-                >
-                  {number}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Player Names */}
-          <div className="setting-group">
-            <div className="setting-label">
-              {translations.playerNames?.[currentLanguage] || 'Player Names'}
-            </div>
-            <div className="player-names-grid">
-              {Array(settings.numberOfPlayers).fill(0).map((_, index) => (
-                <div key={index} className="player-name-input">
-                  <label className="player-label">
-                    {translations.playerName?.[currentLanguage] || 'Player'} {index + 1}
-                  </label>
-                  <input
-                    type="text"
-                    className="player-name-field"
-                    placeholder={translations.enterPlayerName?.[currentLanguage] || 'Enter player name'}
-                    value={playerNames[index] || ''}
-                    onChange={(e) => handlePlayerNameChange(index, e.target.value)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* Game Mode */}
         <div className="settings-section">
           <h3 className="section-title">
@@ -320,6 +267,59 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 </p>
               </div>
             )}
+          </div>
+        </div>
+
+        {/* Game Rules */}
+        <div className="rules-section">
+          <h3 className="rules-title">
+            {translations.gameRules?.[currentLanguage] || 'Game Rules'}
+          </h3>
+          <p className="rules-description">
+            {translations.rulesDescription?.[currentLanguage] || 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.'}
+          </p>
+        </div>
+
+        {/* Number of Players */}
+        <div className="settings-section">
+          <h3 className="section-title">
+            {translations.numberOfPlayers?.[currentLanguage] || 'Number of Players'}
+          </h3>
+          <div className="setting-group">
+            <div className="player-number-selection">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => (
+                <button
+                  key={number}
+                  className={`player-number-button ${settings.numberOfPlayers === number ? 'active' : ''}`}
+                  onClick={() => handlePlayerNumberChange(number)}
+                >
+                  {number}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Player Names */}
+          <div className="setting-group">
+            <div className="setting-label">
+              {translations.playerNames?.[currentLanguage] || 'Player Names'}
+            </div>
+            <div className="player-names-grid">
+              {Array(settings.numberOfPlayers).fill(0).map((_, index) => (
+                <div key={index} className="player-name-input">
+                  <label className="player-label">
+                    {translations.playerName?.[currentLanguage] || 'Player'} {index + 1}
+                  </label>
+                  <input
+                    type="text"
+                    className="player-name-field"
+                    placeholder={translations.enterPlayerName?.[currentLanguage] || 'Enter player name'}
+                    value={playerNames[index] || ''}
+                    onChange={(e) => handlePlayerNameChange(index, e.target.value)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
