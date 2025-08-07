@@ -932,6 +932,11 @@
   border-color: var(--color-accent);
 }
 
+.view-counter {
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+}
 /* No Match Message */
 .no-match-message {
   background-color: var(--color-secondary);

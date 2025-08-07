@@ -9,6 +9,8 @@ interface QRScannerProps {
   songs: Song[];
   onSongFound: (song: Song) => void;
   onNoMatch: (scannedData: string) => void;
+  onSongListView: () => void;
+  songListViewCount: number;
 }
 
 export const QRScanner: React.FC<QRScannerProps> = ({
@@ -16,6 +18,8 @@ export const QRScanner: React.FC<QRScannerProps> = ({
   songs,
   onSongFound,
   onNoMatch
+  onSongListView,
+  songListViewCount
 }) => {
   const [isScanning, setIsScanning] = useState(false);
   const [cameraError, setCameraError] = useState<string>('');
@@ -112,6 +116,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
   };
 
   const handleShowSongList = () => {
+    onSongListView();
     setShowSongList(true);
   };
 
@@ -216,7 +221,12 @@ export const QRScanner: React.FC<QRScannerProps> = ({
           
           <button className="scan-another-button" onClick={handleShowSongList}>
             <List size={16} />
-            <span>{translations.songList?.[currentLanguage] || 'Song List'}</span>
+            <span>
+              {translations.songList?.[currentLanguage] || 'Song List'}
+              {songListViewCount > 0 && (
+                <span className="view-counter"> ({songListViewCount})</span>
+              )}
+            </span>
           </button>
         </div>
       </div>

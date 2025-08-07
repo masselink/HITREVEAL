@@ -8,13 +8,17 @@ interface YouTubePlayerProps {
   currentSong: Song;
   allSongs: Song[];
   onScanAnother: () => void;
+  onSongListView: () => void;
+  songListViewCount: number;
 }
 
 export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   currentLanguage,
   currentSong,
   allSongs,
-  onScanAnother
+  onScanAnother,
+  onSongListView,
+  songListViewCount
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
@@ -113,6 +117,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   };
 
   const handleShowSongList = () => {
+    onSongListView();
     setShowSongList(true);
   };
 
@@ -217,7 +222,12 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             )}
             <button className="scan-another-button" onClick={handleShowSongList}>
               <List size={16} />
-              <span>{translations.songList?.[currentLanguage] || 'Song List'}</span>
+              <span>
+                {translations.songList?.[currentLanguage] || 'Song List'}
+                {songListViewCount > 0 && (
+                  <span className="view-counter"> ({songListViewCount})</span>
+                )}
+              </span>
             </button>
             <button className="scan-another-button" onClick={onScanAnother}>
               <QrCode size={16} />
