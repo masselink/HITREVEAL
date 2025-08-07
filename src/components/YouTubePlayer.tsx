@@ -23,6 +23,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const playerRef = useRef<any>(null);
 
@@ -140,6 +141,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
   const handleReveal = () => {
     setShowReveal(true);
+    setShowVideo(true);
   };
 
   return (
@@ -197,7 +199,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           {!showReveal && (
             <button className="primary-button" onClick={handleReveal}>
               <Eye size={16} />
-              <span>Reveal Song</span>
+              <span>HITREVEAL</span>
             </button>
           )}
           <button className="scan-another-button" onClick={onScanAnother}>
@@ -205,6 +207,21 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             <span>{translations.scanAnother?.[currentLanguage] || 'Scan Another Card'}</span>
           </button>
         </div>
+
+        {/* YouTube Video Player (visible when revealed) */}
+        {showVideo && (
+          <div className="youtube-video-container">
+            <iframe
+              width="100%"
+              height="315"
+              src={`https://www.youtube.com/embed/${extractVideoId(currentSong.youtube_url)}`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
+          </div>
+        )}
 
         {/* Hidden YouTube Player */}
         <div className="background-video-container">
