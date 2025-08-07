@@ -22,9 +22,13 @@ export interface GameMode {
 export interface SongList {
   name: string;
   country: string;
+  competition: string | boolean;
+  hitster: string | boolean;
+  spotify: string;
+  youtube: string;
   hitstercode: string;
   github_link: string;
-  description: string;
+  description?: string;
 }
 
 export interface Song {
