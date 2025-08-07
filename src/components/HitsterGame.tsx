@@ -144,9 +144,9 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
           </button>
         </div>
 
-        <div className="qr-scanner-section">
-          {/* QR Scanner Section */}
-          {!currentSong && (
+        {/* QR Scanner Section - Only show when no current song */}
+        {!currentSong && (
+          <div className="qr-scanner-section">
             <QRScanner
               currentLanguage={currentLanguage}
               songs={songs}
@@ -155,10 +155,9 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
               onSongListView={handleSongListView}
               songListViewCount={songListViewCount}
             />
-          )}
 
-          {/* No Match Message */}
-          {!currentSong && scannedData && (
+            {/* No Match Message */}
+            {scannedData && (
             <div className="no-match-message">
               <h4>{translations.noMatch?.[currentLanguage] || 'Song Not Found'}</h4>
               <p>{translations.qrCodeNotRecognized?.[currentLanguage] || 'We don\'t recognize this QR code. It might not be a HITSTER card or it\'s not in our database yet.'}</p>
@@ -217,8 +216,9 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
                   <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
                 </button>
               </div>
-            </div>
+            )}
           </div>
+        )}
         </div>
       )}
     </div>
