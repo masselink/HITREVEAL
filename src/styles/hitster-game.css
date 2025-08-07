@@ -557,6 +557,36 @@
 }
 
 /* QR Scanner Styles */
+.game-session {
+  flex: 1;
+  padding: var(--spacing-8) 0;
+}
+
+.game-session-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-6);
+}
+
+.game-session-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-8);
+}
+
+.game-session-title-button {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-3) var(--spacing-6);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: default;
+  opacity: 0.9;
+}
+
 .qr-scanner-section {
   background-color: var(--color-secondary);
   border: 2px solid var(--color-border);
@@ -690,6 +720,238 @@
 .scanner-controls .secondary-button:hover {
   background-color: #dc2626;
   border-color: #dc2626;
+}
+
+/* Song Found and Music Player Styles */
+.music-player-section {
+  background-color: var(--color-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-8);
+  margin-bottom: var(--spacing-8);
+  box-shadow: var(--shadow);
+}
+
+.song-found-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-3);
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-6);
+  text-align: center;
+}
+
+.revealed-song-info {
+  text-align: center;
+  margin-bottom: var(--spacing-8);
+  padding: var(--spacing-6);
+  background-color: #f8fafc;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+}
+
+.song-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-2);
+}
+
+.song-artist {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+.song-year {
+  font-size: var(--font-size-base);
+  color: var(--color-text-light);
+  font-weight: 500;
+}
+
+.background-player-status {
+  background-color: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-6);
+  margin-bottom: var(--spacing-6);
+}
+
+.status-info {
+  text-align: center;
+  margin-bottom: var(--spacing-4);
+}
+
+.status-text {
+  font-size: var(--font-size-base);
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+.player-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  justify-content: center;
+}
+
+.control-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  background-color: var(--color-secondary);
+  color: var(--color-accent);
+}
+
+.control-button:hover:not(:disabled) {
+  background-color: var(--color-accent);
+  color: var(--color-secondary);
+  border-color: var(--color-accent);
+}
+
+.control-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.start-button {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  border-color: var(--color-primary);
+}
+
+.start-button:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+.pause-button {
+  background-color: #f59e0b;
+  color: var(--color-secondary);
+  border-color: #f59e0b;
+}
+
+.pause-button:hover:not(:disabled) {
+  background-color: #d97706;
+  border-color: #d97706;
+}
+
+.restart-button {
+  background-color: #3b82f6;
+  color: var(--color-secondary);
+  border-color: #3b82f6;
+}
+
+.restart-button:hover:not(:disabled) {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.stop-button {
+  background-color: #ef4444;
+  color: var(--color-secondary);
+  border-color: #ef4444;
+}
+
+.stop-button:hover:not(:disabled) {
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
+
+.scan-another-section {
+  text-align: center;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  justify-content: center;
+  align-items: center;
+}
+
+.scan-another-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4) var(--spacing-6);
+  background-color: var(--color-secondary);
+  color: var(--color-accent);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.scan-another-button:hover {
+  background-color: var(--color-accent);
+  color: var(--color-secondary);
+  border-color: var(--color-accent);
+}
+
+/* No Match Message */
+.no-match-message {
+  background-color: var(--color-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-8);
+  margin-bottom: var(--spacing-8);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.no-match-message h4 {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-4);
+}
+
+.no-match-message p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-light);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-4);
+}
+
+.github-link {
+  display: inline-block;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  padding: var(--spacing-2) var(--spacing-4);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  margin-bottom: var(--spacing-4);
+}
+
+.github-link:hover {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+/* Background Video Container */
+.background-video-container {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 /* Responsive Design for Game Selection */
