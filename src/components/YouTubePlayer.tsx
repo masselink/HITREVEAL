@@ -144,7 +144,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
   const togglePlayPause = () => {
     if (isPlaying) {
-      pauseMusic();
+      stopMusic();
     } else {
       playMusic();
     }
@@ -222,7 +222,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             disabled={!showVideo && !isPlayerReady}
           >
             {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-            <span>{isPlaying ? translations.pause?.[currentLanguage] || 'Pause' : translations.start?.[currentLanguage] || 'Start'}</span>
+            <span>{isPlaying ? translations.stop?.[currentLanguage] || 'Stop' : translations.start?.[currentLanguage] || 'Start'}</span>
           </button>
           
           <button 
@@ -232,15 +232,6 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           >
             <RotateCcw size={16} />
             <span>{translations.restart?.[currentLanguage] || 'Restart'}</span>
-          </button>
-          
-          <button 
-            className="control-button stop-button secondary-blue" 
-            onClick={stopMusic}
-            disabled={!showVideo && !isPlayerReady}
-          >
-            <Square size={16} />
-            <span>{translations.stop?.[currentLanguage] || 'Stop'}</span>
           </button>
         </div>
 
