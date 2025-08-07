@@ -17,7 +17,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
   currentLanguage,
   songs,
   onSongFound,
-  onNoMatch
+  onNoMatch,
   onSongListView,
   songListViewCount
 }) => {
