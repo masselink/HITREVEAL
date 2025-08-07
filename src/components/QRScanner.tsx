@@ -296,12 +296,3 @@ export const QRScanner: React.FC<QRScannerProps> = ({
     </>
   );
 };
-          <button className="primary-button" onClick={startCamera}>
-            <QrCode size={16} />
-            <span>{translations.startScanning?.[currentLanguage] || 'Start Scanning'}</span>
-          </button>
-        )}
-      </div>
-    </div>
-  );
-};
