@@ -23,6 +23,21 @@ interface GameSessionProps {
   gameType?: string;
 }
 
+interface CompetitionSettings {
+  numberOfPlayers: number;
+  playerNames: string[];
+  gameMode: 'points' | 'time-based' | 'rounds';
+  targetScore: number;
+  gameDuration: number;
+  maximumRounds: number;
+  artistPoints: number;
+  titlePoints: number;
+  yearPoints: number;
+  bonusPoints: number;
+  skipsPerPlayer: number;
+  skipCost: number;
+}
+
 export const GameSession: React.FC<GameSessionProps> = ({
   currentLanguage,
   songList,
@@ -80,6 +95,22 @@ export const GameSession: React.FC<GameSessionProps> = ({
   const hiddenPlayerRef = React.useRef<any>(null);
   const hiddenPlayerReadyRef = React.useRef(false);
   const [apiLoaded, setApiLoaded] = useState(false);
+
+  // Competition settings state
+  const [settings, setSettings] = useState<CompetitionSettings>({
+    numberOfPlayers: 2,
+    playerNames: ['', ''],
+    gameMode: 'points',
+    targetScore: 100,
+    gameDuration: 30,
+    maximumRounds: 10,
+    artistPoints: 10,
+    titlePoints: 15,
+    yearPoints: 5,
+    bonusPoints: 10,
+    skipsPerPlayer: 3,
+    skipCost: 5
+  });
 
   // Auto-play when song is matched
   useEffect(() => {
@@ -312,12 +343,25 @@ export const GameSession: React.FC<GameSessionProps> = ({
           complete: (results) => {
             try {
               const data = results.data as Song[];
-              const validData = data.filter(row => 
-                row.hitster_url && 
-                row.youtube_url && 
-                row.title && 
-                row.artist
-              );
+              let validData: Song[];
+              
+              if (gameType === 'hitster-youtube') {
+                // Hitster mode requires hitster_url, youtube_url, title, artist, year
+                validData = data.filter(row => 
+                  row.hitster_url && 
+                  row.youtube_url && 
+                  row.title && 
+                  row.artist &&
+                  row.year
+                );
+              } else {
+                // Competition mode requires youtube_url, title, artist (year optional)
+                validData = data.filter(row => 
+                  row.youtube_url && 
+                  row.title && 
+                  row.artist
+                );
+              }
               
               if (validData.length === 0) {
                 throw new Error('No valid songs found in the song list');
@@ -330,6 +374,14 @@ export const GameSession: React.FC<GameSessionProps> = ({
               }));
               setSongsLoaded(true);
               setLoading(false);
+              
+              // Check if all songs have year data for competition mode
+              if (gameType === 'game-type-2') {
+                const hasAllYears = validData.every(song => 
+                  song.year && song.year.toString().trim() !== ''
+                );
+                setAllSongsHaveYear(hasAllYears);
+              }
             } catch (parseError) {
               console.error('Error processing song data:', parseError);
               setError('Failed to process song data');
@@ -350,7 +402,15 @@ export const GameSession: React.FC<GameSessionProps> = ({
     };
 
     fetchSongs();
-  }, [songList.github_link]);
+  }, [songList.github_link, gameType]);
+
+  // Update player names array when number of players changes
+  useEffect(() => {
+    const newPlayerNames = Array(settings.numberOfPlayers).fill('').map((_, index) => 
+      settings.playerNames[index] || ''
+    );
+    setSettings(prev => ({ ...prev, playerNames: newPlayerNames }));
+  }, [settings.numberOfPlayers]);
 
   const extractIdFromUrl = (url: string) => {
     // Extract ID from hitster_url and remove leading zeros
@@ -695,6 +755,284 @@ export const GameSession: React.FC<GameSessionProps> = ({
     setSearchTerm('');
   };
 
+  // Competition Settings Component
+  const CompetitionSettings = () => {
+    const handlePlayerCountChange = (count: number) => {
+      setSettings(prev => ({ ...prev, numberOfPlayers: count }));
+    };
+
+    const handlePlayerNameChange = (index: number, name: string) => {
+      const newNames = [...settings.playerNames];
+      newNames[index] = name;
+      setSettings(prev => ({ ...prev, playerNames: newNames }));
+    };
+
+    const handleGameModeChange = (mode: 'points' | 'time-based' | 'rounds') => {
+      setSettings(prev => ({ ...prev, gameMode: mode }));
+    };
+
+    const canStartGame = settings.playerNames.every(name => name.trim() !== '');
+
+    return (
+      <div className="competition-settings">
+        <div className="settings-title">
+          {translations.gameSettings[currentLanguage]}
+        </div>
+
+        {/* Game Rules */}
+        <div className="settings-section">
+          <div className="section-title">{translations.gameRules[currentLanguage]}</div>
+          <div className="rules-description">
+            {translations.rulesDescription[currentLanguage]}
+          </div>
+        </div>
+
+        {/* Game Mode Selection */}
+        <div className="settings-section">
+          <div className="section-title">{translations.gameMode[currentLanguage]}</div>
+          <div className="game-mode-selection">
+            <button
+              className={`mode-button ${settings.gameMode === 'points' ? 'active' : ''}`}
+              onClick={() => handleGameModeChange('points')}
+            >
+              {translations.pointsMode[currentLanguage]}
+            </button>
+            <button
+              className={`mode-button ${settings.gameMode === 'time-based' ? 'active' : ''}`}
+              onClick={() => handleGameModeChange('time-based')}
+            >
+              {translations.timeBasedMode[currentLanguage]}
+            </button>
+            <button
+              className={`mode-button ${settings.gameMode === 'rounds' ? 'active' : ''}`}
+              onClick={() => handleGameModeChange('rounds')}
+            >
+              {translations.roundsMode[currentLanguage]}
+            </button>
+          </div>
+
+          {/* Mode-specific settings */}
+          <div className="mode-specific-settings">
+            {settings.gameMode === 'points' && (
+              <div className="setting-group">
+                <label className="setting-label">{translations.targetScorePoints[currentLanguage]}</label>
+                <select 
+                  value={settings.targetScore} 
+                  onChange={(e) => setSettings(prev => ({ ...prev, targetScore: parseInt(e.target.value) }))}
+                  className="setting-select"
+                >
+                  <option value={50}>50</option>
+                  <option value={75}>75</option>
+                  <option value={100}>100</option>
+                  <option value={150}>150</option>
+                  <option value={200}>200</option>
+                </select>
+                <div className="mode-rules">{translations.pointsModeRules[currentLanguage]}</div>
+              </div>
+            )}
+
+            {settings.gameMode === 'time-based' && (
+              <div className="setting-group">
+                <label className="setting-label">{translations.gameDuration[currentLanguage]}</label>
+                <select 
+                  value={settings.gameDuration} 
+                  onChange={(e) => setSettings(prev => ({ ...prev, gameDuration: parseInt(e.target.value) }))}
+                  className="setting-select"
+                >
+                  <option value={15}>15 {translations.minutes[currentLanguage]}</option>
+                  <option value={30}>30 {translations.minutes[currentLanguage]}</option>
+                  <option value={45}>45 {translations.minutes[currentLanguage]}</option>
+                  <option value={60}>60 {translations.minutes[currentLanguage]}</option>
+                </select>
+                <div className="mode-rules">{translations.timeBasedRules[currentLanguage]}</div>
+              </div>
+            )}
+
+            {settings.gameMode === 'rounds' && (
+              <div className="setting-group">
+                <label className="setting-label">{translations.maximumRounds[currentLanguage]}</label>
+                <select 
+                  value={settings.maximumRounds} 
+                  onChange={(e) => setSettings(prev => ({ ...prev, maximumRounds: parseInt(e.target.value) }))}
+                  className="setting-select"
+                >
+                  <option value={5}>5 {translations.rounds[currentLanguage]}</option>
+                  <option value={10}>10 {translations.rounds[currentLanguage]}</option>
+                  <option value={15}>15 {translations.rounds[currentLanguage]}</option>
+                  <option value={20}>20 {translations.rounds[currentLanguage]}</option>
+                </select>
+                <div className="mode-rules">{translations.roundsModeRules[currentLanguage]}</div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Number of Players */}
+        <div className="settings-section">
+          <div className="section-title">{translations.numberOfPlayers[currentLanguage]}</div>
+          <div className="player-number-grid">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+              <button
+                key={num}
+                className={`player-number-btn ${settings.numberOfPlayers === num ? 'active' : ''}`}
+                onClick={() => handlePlayerCountChange(num)}
+              >
+                {num}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Player Names */}
+        <div className="settings-section">
+          <div className="section-title">{translations.playerNames[currentLanguage]}</div>
+          <div className="player-names-container">
+            {settings.playerNames.map((name, index) => (
+              <div key={index} className="player-name-input">
+                <label className="player-label">
+                  {translations.playerName[currentLanguage]} {index + 1}
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => handlePlayerNameChange(index, e.target.value)}
+                  placeholder={`${translations.enterPlayerName[currentLanguage]}`}
+                  className="player-input"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Points System */}
+        <div className="settings-section">
+          <div className="section-title">{translations.pointsSystem[currentLanguage]}</div>
+          <div className="points-grid">
+            <div className="setting-group">
+              <label className="setting-label">{translations.artistCorrect[currentLanguage]}</label>
+              <select 
+                value={settings.artistPoints} 
+                onChange={(e) => setSettings(prev => ({ ...prev, artistPoints: parseInt(e.target.value) }))}
+                className="setting-select"
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={20}>20</option>
+              </select>
+            </div>
+
+            <div className="setting-group">
+              <label className="setting-label">{translations.titleCorrect[currentLanguage]}</label>
+              <select 
+                value={settings.titlePoints} 
+                onChange={(e) => setSettings(prev => ({ ...prev, titlePoints: parseInt(e.target.value) }))}
+                className="setting-select"
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={20}>20</option>
+              </select>
+            </div>
+
+            <div className="setting-group">
+              <label className="setting-label">{translations.yearCorrect[currentLanguage]}</label>
+              <select 
+                value={settings.yearPoints} 
+                onChange={(e) => setSettings(prev => ({ ...prev, yearPoints: parseInt(e.target.value) }))}
+                className="setting-select"
+                disabled={!allSongsHaveYear}
+              >
+                <option value={3}>3</option>
+                <option value={5}>5</option>
+                <option value={8}>8</option>
+                <option value={10}>10</option>
+              </select>
+              {!allSongsHaveYear && (
+                <div className="setting-note">{translations.yearScoringDisabled[currentLanguage]}</div>
+              )}
+            </div>
+
+            <div className="setting-group">
+              <label className="setting-label">{translations.bonusAllCorrect[currentLanguage]}</label>
+              <select 
+                value={settings.bonusPoints} 
+                onChange={(e) => setSettings(prev => ({ ...prev, bonusPoints: parseInt(e.target.value) }))}
+                className="setting-select"
+                disabled={!allSongsHaveYear}
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={20}>20</option>
+              </select>
+              {!allSongsHaveYear && (
+                <div className="setting-note">{translations.bonusRequiresYear[currentLanguage]}</div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Skip Settings */}
+        <div className="settings-section">
+          <div className="section-title">{translations.skipsSettings[currentLanguage]}</div>
+          <div className="skip-settings-grid">
+            <div className="setting-group">
+              <label className="setting-label">{translations.skipsPerPlayer[currentLanguage]}</label>
+              <select 
+                value={settings.skipsPerPlayer} 
+                onChange={(e) => setSettings(prev => ({ ...prev, skipsPerPlayer: parseInt(e.target.value) }))}
+                className="setting-select"
+              >
+                <option value={0}>0</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={5}>5</option>
+              </select>
+            </div>
+
+            <div className="setting-group">
+              <label className="setting-label">{translations.skipCost[currentLanguage]}</label>
+              <select 
+                value={settings.skipCost} 
+                onChange={(e) => setSettings(prev => ({ ...prev, skipCost: parseInt(e.target.value) }))}
+                className="setting-select"
+              >
+                <option value={0}>0</option>
+                <option value={3}>3</option>
+                <option value={5}>5</option>
+                <option value={8}>8</option>
+                <option value={10}>10</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Start Game Section */}
+        <div className="start-game-section">
+          {!canStartGame && (
+            <div className="validation-warning">
+              {translations.allPlayerNameRequired[currentLanguage]}
+            </div>
+          )}
+          <button
+            className="start-competition-button"
+            disabled={!canStartGame}
+            onClick={() => {
+              // TODO: Start competition game
+              console.log('Starting competition with settings:', settings);
+            }}
+          >
+            <Play size={24} />
+            <span>{translations.startCompetition[currentLanguage]}</span>
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className="game-session">
@@ -730,406 +1068,23 @@ export const GameSession: React.FC<GameSessionProps> = ({
     );
   }
 
-  // Competition Game Settings Page
+  // Show competition settings for game-type-2
   if (gameType === 'game-type-2') {
     return (
       <div className="game-session">
         <div className="game-session-container">
           <div className="game-session-header">
-            <button className="back-button" onClick={onBack}>
+            <button 
+              className="back-button"
+              onClick={onBack}
+              aria-label={translations.back[currentLanguage]}
+            >
               <ArrowLeft size={20} />
-              <span>{translations.back?.[currentLanguage] || 'Back'}</span>
-            </button>
-            <button className="game-session-title-button" onClick={handleShowPreview}>
-              {songList.name} | {translations.songs?.[currentLanguage] || 'Songs'}: {gameSession.songs.length}
+              <span>{translations.back[currentLanguage]}</span>
             </button>
           </div>
           
-          {/* Competition Game Settings */}
-          <div className="competition-settings">
-            <h2 className="settings-title">
-              {translations.gameSettings?.[currentLanguage] || 'Game Settings'}
-            </h2>
-
-            {/* Game Mode Selection */}
-            <div className="settings-section">
-              <h3 className="section-title">{translations.gameMode?.[currentLanguage] || 'Game Mode'}</h3>
-              
-              <div className="game-mode-selection">
-                <button
-                  className={`mode-button ${competitionSettings.gameMode === 'target-score' ? 'active' : ''}`}
-                  onClick={() => updateGameMode('target-score')}
-                  type="button"
-                >
-                  {translations.targetScoreMode?.[currentLanguage] || 'Target Score'}
-                </button>
-                <button
-                  className={`mode-button ${competitionSettings.gameMode === 'time-based' ? 'active' : ''}`}
-                  onClick={() => updateGameMode('time-based')}
-                  type="button"
-                >
-                  {translations.timeBasedMode?.[currentLanguage] || 'Time Based'}
-                </button>
-              </div>
-              {/* Target Score (moved here) */}
-              {competitionSettings.gameMode === 'target-score' && (
-                <div className="setting-group">
-                  <label className="setting-label">{translations.targetScorePoints?.[currentLanguage] || 'Target Score'}</label>
-                  <div className="number-input-container">
-                    <button
-                      className="number-button"
-                      onClick={() => handleSettingChange('targetScore', Math.max(10, competitionSettings.targetScore - 10))}
-                      type="button"
-                    >
-                      -10
-                    </button>
-                    <div className="number-display">{competitionSettings.targetScore}</div>
-                    <button
-                      className="number-button"
-                      onClick={() => handleSettingChange('targetScore', Math.min(500, competitionSettings.targetScore + 10))}
-                      type="button"
-                    >
-                      +10
-                    </button>
-                  </div>
-                </div>
-              )}
-               {/* Game Duration (for time-based mode) */}
-              {competitionSettings.gameMode === 'time-based' && (
-                <div className="setting-group">
-                  <label className="setting-label">{translations.gameDuration?.[currentLanguage] || 'Game Duration'}</label>
-                  <div className="number-input-container">
-                    <button
-                      className="number-button"
-                      onClick={() => handleSettingChange('gameDuration', Math.max(5, competitionSettings.gameDuration - 5))}
-                      type="button"
-                    >
-                      -5
-                    </button>
-                    <div className="number-display">{competitionSettings.gameDuration} {translations.minutes?.[currentLanguage] || 'minutes'}</div>
-                    <button
-                      className="number-button"
-                      onClick={() => handleSettingChange('gameDuration', Math.min(120, competitionSettings.gameDuration + 5))}
-                      type="button"
-                    >
-                      +5
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            
-              
-              
-            
-            {/* Game Rules Description */}
-            <div className="rules-section">
-              <h3 className="rules-title">
-                {translations.gameRules?.[currentLanguage] || 'Game Rules'}
-              </h3>
-              <p className="rules-description">
-                {competitionSettings.gameMode === 'time-based' 
-                  ? translations.timeBasedRules?.[currentLanguage] || 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The player with the most points when time runs out wins.'
-                  : translations.targetScoreRules?.[currentLanguage] || 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.'
-                }
-              </p>
-            </div>
-            
-            {/* Basic Settings */}
-            <div className="settings-section">
-              <div className="setting-group">
-                 <h3 className="section-title">
-                   {translations.numberOfPlayers?.[currentLanguage] || 'Number of Players'}
-                </h3>
-                <div className="number-input-container">
-                  <button 
-                    className="number-button"
-                    onClick={() => updateNumberOfPlayers(-1)}
-                    disabled={competitionSettings.numberOfPlayers <= 2}
-                  >
-                    -
-                  </button>
-                  <span className="number-display">{competitionSettings.numberOfPlayers}</span>
-                  <button 
-                    className="number-button"
-                    onClick={() => updateNumberOfPlayers(1)} 
-                    disabled={competitionSettings.numberOfPlayers >= 10}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-              
-              {/* Player Names Section */}
-              <div className="setting-group">
-                <label className="setting-label">
-                  {translations.playerNames?.[currentLanguage] || 'Player Names'}
-                </label>
-                <div className="player-names-grid">
-                  {playerNames.map((name, index) => (
-                    <div key={index} className="player-name-input">
-                      <label className="player-label">
-                        {translations.playerName?.[currentLanguage] || 'Player'} {index + 1}
-                      </label>
-                      <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => updatePlayerName(index, e.target.value)}
-                        placeholder={`${translations.enterPlayerName?.[currentLanguage] || 'Enter player name'}`}
-                        className="player-name-field"
-                        maxLength={20}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Points System */}
-            <div className="settings-section">
-              <h3 className="section-title">
-                {translations.pointsSystem?.[currentLanguage] || 'Points System'}
-              </h3>
-              
-              <div className="points-grid">
-                <div className="setting-group">
-                  <label className="setting-label">
-                    {translations.artistCorrect?.[currentLanguage] || 'Artist Correct'}
-                  </label>
-                  <div className="number-input-container">
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('artistPoints', Math.max(1, competitionSettings.artistPoints - 1))}
-                      disabled={competitionSettings.artistPoints <= 1}
-                    >
-                      -
-                    </button>
-                    <span className="number-display">{competitionSettings.artistPoints}</span>
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('artistPoints', Math.min(50, competitionSettings.artistPoints + 1))}
-                      disabled={competitionSettings.artistPoints >= 50}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="setting-group">
-                  <label className="setting-label">
-                    {translations.titleCorrect?.[currentLanguage] || 'Title Correct'}
-                  </label>
-                  <div className="number-input-container">
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('titlePoints', Math.max(1, competitionSettings.titlePoints - 1))}
-                      disabled={competitionSettings.titlePoints <= 1}
-                    >
-                      -
-                    </button>
-                    <span className="number-display">{competitionSettings.titlePoints}</span>
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('titlePoints', Math.min(50, competitionSettings.titlePoints + 1))}
-                      disabled={competitionSettings.titlePoints >= 50}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="setting-group">
-                  <label className="setting-label">
-                    {translations.yearCorrect?.[currentLanguage] || 'Year Correct'}
-                  </label>
-                  <div className="number-input-container">
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('yearPoints', Math.max(1, competitionSettings.yearPoints - 1))}
-                      disabled={competitionSettings.yearPoints <= 1}
-                    >
-                      -
-                    </button>
-                    <span className="number-display">{competitionSettings.yearPoints}</span>
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('yearPoints', Math.min(50, competitionSettings.yearPoints + 1))}
-                      disabled={competitionSettings.yearPoints >= 50}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="setting-group">
-                  <label className="setting-label">
-                    {translations.bonusAllCorrect?.[currentLanguage] || 'Bonus (All Correct)'}
-                  </label>
-                  <div className="number-input-container">
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('bonusPoints', Math.max(0, competitionSettings.bonusPoints - 1))}
-                      disabled={competitionSettings.bonusPoints <= 0}
-                    >
-                      -
-                    </button>
-                    <span className="number-display">{competitionSettings.bonusPoints}</span>
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('bonusPoints', Math.min(50, competitionSettings.bonusPoints + 1))}
-                      disabled={competitionSettings.bonusPoints >= 50}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Skip Settings */}
-            <div className="settings-section">
-              <h3 className="section-title">
-                {translations.skipsSettings?.[currentLanguage] || 'Skip Settings'}
-              </h3>
-              
-              <div className="skip-settings-grid">
-                <div className="setting-group">
-                  <label className="setting-label">
-                    {translations.skipsPerPlayer?.[currentLanguage] || 'Skips per Player'}
-                  </label>
-                  <div className="number-input-container">
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('skipsPerPlayer', Math.max(0, competitionSettings.skipsPerPlayer - 1))}
-                      disabled={competitionSettings.skipsPerPlayer <= 0}
-                    >
-                      -
-                    </button>
-                    <span className="number-display">{competitionSettings.skipsPerPlayer}</span>
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('skipsPerPlayer', Math.min(10, competitionSettings.skipsPerPlayer + 1))}
-                      disabled={competitionSettings.skipsPerPlayer >= 10}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="setting-group">
-                  <label className="setting-label">
-                    {translations.skipCost?.[currentLanguage] || 'Skip Cost (Points)'}
-                  </label>
-                  <div className="number-input-container">
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('skipCost', Math.max(0, competitionSettings.skipCost - 1))}
-                      disabled={competitionSettings.skipCost <= 0}
-                    >
-                      -
-                    </button>
-                    <span className="number-display">{competitionSettings.skipCost}</span>
-                    <button 
-                      className="number-button"
-                      onClick={() => handleSettingChange('skipCost', Math.min(20, competitionSettings.skipCost + 1))}
-                      disabled={competitionSettings.skipCost >= 20}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Start Game Button */}
-            <div className="start-game-section">
-              <button 
-                className="start-competition-button"
-                onClick={handleStartCompetitionGame}
-              >
-                <Play size={20} />
-                <span>{translations.startCompetition?.[currentLanguage] || 'Start Competition'}</span>
-              </button>
-            </div>
-          </div>
-          
-          {/* Song Preview Modal - Same as hitster */}
-          {showPreview && (
-            <div className="preview-overlay">
-              <div className="preview-popup">
-                <div className="preview-header">
-                  <h3 className="preview-title">
-                    {songList.name} - {translations.songList?.[currentLanguage] || 'Song List'}
-                  </h3>
-                  <button
-                    className="preview-close"
-                    onClick={closePreview}
-                    aria-label={translations.close?.[currentLanguage] || 'Close'}
-                  >
-                    <X size={20} />
-                  </button>
-                </div>
-                
-                <div className="preview-content">
-                  {gameSession.songs.length > 0 && (
-                    <>
-                      <div className="search-section">
-                        <input
-                          type="text"
-                          placeholder={translations.searchPlaceholder?.[currentLanguage] || 'Search songs, artists, years, or IDs...'}
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          className="search-input"
-                        />
-                        <div className="search-results-count">
-                          {filteredSongs.length} {translations.songsCount?.[currentLanguage] || 'of'} {gameSession.songs.length} {translations.songsTotal?.[currentLanguage] || 'songs'}
-                        </div>
-                      </div>
-                      
-                      <div className="songs-list">
-                        <div className="list-header">
-                          <div className="header-id">{translations.id?.[currentLanguage] || 'ID'}</div>
-                          <div className="header-title">{translations.title?.[currentLanguage] || 'Title'}</div>
-                          <div className="header-artist">{translations.artist?.[currentLanguage] || 'Artist'}</div>
-                          <div className="header-year">{translations.year?.[currentLanguage] || 'Year'}</div>
-                        </div>
-                        
-                        <div className="list-body">
-                          {filteredSongs.map((song, index) => {
-                            const songId = extractIdFromUrl(song.hitster_url);
-                            
-                            return (
-                              <div key={index} className="song-row">
-                                <div className="row-id">
-                                  #{songId}
-                                </div>
-                                <div className="row-title">{song.title}</div>
-                                <div className="row-artist">{song.artist}</div>
-                                <div className="row-year">{song.year}</div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </>
-                  )}
-                  
-                  {gameSession.songs.length > 0 && filteredSongs.length === 0 && searchTerm && (
-                    <div className="no-results">
-                      {translations.noSongsFound?.[currentLanguage] || 'No songs found matching'} "{searchTerm}"
-                    </div>
-                  )}
-                  
-                  {gameSession.songs.length === 0 && (
-                    <div className="no-songs">
-                      {translations.noSongsAvailable?.[currentLanguage] || 'No songs available'}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
+          <CompetitionSettings />
         </div>
       </div>
     );
