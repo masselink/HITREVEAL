@@ -290,22 +290,13 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         header: true,
         complete: (results) => {
           const data = results.data as any[];
-          const validData = data.filter(row => {
-            // For hitster mode, hitster_url is required
-            if (selectedGameType === 'hitster-youtube') {
-              return row.hitster_url && 
-                     row.youtube_url && 
-                     row.title && 
-                     row.artist &&
-                     row.year;
-            }
-            
-            // For competition mode, hitster_url is not required
-            return row.youtube_url && 
-                   row.title && 
-                   row.artist &&
-                   row.year;
-          });
+          const validData = data.filter(row => 
+            row.hitster_url && 
+            row.youtube_url && 
+            row.title && 
+            row.artist &&
+            row.year
+          );
           setPreviewSongs(validData);
           setPreviewLoading(false);
         },
@@ -390,24 +381,24 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   // Filter songs based on search term
   const filteredSongs = previewSongs.filter(song => {
     const searchLower = searchTerm.toLowerCase();
-    const id = extractIdFromUrl(song.hitster_url);
+    const id = song.hitster_url ? extractIdFromUrl(song.hitster_url) : '';
     return (
       song.title.toLowerCase().includes(searchLower) ||
       song.artist.toLowerCase().includes(searchLower) ||
       song.year.toString().includes(searchLower) ||
-      id.includes(searchLower)
+      (id && id.includes(searchLower))
     );
   });
 
   // Filter competition songs based on search term
   const filteredCompetitionSongs = competitionPreviewSongs.filter(song => {
     const searchLower = competitionSearchTerm.toLowerCase();
-    const id = extractIdFromUrl(song.hitster_url);
+    const id = song.hitster_url ? extractIdFromUrl(song.hitster_url) : '';
     return (
       song.title.toLowerCase().includes(searchLower) ||
       song.artist.toLowerCase().includes(searchLower) ||
       song.year.toString().includes(searchLower) ||
-      id.includes(searchLower)
+      (id && id.includes(searchLower))
     );
   });
 
