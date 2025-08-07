@@ -79,7 +79,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   });
   const [showSongList, setShowSongList] = useState(false);
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
 
   // Load songs and check year data
   useEffect(() => {
@@ -194,15 +193,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setShowQuitConfirmation(false);
   };
 
-  const handleShowSongList = () => {
-    setShowSongList(true);
-  };
-
-  const closeSongList = () => {
-    setShowSongList(false);
-    setSearchTerm('');
-  };
-
   const getGameStatusText = () => {
     if (settings.gameMode === 'points') {
       return `${settings.targetScore} ${translations.points?.[currentLanguage] || 'points'}`;
@@ -302,10 +292,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             </button>
             <button className="primary-button game-session-title-button" disabled>
               {songList.name}
-            </button>
-            <button className="scan-another-button" onClick={handleShowSongList}>
-              <List size={16} />
-              <span>{translations.songList?.[currentLanguage] || 'Song List'}</span>
             </button>
           </div>
 
@@ -440,73 +426,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           </div>
         </div>
 
-        {/* Song List Modal */}
-        {showSongList && (
-          <div className="preview-overlay">
-            <div className="preview-popup">
-              <div className="preview-header">
-                <h3 className="preview-title">
-                  {translations.songList?.[currentLanguage] || 'Song List'}
-                </h3>
-                <button
-                  className="preview-close"
-                  onClick={closeSongList}
-                  aria-label={translations.close?.[currentLanguage] || 'Close'}
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              
-              <div className="preview-content">
-                <div className="search-section">
-                  <input
-                    type="text"
-                    placeholder={translations.searchPlaceholder?.[currentLanguage] || 'Search songs, artists, years, or IDs...'}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="search-input"
-                  />
-                  <div className="search-results-count">
-                    {filteredSongs.length} {translations.songsCount?.[currentLanguage] || 'of'} {songs.length} {translations.songsTotal?.[currentLanguage] || 'songs'}
-                  </div>
-                </div>
-                
-                <div className="songs-list">
-                  <div className="list-header">
-                    <div className="header-id">{translations.id?.[currentLanguage] || 'ID'}</div>
-                    <div className="header-title">{translations.title?.[currentLanguage] || 'Title'}</div>
-                    <div className="header-artist">{translations.artist?.[currentLanguage] || 'Artist'}</div>
-                    <div className="header-year">{translations.year?.[currentLanguage] || 'Year'}</div>
-                  </div>
-                  
-                  <div className="list-body">
-                    {filteredSongs.map((song, index) => {
-                      const songId = extractIdFromUrl(song.hitster_url);
-                      const isUsed = gameState.usedSongs.has(index);
-                      
-                      return (
-                        <div key={index} className={`song-row ${isUsed ? 'used-song' : ''}`}>
-                          <div className="row-id">
-                            #{songId}
-                          </div>
-                          <div className="row-title">{song.title}</div>
-                          <div className="row-artist">{song.artist}</div>
-                          <div className="row-year">{song.year}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                
-                {filteredSongs.length === 0 && searchTerm && (
-                  <div className="no-results">
-                    {translations.noSongsFound?.[currentLanguage] || 'No songs found matching'} "{searchTerm}"
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Quit Confirmation Modal */}
         {showQuitConfirmation && (
