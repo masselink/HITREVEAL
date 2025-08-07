@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Play } from 'lucide-react';
+import { ArrowLeft, Play, X, List, Crown, Clock, Target, Music, Users } from 'lucide-react';
 import { Language, SongList, Song } from '../types';
 import { translations } from '../data/translations';
 import Papa from 'papaparse';
@@ -16,6 +16,26 @@ interface CompetitionSettings {
   bonusPoints: number;
   skipsPerPlayer: number;
   skipCost: number;
+}
+
+interface Player {
+  id: number;
+  name: string;
+  score: number;
+  artistPoints: number;
+  titlePoints: number;
+  yearPoints: number;
+  bonusPoints: number;
+  skipsUsed: number;
+}
+
+interface GameState {
+  currentRound: number;
+  songsPlayed: number;
+  currentPlayerIndex: number;
+  usedSongs: Set<number>;
+  gameStartTime: number;
+  isGameActive: boolean;
 }
 
 interface CompetitionGameProps {
@@ -47,6 +67,19 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     skipsPerPlayer: 3,
     skipCost: 5
   });
+  const [gameStarted, setGameStarted] = useState(false);
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [gameState, setGameState] = useState<GameState>({
+    currentRound: 1,
+    songsPlayed: 0,
+    currentPlayerIndex: 0,
+    usedSongs: new Set(),
+    gameStartTime: 0,
+    isGameActive: false
+  });
+  const [showSongList, setShowSongList] = useState(false);
+  const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Load songs and check year data
   useEffect(() => {
@@ -124,10 +157,96 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
 
   const handleStartGame = () => {
     if (canStartGame()) {
-      // TODO: Start the actual competition game
-      console.log('Starting competition with settings:', settings, 'players:', playerNames);
+      // Initialize players
+      const initialPlayers: Player[] = playerNames.map((name, index) => ({
+        id: index,
+        name,
+        score: 0,
+        artistPoints: 0,
+        titlePoints: 0,
+        yearPoints: 0,
+        bonusPoints: 0,
+        skipsUsed: 0
+      }));
+      
+      setPlayers(initialPlayers);
+      setGameState({
+        currentRound: 1,
+        songsPlayed: 0,
+        currentPlayerIndex: 0,
+        usedSongs: new Set(),
+        gameStartTime: Date.now(),
+        isGameActive: true
+      });
+      setGameStarted(true);
     }
   };
+
+  const handleQuitGame = () => {
+    setShowQuitConfirmation(true);
+  };
+
+  const confirmQuit = () => {
+    onBack();
+  };
+
+  const cancelQuit = () => {
+    setShowQuitConfirmation(false);
+  };
+
+  const handleShowSongList = () => {
+    setShowSongList(true);
+  };
+
+  const closeSongList = () => {
+    setShowSongList(false);
+    setSearchTerm('');
+  };
+
+  const getGameStatusText = () => {
+    if (settings.gameMode === 'points') {
+      return `${settings.targetScore} ${translations.points?.[currentLanguage] || 'points'}`;
+    } else if (settings.gameMode === 'time-based') {
+      return `${settings.gameDuration} ${translations.minutes?.[currentLanguage] || 'minutes'}`;
+    } else {
+      return `${settings.maximumRounds} ${translations.rounds?.[currentLanguage] || 'rounds'}`;
+    }
+  };
+
+  const getRemainingTime = () => {
+    if (settings.gameMode !== 'time-based' || !gameState.isGameActive) return null;
+    
+    const elapsed = Math.floor((Date.now() - gameState.gameStartTime) / 1000 / 60);
+    const remaining = Math.max(0, settings.gameDuration - elapsed);
+    return remaining;
+  };
+
+  const getCurrentPlayer = () => {
+    return players[gameState.currentPlayerIndex];
+  };
+
+  const getLeaderboard = () => {
+    return [...players].sort((a, b) => b.score - a.score);
+  };
+
+  const extractIdFromUrl = (url: string) => {
+    const match = url.match(/(\d+)$/);
+    if (match) {
+      return parseInt(match[1], 10).toString();
+    }
+    return '';
+  };
+
+  const filteredSongs = songs.filter(song => {
+    const searchLower = searchTerm.toLowerCase();
+    const id = song.hitster_url ? extractIdFromUrl(song.hitster_url) : '';
+    return (
+      song.title.toLowerCase().includes(searchLower) ||
+      song.artist.toLowerCase().includes(searchLower) ||
+      song.year.toString().includes(searchLower) ||
+      (id && id.includes(searchLower))
+    );
+  });
 
   if (!songsLoaded && !loadingError) {
     return (
