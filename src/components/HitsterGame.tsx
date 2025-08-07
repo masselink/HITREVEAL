@@ -25,6 +25,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
   const [songListViewCount, setSongListViewCount] = useState(0);
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
   const [shouldAutoStartScanning, setShouldAutoStartScanning] = useState(false);
+  const [showPlayer, setShowPlayer] = useState(false);
 
   // Load songs from CSV
   useEffect(() => {
@@ -68,18 +69,21 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
     setCurrentSong(song);
     setScannedData('');
     setShouldAutoStartScanning(false);
+    setShowPlayer(true);
   };
 
   const handleNoMatch = (data: string) => {
     setScannedData(data);
     setCurrentSong(null);
     setShouldAutoStartScanning(false);
+    setShowPlayer(false);
   };
 
   const handleScanAnother = () => {
     setCurrentSong(null);
     setScannedData('');
     setShouldAutoStartScanning(true);
+    setShowPlayer(false);
   };
 
   const handleSongListView = () => {
@@ -98,6 +102,11 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
     setShowQuitConfirmation(false);
   };
 
+  const handleBackToScanner = () => {
+    setShowPlayer(false);
+    setCurrentSong(null);
+    setScannedData('');
+  };
   if (!songsLoaded && !loadingError) {
     return (
       <div className="game-session">
@@ -134,6 +143,66 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
     );
   }
 
+  // Player Page
+  if (showPlayer && currentSong) {
+    return (
+      <div className="game-session">
+        <div className="game-session-container">
+          {/* Header */}
+          <div className="game-session-header">
+            <button className="back-button" onClick={handleBackToScanner}>
+              <ArrowLeft size={20} />
+              <span>{translations.back?.[currentLanguage] || 'Back'}</span>
+            </button>
+            <button className="primary-button game-session-title-button" disabled>
+              {songList.name}
+            </button>
+          </div>
+
+          {/* YouTube Player */}
+          <YouTubePlayer
+            currentLanguage={currentLanguage}
+            currentSong={currentSong}
+            allSongs={songs}
+            onScanAnother={handleScanAnother}
+            onSongListView={handleSongListView}
+            songListViewCount={songListViewCount}
+          />
+        </div>
+
+        {/* Quit Confirmation Modal */}
+        {showQuitConfirmation && (
+          <div className="preview-overlay">
+            <div className="quit-confirmation-modal">
+              <div className="quit-modal-header">
+                <h3 className="quit-modal-title">
+                  {translations.quitGameConfirmTitle?.[currentLanguage] || 'Quit Game?'}
+                </h3>
+              </div>
+              
+              <div className="quit-modal-content">
+                <p className="quit-warning-text">
+                  {translations.quitGameWarning?.[currentLanguage] || 'Are you sure you want to quit this game? Your current progress will be lost.'}
+                </p>
+                
+                <div className="quit-modal-buttons">
+                  <button className="cancel-quit-button" onClick={cancelQuit}>
+                    <span>{translations.cancel?.[currentLanguage] || 'Cancel'}</span>
+                  </button>
+                  <button className="confirm-quit-button" onClick={confirmQuit}>
+                    <X size={16} />
+                    <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Scanner Page (default)
   return (
     <div className="game-session">
       <div className="game-session-container">
@@ -148,35 +217,19 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
           </button>
         </div>
 
-        {/* QR Scanner Section - Only show when no current song */}
-        {!currentSong && (
-          <div className="qr-scanner-section">
-            <QRScanner
-              currentLanguage={currentLanguage}
-              songs={songs}
-              onSongFound={handleSongFound}
-              onNoMatch={handleNoMatch}
-              onSongListView={handleSongListView}
-              songListViewCount={songListViewCount}
-              autoStart={shouldAutoStartScanning}
-            />
-
-          </div>
-        )}
-
-        {/* YouTube Player Section */}
-        {currentSong && (
-          <YouTubePlayer
+        {/* QR Scanner Section */}
+        <div className="qr-scanner-section">
+          <QRScanner
             currentLanguage={currentLanguage}
-            currentSong={currentSong}
-            allSongs={songs}
-            onScanAnother={handleScanAnother}
+            songs={songs}
+            onSongFound={handleSongFound}
+            onNoMatch={handleNoMatch}
             onSongListView={handleSongListView}
             songListViewCount={songListViewCount}
+            autoStart={shouldAutoStartScanning}
           />
-        )}
+        </div>
       </div>
-
       {/* Quit Confirmation Modal */}
       {showQuitConfirmation && (
         <div className="preview-overlay">
