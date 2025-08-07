@@ -558,7 +558,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 GO
               </button>
               <div className="player-score">
-                <span className="score-value">{currentPlayer?.score || 0}</span>
+                <span className="score-value">{currentPlayer?.score ?? 0}</span>
                 <span className="score-label">{translations.points?.[currentLanguage] || 'points'}</span>
               </div>
             </div>
