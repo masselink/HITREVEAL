@@ -227,17 +227,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     return '';
   };
 
-  const filteredSongs = songs.filter(song => {
-    const searchLower = searchTerm.toLowerCase();
-    const id = song.hitster_url ? extractIdFromUrl(song.hitster_url) : '';
-    return (
-      song.title.toLowerCase().includes(searchLower) ||
-      song.artist.toLowerCase().includes(searchLower) ||
-      song.year.toString().includes(searchLower) ||
-      (id && id.includes(searchLower))
-    );
-  });
-
   if (!songsLoaded && !loadingError) {
     return (
       <div className="game-session">
