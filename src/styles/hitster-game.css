@@ -956,6 +956,101 @@
   line-height: 1.5;
 }
 /* No Match Message */
+/* Quit Game Button Styles */
+.quit-game-button {
+  background-color: #ef4444;
+  color: var(--color-secondary);
+  border-color: #ef4444;
+}
+
+.quit-game-button:hover {
+  background-color: #dc2626;
+  color: var(--color-secondary);
+  border-color: #dc2626;
+}
+
+/* Quit Confirmation Modal */
+.quit-confirmation-modal {
+  background-color: var(--color-secondary);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 400px;
+  width: 100%;
+  margin: var(--spacing-4);
+}
+
+.quit-modal-header {
+  padding: var(--spacing-6);
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.quit-modal-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: 0;
+}
+
+.quit-modal-content {
+  padding: var(--spacing-6);
+}
+
+.quit-warning-text {
+  font-size: var(--font-size-base);
+  color: var(--color-text-light);
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.quit-modal-buttons {
+  display: flex;
+  gap: var(--spacing-4);
+  justify-content: center;
+}
+
+.cancel-quit-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: var(--color-secondary);
+  color: var(--color-accent);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.cancel-quit-button:hover {
+  background-color: var(--color-accent);
+  color: var(--color-secondary);
+  border-color: var(--color-accent);
+}
+
+.confirm-quit-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: #ef4444;
+  color: var(--color-secondary);
+  border: 2px solid #ef4444;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.confirm-quit-button:hover {
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
+
 .no-match-message {
   background-color: var(--color-secondary);
   border: 2px solid var(--color-border);

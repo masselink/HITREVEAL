@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, X } from 'lucide-react';
 import { Language, SongList, Song } from '../types';
 import { translations } from '../data/translations';
 import { QRScanner } from './QRScanner';
@@ -23,6 +23,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
   const [songsLoaded, setSongsLoaded] = useState(false);
   const [loadingError, setLoadingError] = useState<string>('');
   const [songListViewCount, setSongListViewCount] = useState(0);
+  const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
 
   // Load songs from CSV
   useEffect(() => {
@@ -80,6 +81,19 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
   const handleSongListView = () => {
     setSongListViewCount(prev => prev + 1);
   };
+
+  const handleQuitGame = () => {
+    setShowQuitConfirmation(true);
+  };
+
+  const confirmQuit = () => {
+    onBack();
+  };
+
+  const cancelQuit = () => {
+    setShowQuitConfirmation(false);
+  };
+
   if (!songsLoaded && !loadingError) {
     return (
       <div className="game-session">
@@ -121,9 +135,9 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
       <div className="game-session-container">
         {/* Header */}
         <div className="game-session-header">
-          <button className="back-button" onClick={onBack}>
-            <ArrowLeft size={20} />
-            <span>{translations.back?.[currentLanguage] || 'Back'}</span>
+          <button className="back-button quit-game-button" onClick={handleQuitGame}>
+            <X size={20} />
+            <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
           </button>
           <button className="game-session-title-button" disabled>
             {songList.name}
@@ -178,6 +192,35 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
           />
         )}
       </div>
+
+      {/* Quit Confirmation Modal */}
+      {showQuitConfirmation && (
+        <div className="preview-overlay">
+          <div className="quit-confirmation-modal">
+            <div className="quit-modal-header">
+              <h3 className="quit-modal-title">
+                {translations.quitGameConfirmTitle?.[currentLanguage] || 'Quit Game?'}
+              </h3>
+            </div>
+            
+            <div className="quit-modal-content">
+              <p className="quit-warning-text">
+                {translations.quitGameWarning?.[currentLanguage] || 'Are you sure you want to quit this game? Your current progress will be lost.'}
+              </p>
+              
+              <div className="quit-modal-buttons">
+                <button className="cancel-quit-button" onClick={cancelQuit}>
+                  <span>{translations.cancel?.[currentLanguage] || 'Cancel'}</span>
+                </button>
+                <button className="confirm-quit-button" onClick={confirmQuit}>
+                  <X size={16} />
+                  <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

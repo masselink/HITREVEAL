@@ -667,5 +667,29 @@ export const translations: Translations = {
     nl: 'Het getal tussen haakjes toont hoe vaak je de songlijst hebt bekeken tijdens deze spelsessie.',
     de: 'Die Zahl in Klammern zeigt, wie oft du die Songliste während dieser Spielsitzung angesehen hast.',
     fr: 'Le nombre entre parenthèses indique combien de fois vous avez consulté la liste de chansons pendant cette session de jeu.'
+  },
+  quitGame: {
+    en: 'Quit Game',
+    nl: 'Spel Verlaten',
+    de: 'Spiel Beenden',
+    fr: 'Quitter le Jeu'
+  },
+  quitGameConfirmTitle: {
+    en: 'Quit Game?',
+    nl: 'Spel Verlaten?',
+    de: 'Spiel Beenden?',
+    fr: 'Quitter le Jeu?'
+  },
+  quitGameWarning: {
+    en: 'Are you sure you want to quit this game? Your current progress will be lost.',
+    nl: 'Weet je zeker dat je dit spel wilt verlaten? Je huidige voortgang gaat verloren.',
+    de: 'Bist du sicher, dass du dieses Spiel beenden möchtest? Dein aktueller Fortschritt geht verloren.',
+    fr: 'Êtes-vous sûr de vouloir quitter ce jeu? Votre progression actuelle sera perdue.'
+  },
+  cancel: {
+    en: 'Cancel',
+    nl: 'Annuleren',
+    de: 'Abbrechen',
+    fr: 'Annuler'
   }
 };
