@@ -1899,6 +1899,10 @@ body::before {
   font-size: 14px;
   font-weight: 500;
   margin-top: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
   padding: 12px 20px;
   border-radius: 8px;
   padding: 8px 0;
@@ -2492,9 +2496,10 @@ body::before {
   font-family: 'Courier New', monospace;
   font-size: var(--font-size-sm);
   color: var(--color-accent);
-  word-break: break-all;
-  white-space: pre-wrap;
-  line-height: 1.5;
+  color: #e5e7eb;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
   background-color: var(--color-secondary);
   padding: var(--spacing-4);
   border-radius: var(--border-radius);
