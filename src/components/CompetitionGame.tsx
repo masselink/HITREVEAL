@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Play, X, List, Crown, Clock, Target, Music, Users } from 'lucide-react';
 import { Language, SongList, Song } from '../types';
-import { translations } from '../data/translations';
 import { CompetitionYouTubePlayer } from './CompetitionYouTubePlayer';
 import Papa from 'papaparse';
 
