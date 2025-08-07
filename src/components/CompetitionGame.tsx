@@ -215,10 +215,14 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setShowPlayerPage(false);
     setCurrentSong(null);
     
-    // Move to next player
+    // Move to next player and increment round if all players have played
+    const nextPlayerIndex = (gameState.currentPlayerIndex + 1) % settings.numberOfPlayers;
+    const shouldIncrementRound = nextPlayerIndex === 0; // Back to first player means new round
+    
     setGameState(prev => ({
       ...prev,
-      currentPlayerIndex: (prev.currentPlayerIndex + 1) % settings.numberOfPlayers
+      currentPlayerIndex: nextPlayerIndex,
+      currentRound: shouldIncrementRound ? prev.currentRound + 1 : prev.currentRound
     }));
   };
 
