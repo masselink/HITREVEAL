@@ -5,7 +5,6 @@ import { GameSession } from './components/GameSession';
 import { Footer } from './components/Footer';
 import { useLanguage } from './hooks/useLanguage';
 import { SongList } from './types';
-import './styles/App.css';
 
 function App() {
   const { currentLanguage, changeLanguage } = useLanguage();
