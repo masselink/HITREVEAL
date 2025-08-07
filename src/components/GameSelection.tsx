@@ -294,8 +294,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             row.hitster_url && 
             row.youtube_url && 
             row.title && 
-            row.artist &&
-            row.year
+            row.artist
           );
           setPreviewSongs(validData);
           setPreviewLoading(false);
@@ -343,8 +342,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             row.hitster_url && 
             row.youtube_url && 
             row.title && 
-            row.artist &&
-            row.year
+            row.artist
           );
           setCompetitionPreviewSongs(validData);
           setCompetitionPreviewLoading(false);

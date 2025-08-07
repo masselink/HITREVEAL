@@ -56,6 +56,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
   const [showPreview, setShowPreview] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [isScanning, setIsScanning] = useState(false);
+  const [allSongsHaveYear, setAllSongsHaveYear] = useState(true);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [scannerError, setScannerError] = useState<string | null>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
