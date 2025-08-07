@@ -163,6 +163,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
           <YouTubePlayer
             currentLanguage={currentLanguage}
             currentSong={currentSong}
+            allSongs={songs}
             onScanAnother={handleScanAnother}
           />
         )}

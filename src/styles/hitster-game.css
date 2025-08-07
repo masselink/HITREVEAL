@@ -508,6 +508,28 @@
   border-bottom: none;
 }
 
+.song-row.current-song {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+.song-row.current-song .row-id {
+  color: var(--color-secondary);
+  font-weight: 700;
+}
+
+.song-row.current-song .row-title {
+  color: var(--color-secondary);
+}
+
+.song-row.current-song .row-artist {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.song-row.current-song .row-year {
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .row-id {
   width: 80px;
   flex-shrink: 0;
