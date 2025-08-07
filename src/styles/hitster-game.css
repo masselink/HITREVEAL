@@ -742,14 +742,14 @@
 }
 
 .scanner-controls .secondary-button {
-  background-color: #ef4444;
+  background-color: var(--color-accent);
   color: var(--color-secondary);
-  border-color: #ef4444;
+  border-color: var(--color-accent);
 }
 
 .scanner-controls .secondary-button:hover {
-  background-color: #dc2626;
-  border-color: #dc2626;
+  background-color: var(--color-accent-light);
+  border-color: var(--color-accent-light);
 }
 
 /* Song Found and Music Player Styles */
