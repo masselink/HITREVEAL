@@ -337,7 +337,6 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
         {false && showReveal && (
           <div className="revealed-song-info">
             <div className="song-title">
-            >
               {currentSong.title}
             </div>
             <div className="song-artist">
