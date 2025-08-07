@@ -290,13 +290,22 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         header: true,
         complete: (results) => {
           const data = results.data as any[];
-          const validData = data.filter(row => 
-            row.hitster_url && 
-            row.youtube_url && 
-            row.title && 
-            row.artist &&
-            row.year
-          );
+          const validData = data.filter(row => {
+            // For hitster mode, hitster_url is required
+            if (selectedGameType === 'hitster-youtube') {
+              return row.hitster_url && 
+                     row.youtube_url && 
+                     row.title && 
+                     row.artist &&
+                     row.year;
+            }
+            
+            // For competition mode, hitster_url is not required
+            return row.youtube_url && 
+                   row.title && 
+                   row.artist &&
+                   row.year;
+          });
           setPreviewSongs(validData);
           setPreviewLoading(false);
         },
@@ -579,9 +588,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                 <p className="description-text">
                   {!selectedSongList 
                     ? translations.selectHitsterGame?.[currentLanguage] || 'Please select the Hitster Game you would like to play'
-                    : (filteredSongLists.find(list => list.name === selectedSongList)?.description && 
-                       filteredSongLists.find(list => list.name === selectedSongList)?.description?.trim()) || 
-                      translations.noDescriptionAvailable?.[currentLanguage] || 'No description available for this song list'
+                    : filteredSongLists.find(list => list.name === selectedSongList)?.description || translations.noDescriptionAvailable?.[currentLanguage] || 'No description available for this song list'
                   }
                 </p>
               </div>
