@@ -135,7 +135,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
       <div className="game-session-container">
         {/* Header */}
         <div className="game-session-header">
-          <button className="back-button quit-game-button" onClick={handleQuitGame}>
+          <button className="primary-button quit-game-button" onClick={handleQuitGame}>
             <X size={20} />
             <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
           </button>

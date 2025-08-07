@@ -956,19 +956,6 @@
   line-height: 1.5;
 }
 /* No Match Message */
-/* Quit Game Button Styles */
-.quit-game-button {
-  background-color: var(--color-primary);
-  color: var(--color-secondary);
-  border-color: var(--color-primary);
-}
-
-.quit-game-button:hover {
-  background-color: var(--color-primary-hover);
-  color: var(--color-secondary);
-  border-color: var(--color-primary-hover);
-}
-
 /* Quit Confirmation Modal */
 .quit-confirmation-modal {
   background-color: var(--color-secondary);
