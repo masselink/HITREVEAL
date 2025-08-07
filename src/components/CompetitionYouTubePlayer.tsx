@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Play, Pause, RotateCcw, Square, Eye, QrCode, List, X, Music } from 'lucide-react';
+import { Play, Pause, RotateCcw, Square, Eye, QrCode, List, X, Music, Check } from 'lucide-react';
 import { Language, Song } from '../types';
 import { translations } from '../data/translations';
 
@@ -12,6 +12,11 @@ interface CompetitionYouTubePlayerProps {
   songListViewCount: number;
   onGuess?: (guessType: 'artist' | 'title' | 'year', isCorrect: boolean) => void;
   onSkip?: () => void;
+  artistPoints?: number;
+  titlePoints?: number;
+  yearPoints?: number;
+  bonusPoints?: number;
+  onScoreAndBack?: () => void;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
@@ -22,7 +27,12 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   onSongListView,
   songListViewCount,
   onGuess,
-  onSkip
+  onSkip,
+  artistPoints = 1,
+  titlePoints = 2,
+  yearPoints = 1,
+  bonusPoints = 2,
+  onScoreAndBack
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
@@ -32,7 +42,6 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   const [guessedArtist, setGuessedArtist] = useState(false);
   const [guessedTitle, setGuessedTitle] = useState(false);
   const [guessedYear, setGuessedYear] = useState(false);
-  const [showGuessing, setShowGuessing] = useState(false);
   const hiddenPlayerRef = useRef<any>(null);
   const visiblePlayerRef = useRef<any>(null);
 
@@ -195,16 +204,35 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   const handleReveal = () => {
     setShowReveal(true);
     setShowVideo(true);
-    setShowGuessing(true);
   };
 
-  const handleGuess = (guessType: 'artist' | 'title' | 'year') => {
-    if (guessType === 'artist') setGuessedArtist(true);
-    if (guessType === 'title') setGuessedTitle(true);
-    if (guessType === 'year') setGuessedYear(true);
+  const handleToggleGuess = (guessType: 'artist' | 'title' | 'year') => {
+    if (guessType === 'artist') {
+      setGuessedArtist(!guessedArtist);
+      onGuess?.(guessType, !guessedArtist);
+    }
+    if (guessType === 'title') {
+      setGuessedTitle(!guessedTitle);
+      onGuess?.(guessType, !guessedTitle);
+    }
+    if (guessType === 'year') {
+      setGuessedYear(!guessedYear);
+      onGuess?.(guessType, !guessedYear);
+    }
+  };
+
+  const getTotalScore = () => {
+    let total = 0;
+    if (guessedArtist) total += artistPoints;
+    if (guessedTitle) total += titlePoints;
+    if (guessedYear) total += yearPoints;
     
-    // For now, assume all guesses are correct - this can be enhanced later
-    onGuess?.(guessType, true);
+    // Bonus if all are correct (only if year data exists)
+    if (guessedArtist && guessedTitle && guessedYear && currentSong.year) {
+      total += bonusPoints;
+    }
+    
+    return total;
   };
 
   const handleSkip = () => {
@@ -226,23 +254,97 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
         {/* Song Info (only show when revealed) */}
         {showReveal && (
           <div className="revealed-song-info">
-            <div 
-              className={`song-title ${showGuessing ? 'clickable' : ''} ${guessedTitle ? 'guessed' : ''}`}
-              onClick={showGuessing ? () => handleGuess('title') : undefined}
-            >
+            <div className="competition-scoring-section">
+              <div 
+                className={`scoring-item ${guessedTitle ? 'selected' : ''}`}
+                onClick={() => handleToggleGuess('title')}
+              >
+                <div className="scoring-checkbox">
+                  {guessedTitle && <Check size={16} />}
+                </div>
+                <div className="scoring-content">
+                  <div className="scoring-label">Title</div>
+                  <div className="scoring-value">{currentSong.title}</div>
+                </div>
+                <div className="scoring-points">+{titlePoints}</div>
+              </div>
+              
+              <div 
+                className={`scoring-item ${guessedArtist ? 'selected' : ''}`}
+                onClick={() => handleToggleGuess('artist')}
+              >
+                <div className="scoring-checkbox">
+                  {guessedArtist && <Check size={16} />}
+                </div>
+                <div className="scoring-content">
+                  <div className="scoring-label">Artist</div>
+                  <div className="scoring-value">{currentSong.artist}</div>
+                </div>
+                <div className="scoring-points">+{artistPoints}</div>
+              </div>
+              
+              {currentSong.year && (
+                <div 
+                  className={`scoring-item ${guessedYear ? 'selected' : ''}`}
+                  onClick={() => handleToggleGuess('year')}
+                >
+                  <div className="scoring-checkbox">
+                    {guessedYear && <Check size={16} />}
+                  </div>
+                  <div className="scoring-content">
+                    <div className="scoring-label">Year</div>
+                    <div className="scoring-value">{currentSong.year}</div>
+                  </div>
+                  <div className="scoring-points">+{yearPoints}</div>
+                </div>
+              )}
+              
+              {bonusPoints > 0 && currentSong.year && (
+                <div className={`bonus-item ${guessedArtist && guessedTitle && guessedYear ? 'active' : ''}`}>
+                  <div className="bonus-content">
+                    <div className="bonus-label">Bonus (All Correct)</div>
+                    <div className="bonus-points">+{bonusPoints}</div>
+                  </div>
+                </div>
+              )}
+              
+              <div className="total-score">
+                <div className="total-label">Total Score</div>
+                <div className="total-points">{getTotalScore()} points</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Song Info (legacy - keeping for non-competition modes) */}
+        {showReveal && false && (
+          <div className="revealed-song-info">
+            <div className="song-title">
               {currentSong.title}
             </div>
-            <div 
-              className={`song-artist ${showGuessing ? 'clickable' : ''} ${guessedArtist ? 'guessed' : ''}`}
-              onClick={showGuessing ? () => handleGuess('artist') : undefined}
-            >
+            <div className="song-artist">
               {currentSong.artist}
             </div>
             {currentSong.year && (
-              <div 
-                className={`song-year ${showGuessing ? 'clickable' : ''} ${guessedYear ? 'guessed' : ''}`}
-                onClick={showGuessing ? () => handleGuess('year') : undefined}
-              >
+              <div className="song-year">
+                {currentSong.year}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Legacy song info display - hidden for competition */}
+        {false && showReveal && (
+          <div className="revealed-song-info">
+            <div className="song-title">
+            >
+              {currentSong.title}
+            </div>
+            <div className="song-artist">
+              {currentSong.artist}
+            </div>
+            {currentSong.year && (
+              <div className="song-year">
                 {currentSong.year}
               </div>
             )}
@@ -291,8 +393,8 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
             </>
           )}
           {showReveal && (
-            <button className="scan-another-button" onClick={onScanAnother}>
-              <span>NEXT SONG</span>
+            <button className="scan-another-button score-button" onClick={onScoreAndBack || onScanAnother}>
+              <span>SCORE!</span>
             </button>
           )}
         </div>
