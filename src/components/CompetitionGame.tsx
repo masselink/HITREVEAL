@@ -417,6 +417,28 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                         </span>
                       )}
                     </div>
+                    <div className="score-breakdown">
+                      {player.artistPoints > 0 && (
+                        <span className="score-part artist">
+                          A: {player.artistPoints}
+                        </span>
+                      )}
+                      {player.titlePoints > 0 && (
+                        <span className="score-part title">
+                          T: {player.titlePoints}
+                        </span>
+                      )}
+                      {player.yearPoints > 0 && (
+                        <span className="score-part year">
+                          Y: {player.yearPoints}
+                        </span>
+                      )}
+                      {player.bonusPoints > 0 && (
+                        <span className="score-part bonus">
+                          B: {player.bonusPoints}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="player-total-score">
                     {player.score}
