@@ -451,227 +451,201 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         {/* HITSTER Song List Selection */}
         {(selectedGameType === 'hitster-youtube' || selectedGameType === 'game-type-2') && showHitsterOptions && (
         <div className="hitster-options">
-          {/* Player Selection Section */}
-          <div className="player-selection-section">
-            <h3 className="options-title">
-              {translations.selectPlayer?.[currentLanguage] || 'Select Player'}
-            </h3>
-            
-            {/* Country Filter */}
-            {!loading && !error && songLists.length > 0 && (selectedGameType === 'hitster-youtube' || selectedGameType === 'game-type-2') && (
-              <div className="country-filter">
-                {/* Platform Toggle */}
-                <div className="platform-toggle">
-                  <button
-                    className="platform-button active"
-                    disabled={false}
-                    type="button"
-                  >
-                    <span>YouTube</span>
-                  </button>
-                  <button
-                    className="platform-button disabled"
-                    disabled={true}
-                    type="button"
-                  >
-                    <span>Spotify</span>
-                  </button>
-                </div>
-                
-                {/* Platform Subtext */}
-                <div className="platform-subtext">
-                  {translations.spotifyNotSupported?.[currentLanguage] || 'Spotify not yet supported'}
-                </div>
-
-                <div className="filter-buttons">
-                  <button
-                    className={`filter-button ${selectedCountryFilter === 'all' ? 'active' : ''}`}
-                    onClick={() => handleCountryFilter('all')}
-                    type="button"
-                  >
-                    <span className="filter-flag">🌍</span>
-                    <span>All</span>
-                  </button>
-                  {getUniqueCountries().map((country) => {
-                    const flagImage = getFlagImage(country);
-                    return (
-                      <button
-                        key={country}
-                        className={`filter-button ${selectedCountryFilter === country ? 'active' : ''}`}
-                        onClick={() => handleCountryFilter(country)}
-                        type="button"
-                      >
-                        {flagImage ? (
-                          <img 
-                            src={flagImage} 
-                            alt={`${country} flag`}
-                            className="filter-flag-image"
-                          />
-                        ) : (
-                          <span className="filter-flag">🌍</span>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
+          <h3 className="options-title">
+            {translations.selectSongList?.[currentLanguage] || 'Select Song List'}
+          </h3>
           
-            
-            {/* Loading State */}
-            {loading && (
-              <div className="loading-message">
-                {translations.loadingSongLists?.[currentLanguage] || 'Loading song lists...'}
+          {/* Country Filter */}
+          {!loading && !error && songLists.length > 0 && (selectedGameType === 'hitster-youtube' || selectedGameType === 'game-type-2') && (
+            <div className="country-filter">
+              <div className="filter-buttons">
+                <button
+                  className={`filter-button ${selectedCountryFilter === 'all' ? 'active' : ''}`}
+                  onClick={() => handleCountryFilter('all')}
+                  type="button"
+                >
+                  <span className="filter-flag">🌍</span>
+                  <span>All</span>
+                </button>
+                {getUniqueCountries().map((country) => {
+                  const flagImage = getFlagImage(country);
+                  return (
+                    <button
+                      key={country}
+                      className={`filter-button ${selectedCountryFilter === country ? 'active' : ''}`}
+                      onClick={() => handleCountryFilter(country)}
+                      type="button"
+                    >
+                      {flagImage ? (
+                        <img 
+                          src={flagImage} 
+                          alt={`${country} flag`}
+                          className="filter-flag-image"
+                        />
+                      ) : (
+                        <span className="filter-flag">🌍</span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
-            )}
-            
-            {/* Error State */}
-            {error && (
-              <div className="error-message">
-                {error}
-              </div>
-            )}
-            
-            {/* Song List Selection */}
-            {!loading && !error && (selectedGameType === 'hitster-youtube' || selectedGameType === 'game-type-2') && (
-              <>
-                <div className="custom-dropdown">
-                  <button
-                    className="dropdown-trigger"
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                    aria-expanded={dropdownOpen}
-                    type="button"
-                  >
-                    {selectedSongList ? (
-                      <div className="selected-option">
-                        {(() => {
-                          const selectedListData = filteredSongLists.find(list => list.name === selectedSongList);
-                          const flagImage = selectedListData ? getFlagImage(selectedListData.country) : null;
-                          return (
-                            <>
-                              {flagImage ? (
-                                <img 
-                                  src={flagImage} 
-                                  alt={`${selectedListData?.country} flag`}
-                                  className="dropdown-flag"
-                                />
-                              ) : (
-                                <span className="flag-placeholder">🌍</span>
-                              )}
-                              <span>
-                                {selectedListData?.country ? `${selectedListData.country.toUpperCase()} - ` : ''}{selectedSongList}
-                              </span>
-                            </>
-                          );
-                        })()}
-                      </div>
-                    ) : (
-                      <span className="placeholder-text"></span>
-                    )}
-                    <span className="dropdown-arrow">▼</span>
-                  </button>
-                  
-                  {dropdownOpen && (
-                    <div className="dropdown-menu">
-                      {filteredSongLists.map((songList) => {
-                        const flagImage = getFlagImage(songList.country);
+            </div>
+          )}
+          
+          {/* Loading State */}
+          {loading && (
+            <div className="loading-message">
+              {translations.loadingSongLists?.[currentLanguage] || 'Loading song lists...'}
+            </div>
+          )}
+          
+          {/* Error State */}
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
+          
+          {/* Song List Selection */}
+          {!loading && !error && (selectedGameType === 'hitster-youtube' || selectedGameType === 'game-type-2') && (
+            <>
+              <div className="custom-dropdown">
+                <button
+                  className="dropdown-trigger"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  aria-expanded={dropdownOpen}
+                  type="button"
+                >
+                  {selectedSongList ? (
+                    <div className="selected-option">
+                      {(() => {
+                        const selectedListData = filteredSongLists.find(list => list.name === selectedSongList);
+                        const flagImage = selectedListData ? getFlagImage(selectedListData.country) : null;
                         return (
-                          <button
-                            key={songList.name}
-                            className="dropdown-option"
-                            onClick={() => handleDropdownSelect(songList.name)}
-                            type="button"
-                          >
+                          <>
                             {flagImage ? (
                               <img 
                                 src={flagImage} 
-                                alt={`${songList.country} flag`}
+                                alt={`${selectedListData?.country} flag`}
                                 className="dropdown-flag"
                               />
                             ) : (
                               <span className="flag-placeholder">🌍</span>
                             )}
                             <span>
-                              {songList.name}{songList.hitstercode ? ` | ${songList.hitstercode}` : ''}
+                              {selectedListData?.country ? `${selectedListData.country.toUpperCase()} - ` : ''}{selectedSongList}
                             </span>
-                          </button>
+                          </>
                         );
-                      })}
+                      })()}
                     </div>
+                  ) : (
+                    <span className="placeholder-text"></span>
                   )}
-                </div>
+                  <span className="dropdown-arrow">▼</span>
+                </button>
                 
-                <div className="selected-description">
-                  <p className="description-text">
-                    {!selectedSongList 
-                      ? translations.selectHitsterGame?.[currentLanguage] || 'Please select the Hitster Game you would like to play'
-                      : filteredSongLists.find(list => list.name === selectedSongList)?.description || translations.noDescriptionAvailable?.[currentLanguage] || 'No description available for this song list'
-                    }
-                  </p>
-                </div>
-                
-                {/* Preview Section */}
-                {selectedSongList && selectedGameType === 'hitster-youtube' && (
-                  <div className="preview-section">
-                    <button
-                      className="preview-button"
-                      onClick={handleShowPreview}
-                      type="button"
-                    >
-                      <Eye size={16} />
-                      <span>{translations.previewSongs?.[currentLanguage] || 'Preview Songs'}</span>
-                    </button>
+                {dropdownOpen && (
+                  <div className="dropdown-menu">
+                    {filteredSongLists.map((songList) => {
+                      const flagImage = getFlagImage(songList.country);
+                      return (
+                        <button
+                          key={songList.name}
+                          className="dropdown-option"
+                          onClick={() => handleDropdownSelect(songList.name)}
+                          type="button"
+                        >
+                          {flagImage ? (
+                            <img 
+                              src={flagImage} 
+                              alt={`${songList.country} flag`}
+                              className="dropdown-flag"
+                            />
+                          ) : (
+                            <span className="flag-placeholder">🌍</span>
+                          )}
+                          <span>
+                            {songList.name}{songList.hitstercode ? ` | ${songList.hitstercode}` : ''}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
-                
-                {/* Preview Section for Competition */}
-                {selectedSongList && selectedGameType === 'game-type-2' && (
-                  <div className="preview-section">
-                    <button
-                      className="preview-button"
-                      onClick={handleShowCompetitionPreview}
-                      type="button"
-                    >
-                      <Eye size={16} />
-                      <span>{translations.previewSongs?.[currentLanguage] || 'Preview Songs'}</span>
-                    </button>
-                  </div>
-                )}
-                
-                {/* Start Button for Hitster */}
-                {selectedGameType === 'hitster-youtube' && (
+              </div>
+              
+              <div className="selected-description">
+                <p className="description-text">
+                  {!selectedSongList 
+                    ? translations.selectHitsterGame?.[currentLanguage] || 'Please select the Hitster Game you would like to play'
+                    : filteredSongLists.find(list => list.name === selectedSongList)?.description || translations.noDescriptionAvailable?.[currentLanguage] || 'No description available for this song list'
+                  }
+                </p>
+              </div>
+              
+              {/* Preview Section */}
+              {selectedSongList && selectedGameType === 'hitster-youtube' && (
+                <div className="preview-section">
                   <button
-                    className="start-hitster-button"
-                    onClick={handleStartHitster}
-                    disabled={!selectedSongList}
+                    className="preview-button"
+                    onClick={handleShowPreview}
+                    type="button"
                   >
-                    <Play size={20} />
-                    <span>
-                      {translations.startHitster?.[currentLanguage] || 'Start HITSTER'}
-                    </span>
+                    <Eye size={16} />
+                    <span>{translations.previewSongs?.[currentLanguage] || 'Preview Songs'}</span>
                   </button>
-                )}
-                
-                {/* Start Button for Competition */}
-                {selectedGameType === 'game-type-2' && (
+                </div>
+              )}
+              
+              {/* Preview Section for Competition */}
+              {selectedSongList && selectedGameType === 'game-type-2' && (
+                <div className="preview-section">
                   <button
-                    className="start-hitster-button"
-                    onClick={handleStartCompetition}
-                    disabled={!selectedSongList}
+                    className="preview-button"
+                    onClick={handleShowCompetitionPreview}
+                    type="button"
                   >
-                    <Play size={20} />
-                    <span>
-                      {translations.competitionGame?.[currentLanguage] || 'Start Competition'}
-                    </span>
+                    <Eye size={16} />
+                    <span>{translations.previewSongs?.[currentLanguage] || 'Preview Songs'}</span>
                   </button>
-                )}
-              </>
-            )}
-          </div>
-        )}
+                </div>
+              )}
+              
+              {/* Start Button for Hitster */}
+              {selectedGameType === 'hitster-youtube' && (
+                <button
+                  className="start-hitster-button"
+                  onClick={handleStartHitster}
+                  disabled={!selectedSongList}
+                >
+                  <Play size={20} />
+                  <span>
+                    {translations.startHitster?.[currentLanguage] || 'Start HITSTER'}
+                  </span>
+                </button>
+              )}
+              
+              {/* Start Button for Competition */}
+              {selectedGameType === 'game-type-2' && (
+                <button
+                  className="start-hitster-button"
+                  onClick={handleStartCompetition}
+                  disabled={!selectedSongList}
+                >
+                  <Play size={20} />
+                  <span>
+                    {translations.competitionGame?.[currentLanguage] || 'Start Competition'}
+                  </span>
+                </button>
+              )}
+            </>
+          )}
         </div>
+        )}
         
+      </div>
+      
       {/* Song List Preview Popup for Hitster */}
       {showPreview && selectedGameType === 'hitster-youtube' && (
         <div className="preview-overlay">

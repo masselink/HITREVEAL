@@ -134,18 +134,6 @@ export const translations: Translations = {
     de: 'Hitster Spiel auswählen',
     fr: 'Sélectionner le jeu Hitster'
   },
-  selectPlayer: {
-    en: 'Select Player',
-    nl: 'Selecteer Speler',
-    de: 'Spieler auswählen',
-    fr: 'Sélectionner le joueur'
-  },
-  spotifyNotSupported: {
-    en: 'Spotify not yet supported',
-    nl: 'Spotify nog niet ondersteund',
-    de: 'Spotify noch nicht unterstützt',
-    fr: 'Spotify pas encore pris en charge'
-  },
   loadingSongLists: {
     en: 'Loading song lists...',
     nl: 'Songlijsten laden...',

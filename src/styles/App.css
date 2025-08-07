@@ -942,65 +942,6 @@ body::before {
   text-align: center;
 }
 
-/* Platform Toggle */
-.platform-toggle {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  justify-content: center;
-}
-
-.platform-button {
-  padding: 8px 16px;
-  border: 2px solid #374151;
-  border-radius: 8px;
-  background: transparent;
-  color: #9ca3af;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 80px;
-}
-
-.platform-button.active {
-  background: linear-gradient(135deg, #ec4899, #be185d);
-  border-color: #ec4899;
-  color: white;
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
-}
-
-.platform-button.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  border-color: #4b5563;
-  color: #6b7280;
-}
-
-.platform-button:not(.disabled):not(.active):hover {
-  border-color: #6b7280;
-  color: #d1d5db;
-}
-
-/* Platform subtext */
-.platform-subtext {
-  font-size: 12px;
-  color: #9ca3af;
-  text-align: center;
-  margin-top: 8px;
-  margin-bottom: 16px;
-  font-style: italic;
-}
-
-/* Section spacing */
-.player-selection-section {
-  margin-bottom: 32px;
-}
-
-.songlist-selection-section {
-  /* Inherits existing styling */
-}
-
 /* Country Filter Styles */
 .country-filter {
   margin-bottom: var(--spacing-6);
@@ -1256,6 +1197,30 @@ body::before {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
+
+.start-hitster-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.selected-description {
+  background-color: #f8fafc;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-4);
+  margin-top: var(--spacing-2);
+  margin-bottom: var(--spacing-6);
+  border: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.description-text {
+  font-size: var(--font-size-base);
+  color: var(--color-text-light);
+  line-height: 1.5;
+  font-style: italic;
+}
+
 .preview-section {
   margin-bottom: var(--spacing-4);
   text-align: center;
@@ -1908,59 +1873,6 @@ body::before {
 
 .start-competition-button {
   display: flex;
-}
-
-/* Validation Status Styles */
-.validation-status {
-  margin-top: 8px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 20px;
-  padding: 12px 20px;
-  border-radius: 8px;
-  padding: 8px 0;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.validation-status.validating {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-  color: #6b7280;
-}
-
-.validation-status.valid {
-  color: #374151;
-}
-
-.validation-status.valid::before {
-  content: "✓";
-  color: #ec4899;
-  color: #374151;
-}
-
-.validation-status.validating::before {
-  content: "🔄";
-  font-size: 16px;
-}
-
-.validation-status.invalid {
-  color: #374151;
-}
-
-.validation-status.invalid::before {
-  content: "❌";
-  font-size: 16px;
-  color: #dc2626;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-3);
@@ -2023,17 +1935,6 @@ body::before {
     font-size: var(--font-size-lg);
     min-width: 50px;
     padding: var(--spacing-1) var(--spacing-3);
-  }
-  
-  .player-number-buttons {
-    gap: var(--spacing-1);
-    max-width: 300px;
-  }
-  
-  .player-number-button {
-    width: 36px;
-    height: 36px;
-    font-size: var(--font-size-sm);
   }
   
   .start-competition-button {
@@ -2515,10 +2416,9 @@ body::before {
   font-family: 'Courier New', monospace;
   font-size: var(--font-size-sm);
   color: var(--color-accent);
-  color: #e5e7eb;
-  font-size: 15px;
-  line-height: 1.6;
-  margin: 0;
+  word-break: break-all;
+  white-space: pre-wrap;
+  line-height: 1.5;
   background-color: var(--color-secondary);
   padding: var(--spacing-4);
   border-radius: var(--border-radius);
