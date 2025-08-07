@@ -171,19 +171,24 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       }));
       
       setPlayers(initialPlayers);
-      setGameState(prev => ({
-        ...prev,
+      setGameState({
+        currentRound: 1,
+        songsPlayed: 0,
         currentPlayerIndex: randomStartingPlayer,
+        usedSongs: new Set(),
         gameStartTime: Date.now(),
         isGameActive: true
-      }));
+      });
       setGameStarted(true);
     }
   };
 
   const handlePlayerGo = () => {
-    // Implementation for player turn
+    // This function will handle when a player starts their turn
+    // For now, it's a placeholder for future turn logic
+    console.log(`${getCurrentPlayer()?.name} is starting their turn!`);
   };
+
 
   const handleQuitGame = () => {
     setShowQuitConfirmation(true);
@@ -224,53 +229,52 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const translations = {
-    back: { en: 'Back' },
-    loadingSongs: { en: 'Loading songs...' },
-    quitGame: { en: 'Quit Game' },
-    round: { en: 'Round' },
-    minutes: { en: 'minutes' },
-    min: { en: 'min' },
-    targetScore: { en: 'Target' },
-    songsTotal: { en: 'songs' },
-    played: { en: 'played' },
-    gameDuration: { en: 'Game Duration' },
-    maximumRounds: { en: 'Maximum Rounds' },
-    left: { en: 'left' },
-    total: { en: 'total' },
-    yourTurn: { en: 'Your Turn' },
-    points: { en: 'points' },
-    leaderboard: { en: 'Leaderboard' },
-    quitGameConfirmTitle: { en: 'Quit Game?' },
-    quitGameWarning: { en: 'Are you sure you want to quit this game? Your current progress will be lost.' },
-    cancel: { en: 'Cancel' },
-    gameSettings: { en: 'Game Settings' },
-    gameMode: { en: 'Game Mode' },
-    pointsMode: { en: 'Points' },
-    timeBasedMode: { en: 'Time Based' },
-    roundsMode: { en: 'Rounds' },
-    targetScorePoints: { en: 'Target Score' },
-    pointsModeRules: { en: 'First player to reach the target score wins.' },
-    timeBasedRules: { en: 'Game plays for the set duration and completes the current round when time expires.' },
-    roundsModeRules: { en: 'Game ends after the specified number of rounds. Winner determined by draw type.' },
-    gameRules: { en: 'Game Rules' },
-    rulesDescription: { en: 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.' },
-    numberOfPlayers: { en: 'Number of Players' },
-    playerNames: { en: 'Player Names' },
-    playerName: { en: 'Player' },
-    enterPlayerName: { en: 'Enter player name' },
-    pointsSystem: { en: 'Points System' },
-    artistCorrect: { en: 'Artist Correct' },
-    titleCorrect: { en: 'Title Correct' },
-    yearCorrect: { en: 'Year Correct' },
-    bonusAllCorrect: { en: 'Bonus (All Correct)' },
-    yearScoringDisabled: { en: 'Year scoring disabled - some songs missing year data' },
-    bonusRequiresYear: { en: 'Bonus requires year data' },
-    skipsSettings: { en: 'Skip Settings' },
-    skipsPerPlayer: { en: 'Skips per Player' },
-    skipCost: { en: 'Skip Cost (Points)' },
-    startCompetition: { en: 'Start Competition' },
-    allPlayerNameRequired: { en: 'All player names are required' },
-    rounds: { en: 'rounds' }
+    back: { en: 'Back', es: 'Atrás', fr: 'Retour' },
+    loadingSongs: { en: 'Loading songs...', es: 'Cargando canciones...', fr: 'Chargement des chansons...' },
+    quitGame: { en: 'Quit Game', es: 'Salir del juego', fr: 'Quitter le jeu' },
+    minutes: { en: 'minutes', es: 'minutos', fr: 'minutes' },
+    round: { en: 'Round', es: 'Ronda', fr: 'Manche' },
+    songsTotal: { en: 'songs', es: 'canciones', fr: 'chansons' },
+    played: { en: 'played', es: 'jugadas', fr: 'jouées' },
+    targetScore: { en: 'Target Score', es: 'Puntuación objetivo', fr: 'Score cible' },
+    gameDuration: { en: 'Game Duration', es: 'Duración del juego', fr: 'Durée du jeu' },
+    maximumRounds: { en: 'Maximum Rounds', es: 'Rondas máximas', fr: 'Manches maximum' },
+    left: { en: 'left', es: 'restantes', fr: 'restantes' },
+    total: { en: 'total', es: 'total', fr: 'total' },
+    yourTurn: { en: 'Your Turn', es: 'Tu turno', fr: 'Votre tour' },
+    points: { en: 'points', es: 'puntos', fr: 'points' },
+    leaderboard: { en: 'Leaderboard', es: 'Clasificación', fr: 'Classement' },
+    quitGameConfirmTitle: { en: 'Quit Game?', es: '¿Salir del juego?', fr: 'Quitter le jeu?' },
+    quitGameWarning: { en: 'Are you sure you want to quit this game? Your current progress will be lost.', es: '¿Estás seguro de que quieres salir de este juego? Se perderá tu progreso actual.', fr: 'Êtes-vous sûr de vouloir quitter ce jeu? Votre progression actuelle sera perdue.' },
+    cancel: { en: 'Cancel', es: 'Cancelar', fr: 'Annuler' },
+    gameSettings: { en: 'Game Settings', es: 'Configuración del juego', fr: 'Paramètres du jeu' },
+    gameMode: { en: 'Game Mode', es: 'Modo de juego', fr: 'Mode de jeu' },
+    pointsMode: { en: 'Points', es: 'Puntos', fr: 'Points' },
+    timeBasedMode: { en: 'Time Based', es: 'Basado en tiempo', fr: 'Basé sur le temps' },
+    roundsMode: { en: 'Rounds', es: 'Rondas', fr: 'Manches' },
+    targetScorePoints: { en: 'Target Score', es: 'Puntuación objetivo', fr: 'Score cible' },
+    pointsModeRules: { en: 'First player to reach the target score wins.', es: 'El primer jugador en alcanzar la puntuación objetivo gana.', fr: 'Le premier joueur à atteindre le score cible gagne.' },
+    timeBasedRules: { en: 'Game plays for the set duration and completes the current round when time expires.', es: 'El juego se juega durante la duración establecida y completa la ronda actual cuando expira el tiempo.', fr: 'Le jeu se joue pendant la durée définie et termine le tour en cours lorsque le temps expire.' },
+    rounds: { en: 'rounds', es: 'rondas', fr: 'manches' },
+    roundsModeRules: { en: 'Game ends after the specified number of rounds. Winner determined by draw type.', es: 'El juego termina después del número especificado de rondas. El ganador se determina por tipo de empate.', fr: 'Le jeu se termine après le nombre spécifié de manches. Le gagnant est déterminé par le type d\'égalité.' },
+    gameRules: { en: 'Game Rules', es: 'Reglas del juego', fr: 'Règles du jeu' },
+    rulesDescription: { en: 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.', es: 'Los jugadores se turnan para adivinar artista, título y año. Se otorgan puntos basados en respuestas correctas. El primer jugador en alcanzar la puntuación objetivo gana. En caso de empate, las rondas de Muerte Súbita determinan el ganador.', fr: 'Les joueurs devinent à tour de rôle l\'artiste, le titre et l\'année. Les points sont attribués en fonction des bonnes réponses. Le premier joueur à atteindre le score cible gagne. En cas d\'égalité, les manches de Mort Subite déterminent le gagnant.' },
+    numberOfPlayers: { en: 'Number of Players', es: 'Número de jugadores', fr: 'Nombre de joueurs' },
+    playerNames: { en: 'Player Names', es: 'Nombres de jugadores', fr: 'Noms des joueurs' },
+    playerName: { en: 'Player', es: 'Jugador', fr: 'Joueur' },
+    enterPlayerName: { en: 'Enter player name', es: 'Ingresa el nombre del jugador', fr: 'Entrez le nom du joueur' },
+    pointsSystem: { en: 'Points System', es: 'Sistema de puntos', fr: 'Système de points' },
+    artistCorrect: { en: 'Artist Correct', es: 'Artista correcto', fr: 'Artiste correct' },
+    titleCorrect: { en: 'Title Correct', es: 'Título correcto', fr: 'Titre correct' },
+    yearCorrect: { en: 'Year Correct', es: 'Año correcto', fr: 'Année correcte' },
+    bonusAllCorrect: { en: 'Bonus (All Correct)', es: 'Bonus (Todo correcto)', fr: 'Bonus (Tout correct)' },
+    yearScoringDisabled: { en: 'Year scoring disabled - some songs missing year data', es: 'Puntuación de año deshabilitada - algunas canciones no tienen datos de año', fr: 'Score d\'année désactivé - certaines chansons manquent de données d\'année' },
+    bonusRequiresYear: { en: 'Bonus requires year data', es: 'El bonus requiere datos de año', fr: 'Le bonus nécessite des données d\'année' },
+    skipsSettings: { en: 'Skip Settings', es: 'Configuración de saltos', fr: 'Paramètres de saut' },
+    skipsPerPlayer: { en: 'Skips per Player', es: 'Saltos por jugador', fr: 'Sauts par joueur' },
+    skipCost: { en: 'Skip Cost (Points)', es: 'Costo de salto (Puntos)', fr: 'Coût de saut (Points)' },
+    startCompetition: { en: 'Start Competition', es: 'Iniciar competencia', fr: 'Commencer la compétition' },
+    allPlayerNameRequired: { en: 'All player names are required', es: 'Se requieren todos los nombres de jugadores', fr: 'Tous les noms de joueurs sont requis' }
   };
 
   if (!songsLoaded && !loadingError) {
