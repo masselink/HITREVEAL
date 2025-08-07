@@ -25,13 +25,14 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const playerRef = useRef<any>(null);
+  const hiddenPlayerRef = useRef<any>(null);
+  const visiblePlayerRef = useRef<any>(null);
 
   // Initialize YouTube Player
   useEffect(() => {
     const initYouTubePlayer = () => {
       if (window.YT && window.YT.Player) {
-        playerRef.current = new window.YT.Player('youtube-player', {
+        hiddenPlayerRef.current = new window.YT.Player('youtube-player', {
           height: '1',
           width: '1',
           playerVars: {
@@ -51,8 +52,8 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
               if (currentSong) {
                 const videoId = extractVideoId(currentSong.youtube_url);
                 if (videoId) {
-                  playerRef.current.loadVideoById(videoId);
-                  playerRef.current.playVideo();
+                  hiddenPlayerRef.current.loadVideoById(videoId);
+                  hiddenPlayerRef.current.playVideo();
                   setIsPlaying(true);
                 }
               }
@@ -79,24 +80,63 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     }
 
     return () => {
-      if (playerRef.current && playerRef.current.destroy) {
-        playerRef.current.destroy();
+      if (hiddenPlayerRef.current && hiddenPlayerRef.current.destroy) {
+        hiddenPlayerRef.current.destroy();
+      }
+      if (visiblePlayerRef.current && visiblePlayerRef.current.destroy) {
+        visiblePlayerRef.current.destroy();
       }
     };
   }, []);
 
   // Autostart when currentSong changes and player is ready
   useEffect(() => {
-    if (currentSong && playerRef.current && playerRef.current.loadVideoById && isPlayerReady) {
+    if (currentSong && hiddenPlayerRef.current && hiddenPlayerRef.current.loadVideoById && isPlayerReady) {
       const videoId = extractVideoId(currentSong.youtube_url);
       if (videoId) {
-        playerRef.current.loadVideoById(videoId);
-        playerRef.current.playVideo();
+        hiddenPlayerRef.current.loadVideoById(videoId);
+        hiddenPlayerRef.current.playVideo();
         setIsPlaying(true);
       }
     }
   }, [currentSong, isPlayerReady]);
 
+  // Initialize visible player when video is shown
+  useEffect(() => {
+    if (showVideo && window.YT && window.YT.Player && !visiblePlayerRef.current) {
+      const videoId = extractVideoId(currentSong.youtube_url);
+      if (videoId) {
+        visiblePlayerRef.current = new window.YT.Player('visible-youtube-player', {
+          height: '315',
+          width: '100%',
+          videoId: videoId,
+          playerVars: {
+            autoplay: 1,
+            controls: 1,
+            modestbranding: 1,
+            rel: 0
+          },
+          events: {
+            onReady: () => {
+              // Stop the hidden player when visible player is ready
+              if (hiddenPlayerRef.current && hiddenPlayerRef.current.pauseVideo) {
+                hiddenPlayerRef.current.pauseVideo();
+              }
+            },
+            onStateChange: (event: any) => {
+              if (event.data === window.YT.PlayerState.PLAYING) {
+                setIsPlaying(true);
+              } else if (event.data === window.YT.PlayerState.PAUSED) {
+                setIsPlaying(false);
+              } else if (event.data === window.YT.PlayerState.ENDED) {
+                setIsPlaying(false);
+              }
+            }
+          }
+        });
+      }
+    }
+  }, [showVideo, currentSong]);
   const extractVideoId = (url: string): string => {
     const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
     return match ? match[1] : '';
@@ -111,30 +151,34 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   };
 
   const playMusic = () => {
-    if (playerRef.current && isPlayerReady) {
-      playerRef.current.playVideo();
+    const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
+    if (activePlayer && (showVideo || isPlayerReady)) {
+      activePlayer.playVideo();
       setIsPlaying(true);
     }
   };
 
   const pauseMusic = () => {
-    if (playerRef.current && isPlayerReady) {
-      playerRef.current.pauseVideo();
+    const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
+    if (activePlayer && (showVideo || isPlayerReady)) {
+      activePlayer.pauseVideo();
       setIsPlaying(false);
     }
   };
 
   const restartMusic = () => {
-    if (playerRef.current && isPlayerReady) {
-      playerRef.current.seekTo(0);
-      playerRef.current.playVideo();
+    const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
+    if (activePlayer && (showVideo || isPlayerReady)) {
+      activePlayer.seekTo(0);
+      activePlayer.playVideo();
       setIsPlaying(true);
     }
   };
 
   const stopMusic = () => {
-    if (playerRef.current && isPlayerReady) {
-      playerRef.current.stopVideo();
+    const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
+    if (activePlayer && (showVideo || isPlayerReady)) {
+      activePlayer.stopVideo();
       setIsPlaying(false);
     }
   };
@@ -164,12 +208,18 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           </div>
         )}
 
+        {/* YouTube Video Player (visible when revealed) */}
+        {showVideo && (
+          <div className="youtube-video-container">
+            <div id="visible-youtube-player"></div>
+          </div>
+        )}
         {/* Simple Controls */}
         <div className="simple-controls">
           <button 
             className="control-button start-pause-button" 
             onClick={togglePlayPause}
-            disabled={!isPlayerReady}
+            disabled={!showVideo && !isPlayerReady}
           >
             {isPlaying ? <Pause size={16} /> : <Play size={16} />}
             <span>{isPlaying ? translations.pause?.[currentLanguage] || 'Pause' : translations.start?.[currentLanguage] || 'Start'}</span>
@@ -178,7 +228,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           <button 
             className="control-button restart-button secondary-blue" 
             onClick={restartMusic}
-            disabled={!isPlayerReady}
+            disabled={!showVideo && !isPlayerReady}
           >
             <RotateCcw size={16} />
             <span>{translations.restart?.[currentLanguage] || 'Restart'}</span>
@@ -187,7 +237,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           <button 
             className="control-button stop-button secondary-blue" 
             onClick={stopMusic}
-            disabled={!isPlayerReady}
+            disabled={!showVideo && !isPlayerReady}
           >
             <Square size={16} />
             <span>{translations.stop?.[currentLanguage] || 'Stop'}</span>
@@ -208,20 +258,6 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           </button>
         </div>
 
-        {/* YouTube Video Player (visible when revealed) */}
-        {showVideo && (
-          <div className="youtube-video-container">
-            <iframe
-              width="100%"
-              height="315"
-              src={`https://www.youtube.com/embed/${extractVideoId(currentSong.youtube_url)}`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            ></iframe>
-          </div>
-        )}
 
         {/* Hidden YouTube Player */}
         <div className="background-video-container">
