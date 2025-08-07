@@ -1882,6 +1882,7 @@ body::before {
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
+  margin-top: 16px;
 }
 
 .validation-status.validating {
