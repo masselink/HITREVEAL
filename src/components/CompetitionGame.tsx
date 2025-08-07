@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Play, X, List, Crown, Clock, Target, Music, Users } from 'lucide-react';
 import { Language, SongList, Song } from '../types';
-import { translations } from '../data/translations';
 import { CompetitionYouTubePlayer } from './CompetitionYouTubePlayer';
 import Papa from 'papaparse';
 
@@ -395,54 +394,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                           A: {player.artistPoints}
                         </span>
                       )}
-                      {player.titlePoints > 0 && (
-                        <span className="score-part title">
-                          T: {player.titlePoints}
-                        </span>
-                      )}
-                      {player.yearPoints > 0 && (
-                        <span className="score-part year">
-                          Y: {player.yearPoints}
-                        </span>
-                      )}
-                      {player.bonusPoints > 0 && (
-                        <span className="score-part bonus">
-                          B: {player.bonusPoints}
-                        </span>
-                      )}
-                    </div>
-                    <div className="score-breakdown">
-                      {player.artistPoints > 0 && (
-                        <span className="score-part artist">
-                          A: {player.artistPoints}
-                        </span>
-                      )}
-                      {player.titlePoints > 0 && (
-                        <span className="score-part title">
-                          T: {player.titlePoints}
-                        </span>
-                      )}
-                      {player.yearPoints > 0 && (
-                        <span className="score-part year">
-                          Y: {player.yearPoints}
-                        </span>
-                      )}
-                      {player.bonusPoints > 0 && (
-                        <span className="score-part bonus">
-                          B: {player.bonusPoints}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="player-total-score">
-                    {player.score}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* Quit Confirmation Modal */}
         {showQuitConfirmation && (
           <div className="preview-overlay">
