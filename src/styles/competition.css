@@ -320,6 +320,44 @@
   text-decoration: line-through;
 }
 
+/* Competition YouTube Player Styles */
+.song-title.clickable,
+.song-artist.clickable,
+.song-year.clickable {
+  cursor: pointer;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  border: 2px solid transparent;
+}
+
+.song-title.clickable:hover,
+.song-artist.clickable:hover,
+.song-year.clickable:hover {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.song-title.guessed,
+.song-artist.guessed,
+.song-year.guessed {
+  background-color: #10b981;
+  color: var(--color-secondary);
+  border-color: #059669;
+  cursor: default;
+}
+
+.song-title.guessed:hover,
+.song-artist.guessed:hover,
+.song-year.guessed:hover {
+  background-color: #10b981;
+  color: var(--color-secondary);
+  transform: none;
+  box-shadow: var(--shadow);
+}
+
 .settings-section {
   background-color: var(--color-secondary);
   border: 2px solid var(--color-border);

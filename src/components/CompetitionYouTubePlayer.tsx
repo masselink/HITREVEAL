@@ -10,6 +10,8 @@ interface CompetitionYouTubePlayerProps {
   onScanAnother: () => void;
   onSongListView: () => void;
   songListViewCount: number;
+  onGuess?: (guessType: 'artist' | 'title' | 'year', isCorrect: boolean) => void;
+  onSkip?: () => void;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
@@ -18,13 +20,19 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   allSongs,
   onScanAnother,
   onSongListView,
-  songListViewCount
+  songListViewCount,
+  onGuess,
+  onSkip
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [guessedArtist, setGuessedArtist] = useState(false);
+  const [guessedTitle, setGuessedTitle] = useState(false);
+  const [guessedYear, setGuessedYear] = useState(false);
+  const [showGuessing, setShowGuessing] = useState(false);
   const hiddenPlayerRef = useRef<any>(null);
   const visiblePlayerRef = useRef<any>(null);
 
@@ -187,6 +195,21 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   const handleReveal = () => {
     setShowReveal(true);
     setShowVideo(true);
+    setShowGuessing(true);
+  };
+
+  const handleGuess = (guessType: 'artist' | 'title' | 'year') => {
+    if (guessType === 'artist') setGuessedArtist(true);
+    if (guessType === 'title') setGuessedTitle(true);
+    if (guessType === 'year') setGuessedYear(true);
+    
+    // For now, assume all guesses are correct - this can be enhanced later
+    onGuess?.(guessType, true);
+  };
+
+  const handleSkip = () => {
+    onSkip?.();
+    onScanAnother();
   };
 
   return (
@@ -203,9 +226,26 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
         {/* Song Info (only show when revealed) */}
         {showReveal && (
           <div className="revealed-song-info">
-            <h2 className="song-title">{currentSong.title}</h2>
-            <p className="song-artist">{currentSong.artist}</p>
-            {currentSong.year && <p className="song-year">{currentSong.year}</p>}
+            <div 
+              className={`song-title ${showGuessing ? 'clickable' : ''} ${guessedTitle ? 'guessed' : ''}`}
+              onClick={showGuessing ? () => handleGuess('title') : undefined}
+            >
+              {currentSong.title}
+            </div>
+            <div 
+              className={`song-artist ${showGuessing ? 'clickable' : ''} ${guessedArtist ? 'guessed' : ''}`}
+              onClick={showGuessing ? () => handleGuess('artist') : undefined}
+            >
+              {currentSong.artist}
+            </div>
+            {currentSong.year && (
+              <div 
+                className={`song-year ${showGuessing ? 'clickable' : ''} ${guessedYear ? 'guessed' : ''}`}
+                onClick={showGuessing ? () => handleGuess('year') : undefined}
+              >
+                {currentSong.year}
+              </div>
+            )}
           </div>
         )}
 
@@ -240,15 +280,21 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
         {/* Action Buttons */}
         <div className="action-buttons">
           {!showReveal && (
-            <button className="primary-button" onClick={handleReveal}>
-              <Eye size={16} />
-              <span>HITREVEAL</span>
+            <>
+              <button className="primary-button" onClick={handleReveal}>
+                <Eye size={16} />
+                <span>HITREVEAL</span>
+              </button>
+              <button className="scan-another-button" onClick={handleSkip}>
+                <span>SKIP</span>
+              </button>
+            </>
+          )}
+          {showReveal && (
+            <button className="scan-another-button" onClick={onScanAnother}>
+              <span>NEXT SONG</span>
             </button>
           )}
-          <button className="scan-another-button" onClick={onScanAnother}>
-            <QrCode size={16} />
-            <span>{translations.scanAnother?.[currentLanguage] || 'Scan Another Card'}</span>
-          </button>
         </div>
 
         {/* Hidden YouTube Player */}

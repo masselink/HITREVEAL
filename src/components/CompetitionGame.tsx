@@ -78,6 +78,8 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     isGameActive: false
   });
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
+  const [currentSong, setCurrentSong] = useState<Song | null>(null);
+  const [showPlayer, setShowPlayer] = useState(false);
 
   // Load songs and check year data
   useEffect(() => {
@@ -184,9 +186,29 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const handlePlayerGo = () => {
-    // This function will handle when a player starts their turn
-    // For now, it's a placeholder for future turn logic
-    console.log(`${getCurrentPlayer()?.name} is starting their turn!`);
+    // Select a random song that hasn't been used
+    const availableSongs = songs.filter((_, index) => !gameState.usedSongs.has(index));
+    
+    if (availableSongs.length === 0) {
+      console.log('No more songs available!');
+      return;
+    }
+    
+    const randomIndex = Math.floor(Math.random() * availableSongs.length);
+    const selectedSong = availableSongs[randomIndex];
+    
+    // Find the original index to mark as used
+    const originalIndex = songs.findIndex(song => song === selectedSong);
+    
+    setCurrentSong(selectedSong);
+    setShowPlayer(true);
+    
+    // Mark song as used
+    setGameState(prev => ({
+      ...prev,
+      usedSongs: new Set([...prev.usedSongs, originalIndex]),
+      songsPlayed: prev.songsPlayed + 1
+    }));
   };
 
 
@@ -467,6 +489,29 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Competition YouTube Player */}
+        {showPlayer && currentSong && (
+          <CompetitionYouTubePlayer
+            currentLanguage={currentLanguage}
+            currentSong={currentSong}
+            allSongs={songs}
+            onScanAnother={() => {
+              setShowPlayer(false);
+              setCurrentSong(null);
+            }}
+            onSongListView={() => {}}
+            songListViewCount={0}
+            onGuess={(guessType, isCorrect) => {
+              console.log(`Player guessed ${guessType}: ${isCorrect ? 'correct' : 'incorrect'}`);
+              // TODO: Update player scores based on guess
+            }}
+            onSkip={() => {
+              console.log('Player skipped the song');
+              // TODO: Handle skip logic (deduct points if applicable)
+            }}
+          />
+        )}
 
         {/* Quit Confirmation Modal */}
         {showQuitConfirmation && (
