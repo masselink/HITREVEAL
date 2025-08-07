@@ -171,24 +171,19 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       }));
       
       setPlayers(initialPlayers);
-      setGameState({
-        currentRound: 1,
-        songsPlayed: 0,
+      setGameState(prev => ({
+        ...prev,
         currentPlayerIndex: randomStartingPlayer,
-        usedSongs: new Set(),
         gameStartTime: Date.now(),
         isGameActive: true
-      });
+      }));
       setGameStarted(true);
     }
   };
 
   const handlePlayerGo = () => {
-    // This function will handle when a player starts their turn
-    // For now, it's a placeholder for future turn logic
-    console.log(`${getCurrentPlayer()?.name} is starting their turn!`);
+    // Implementation for player turn
   };
-
 
   const handleQuitGame = () => {
     setShowQuitConfirmation(true);
@@ -228,6 +223,55 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     return [...players].sort((a, b) => b.score - a.score);
   };
 
+  const translations = {
+    back: { en: 'Back' },
+    loadingSongs: { en: 'Loading songs...' },
+    quitGame: { en: 'Quit Game' },
+    round: { en: 'Round' },
+    minutes: { en: 'minutes' },
+    min: { en: 'min' },
+    targetScore: { en: 'Target' },
+    songsTotal: { en: 'songs' },
+    played: { en: 'played' },
+    gameDuration: { en: 'Game Duration' },
+    maximumRounds: { en: 'Maximum Rounds' },
+    left: { en: 'left' },
+    total: { en: 'total' },
+    yourTurn: { en: 'Your Turn' },
+    points: { en: 'points' },
+    leaderboard: { en: 'Leaderboard' },
+    quitGameConfirmTitle: { en: 'Quit Game?' },
+    quitGameWarning: { en: 'Are you sure you want to quit this game? Your current progress will be lost.' },
+    cancel: { en: 'Cancel' },
+    gameSettings: { en: 'Game Settings' },
+    gameMode: { en: 'Game Mode' },
+    pointsMode: { en: 'Points' },
+    timeBasedMode: { en: 'Time Based' },
+    roundsMode: { en: 'Rounds' },
+    targetScorePoints: { en: 'Target Score' },
+    pointsModeRules: { en: 'First player to reach the target score wins.' },
+    timeBasedRules: { en: 'Game plays for the set duration and completes the current round when time expires.' },
+    roundsModeRules: { en: 'Game ends after the specified number of rounds. Winner determined by draw type.' },
+    gameRules: { en: 'Game Rules' },
+    rulesDescription: { en: 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.' },
+    numberOfPlayers: { en: 'Number of Players' },
+    playerNames: { en: 'Player Names' },
+    playerName: { en: 'Player' },
+    enterPlayerName: { en: 'Enter player name' },
+    pointsSystem: { en: 'Points System' },
+    artistCorrect: { en: 'Artist Correct' },
+    titleCorrect: { en: 'Title Correct' },
+    yearCorrect: { en: 'Year Correct' },
+    bonusAllCorrect: { en: 'Bonus (All Correct)' },
+    yearScoringDisabled: { en: 'Year scoring disabled - some songs missing year data' },
+    bonusRequiresYear: { en: 'Bonus requires year data' },
+    skipsSettings: { en: 'Skip Settings' },
+    skipsPerPlayer: { en: 'Skips per Player' },
+    skipCost: { en: 'Skip Cost (Points)' },
+    startCompetition: { en: 'Start Competition' },
+    allPlayerNameRequired: { en: 'All player names are required' },
+    rounds: { en: 'rounds' }
+  };
 
   if (!songsLoaded && !loadingError) {
     return (
