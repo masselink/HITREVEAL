@@ -21,6 +21,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   songListViewCount
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showReveal, setShowReveal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const playerRef = useRef<any>(null);
 
