@@ -144,7 +144,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
   const togglePlayPause = () => {
     if (isPlaying) {
-      stopMusic();
+      pauseMusic();
     } else {
       playMusic();
     }
@@ -221,7 +221,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             onClick={togglePlayPause}
             disabled={!showVideo && !isPlayerReady}
           >
-            {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+            {isPlaying ? <Square size={16} /> : <Play size={16} />}
             <span>{isPlaying ? translations.stop?.[currentLanguage] || 'Stop' : translations.start?.[currentLanguage] || 'Start'}</span>
           </button>
           
