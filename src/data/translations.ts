@@ -649,5 +649,17 @@ export const translations: Translations = {
     nl: 'Spelers met hoogste score spelen extra rondes tot er één winnaar is.',
     de: 'Spieler mit der höchsten Punktzahl spielen zusätzliche Runden, bis es einen einzigen Gewinner gibt.',
     fr: 'Les joueurs avec le score le plus élevé jouent des rounds supplémentaires jusqu\'à ce qu\'il y ait un seul gagnant.'
+  },
+  yearScoringDisabled: {
+    en: 'Year scoring disabled - some songs missing year data',
+    nl: 'Jaar scoring uitgeschakeld - sommige nummers missen jaar gegevens',
+    de: 'Jahr-Bewertung deaktiviert - einige Songs fehlen Jahresangaben',
+    fr: 'Score d\'année désactivé - certaines chansons manquent de données d\'année'
+  },
+  bonusRequiresYear: {
+    en: 'Bonus requires year data',
+    nl: 'Bonus vereist jaar gegevens',
+    de: 'Bonus erfordert Jahresangaben',
+    fr: 'Le bonus nécessite des données d\'année'
   }
 };
