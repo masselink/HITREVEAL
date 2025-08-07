@@ -11,12 +11,12 @@ interface CompetitionYouTubePlayerProps {
   onSongListView: () => void;
   songListViewCount: number;
   onGuess?: (guessType: 'artist' | 'title' | 'year', isCorrect: boolean) => void;
+  onTurnComplete?: (scores: { artist: boolean; title: boolean; year: boolean }) => void;
   onSkip?: () => void;
   artistPoints?: number;
   titlePoints?: number;
   yearPoints?: number;
   bonusPoints?: number;
-  onScoreAndBack?: () => void;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
@@ -27,12 +27,12 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   onSongListView,
   songListViewCount,
   onGuess,
+  onTurnComplete,
   onSkip,
   artistPoints = 1,
   titlePoints = 2,
   yearPoints = 1,
   bonusPoints = 2,
-  onScoreAndBack
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
@@ -240,6 +240,14 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
     onScanAnother();
   };
 
+  const handleTurnComplete = () => {
+    // Pass the current selections to the parent component
+    onTurnComplete?.({
+      artist: guessedArtist,
+      title: guessedTitle,
+      year: guessedYear
+    });
+  };
   return (
     <>
       <div className="simple-player-section">
@@ -390,9 +398,6 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
                 <span>SKIP</span>
               </button>
             </>
-          )}
-          {showReveal && (
-            <></>
           )}
         </div>
 

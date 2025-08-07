@@ -222,6 +222,55 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     }));
   };
 
+  const handleTurnComplete = (scores: { artist: boolean; title: boolean; year: boolean }) => {
+    // Award points to current player based on their selections
+    if (currentSong) {
+      const currentPlayer = players[gameState.currentPlayerIndex];
+      let pointsToAdd = 0;
+      let artistPointsToAdd = 0;
+      let titlePointsToAdd = 0;
+      let yearPointsToAdd = 0;
+      let bonusPointsToAdd = 0;
+      
+      // Calculate points based on selections
+      if (scores.artist) {
+        artistPointsToAdd = settings.artistPoints;
+        pointsToAdd += settings.artistPoints;
+      }
+      
+      if (scores.title) {
+        titlePointsToAdd = settings.titlePoints;
+        pointsToAdd += settings.titlePoints;
+      }
+      
+      if (scores.year && currentSong.year) {
+        yearPointsToAdd = settings.yearPoints;
+        pointsToAdd += settings.yearPoints;
+      }
+      
+      // Bonus if all are correct (only if year data exists)
+      if (scores.artist && scores.title && scores.year && currentSong.year) {
+        bonusPointsToAdd = settings.bonusPoints;
+        pointsToAdd += settings.bonusPoints;
+      }
+      
+      // Update the player's score
+      setPlayers(prev => prev.map(player => 
+        player.id === currentPlayer.id 
+          ? {
+              ...player,
+              score: player.score + pointsToAdd,
+              artistPoints: player.artistPoints + artistPointsToAdd,
+              titlePoints: player.titlePoints + titlePointsToAdd,
+              yearPoints: player.yearPoints + yearPointsToAdd,
+              bonusPoints: player.bonusPoints + bonusPointsToAdd
+            }
+          : player
+      ));
+    }
+    
+    handleBackToDashboard();
+  };
   const handleQuitGame = () => {
     setShowQuitConfirmation(true);
   };
@@ -372,18 +421,16 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 onScanAnother={handleBackToDashboard}
                 onSongListView={() => {}}
                 songListViewCount={0}
+                onTurnComplete={handleTurnComplete}
                 artistPoints={settings.artistPoints}
                 titlePoints={settings.titlePoints}
                 yearPoints={settings.yearPoints}
                 bonusPoints={settings.bonusPoints}
-                onScoreAndBack={handleBackToDashboard}
                 onGuess={(guessType, isCorrect) => {
                   console.log(`Player guessed ${guessType}: ${isCorrect ? 'correct' : 'incorrect'}`);
-                  // TODO: Update player scores based on guess
                 }}
                 onSkip={() => {
                   console.log('Player skipped the song');
-                  // TODO: Handle skip logic (deduct points if applicable)
                   handleBackToDashboard();
                 }}
               />
