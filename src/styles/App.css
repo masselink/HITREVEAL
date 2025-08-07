@@ -1776,6 +1776,7 @@ body::before {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  background-color: #9ca3af;
 }
 
 .number-display {
