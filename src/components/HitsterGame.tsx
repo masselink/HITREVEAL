@@ -161,28 +161,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
               autoStart={shouldAutoStartScanning}
             />
 
-            {/* No Match Message */}
-            {scannedData && (
-            <div className="no-match-message">
-              <h4>{translations.noMatch?.[currentLanguage] || 'Song Not Found'}</h4>
-              <p>{translations.qrCodeNotRecognized?.[currentLanguage] || 'We don\'t recognize this QR code. It might not be a HITSTER card or it\'s not in our database yet.'}</p>
-              <p>{translations.helpBySharing?.[currentLanguage] || 'Help us by sharing the information on your cards! You can contribute by visiting:'}</p>
-              <div>
-                <a 
-                  href="https://github.com/masselink/HITREVEAL-Songs" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="github-link"
-                >
-                  GitHub Repository
-                </a>
-              </div>
-              <button className="primary-button" onClick={handleScanAnother} style={{ marginTop: 'var(--spacing-4)' }}>
-                {translations.scanAnother?.[currentLanguage] || 'Scan Another Card'}
-              </button>
-            </div>
-          )}
-        </div>
+          </div>
         )}
 
         {/* YouTube Player Section */}
@@ -220,6 +199,53 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
                 <button className="confirm-quit-button" onClick={confirmQuit}>
                   <X size={16} />
                   <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* No Match Popover */}
+      {scannedData && (
+        <div className="preview-overlay">
+          <div className="no-match-popover">
+            <div className="no-match-header">
+              <h3 className="no-match-title">
+                {translations.noMatch?.[currentLanguage] || 'Song Not Found'}
+              </h3>
+              <button
+                className="preview-close"
+                onClick={() => setScannedData('')}
+                aria-label={translations.close?.[currentLanguage] || 'Close'}
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="no-match-content">
+              <p className="no-match-description">
+                {translations.qrCodeNotRecognized?.[currentLanguage] || 'We don\'t recognize this QR code. It might not be a HITSTER card or it\'s not in our database yet.'}
+              </p>
+              
+              <p className="no-match-help">
+                {translations.helpBySharing?.[currentLanguage] || 'Help us by sharing the information on your cards! You can contribute by visiting:'}
+              </p>
+              
+              <div className="no-match-link-container">
+                <a 
+                  href="https://github.com/masselink/HITREVEAL-Songs" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="github-link"
+                >
+                  GitHub Repository
+                </a>
+              </div>
+              
+              <div className="no-match-actions">
+                <button className="primary-button" onClick={handleScanAnother}>
+                  {translations.scanAnother?.[currentLanguage] || 'Scan Another Card'}
                 </button>
               </div>
             </div>
