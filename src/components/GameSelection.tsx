@@ -669,8 +669,8 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
               </>
             )}
           </div>
-        </div>
         )}
+        </div>
         
       </div>
       
