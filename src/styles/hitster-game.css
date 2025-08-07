@@ -986,6 +986,12 @@
 
 .no-match-actions {
   text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.no-match-actions .primary-button {
+  min-width: 120px;
 }
 
 /* Quit Confirmation Modal */

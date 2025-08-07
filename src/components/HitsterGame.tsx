@@ -239,13 +239,13 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
                   rel="noopener noreferrer"
                   className="github-link"
                 >
-                  GitHub Repository
+                  HITREVEAL GITHUB
                 </a>
               </div>
               
               <div className="no-match-actions">
-                <button className="primary-button" onClick={handleScanAnother}>
-                  {translations.scanAnother?.[currentLanguage] || 'Scan Another Card'}
+                <button className="primary-button" onClick={() => setScannedData('')}>
+                  {translations.back?.[currentLanguage] || 'Back'}
                 </button>
               </div>
             </div>
