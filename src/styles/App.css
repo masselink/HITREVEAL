@@ -1776,7 +1776,6 @@ body::before {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
-  background-color: #9ca3af;
 }
 
 .number-display {
@@ -1989,6 +1988,16 @@ body::before {
 
 /* Mobile responsiveness for player names */
 @media (max-width: 768px) {
+  .player-number-selection {
+    gap: var(--spacing-1);
+  }
+  
+  .player-number-button {
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-base);
+  }
+  
   .player-names-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-3);
