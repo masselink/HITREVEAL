@@ -23,6 +23,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [isVisiblePlayerReady, setIsVisiblePlayerReady] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const hiddenPlayerRef = useRef<any>(null);
@@ -103,6 +104,11 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
   // Initialize visible player when video is shown
   useEffect(() => {
+    if (!showVideo && visiblePlayerRef.current) {
+      visiblePlayerRef.current.destroy();
+      visiblePlayerRef.current = null;
+      setIsVisiblePlayerReady(false);
+    }
     if (showVideo && window.YT && window.YT.Player && !visiblePlayerRef.current) {
       const videoId = extractVideoId(currentSong.youtube_url);
       if (videoId) {
@@ -118,6 +124,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           },
           events: {
             onReady: () => {
+              setIsVisiblePlayerReady(true);
               // Stop the hidden player when visible player is ready
               if (hiddenPlayerRef.current && hiddenPlayerRef.current.pauseVideo) {
                 hiddenPlayerRef.current.pauseVideo();
@@ -152,7 +159,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
   const playMusic = () => {
     const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
-    if (activePlayer && (showVideo || isPlayerReady)) {
+    if (activePlayer && (showVideo ? isVisiblePlayerReady : isPlayerReady)) {
       activePlayer.playVideo();
       setIsPlaying(true);
     }
@@ -160,7 +167,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
   const pauseMusic = () => {
     const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
-    if (activePlayer && (showVideo || isPlayerReady)) {
+    if (activePlayer && (showVideo ? isVisiblePlayerReady : isPlayerReady)) {
       activePlayer.pauseVideo();
       setIsPlaying(false);
     }
@@ -168,7 +175,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
   const restartMusic = () => {
     const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
-    if (activePlayer && (showVideo || isPlayerReady)) {
+    if (activePlayer && (showVideo ? isVisiblePlayerReady : isPlayerReady)) {
       activePlayer.seekTo(0);
       activePlayer.playVideo();
       setIsPlaying(true);
@@ -177,7 +184,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
   const stopMusic = () => {
     const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
-    if (activePlayer && (showVideo || isPlayerReady)) {
+    if (activePlayer && (showVideo ? isVisiblePlayerReady : isPlayerReady)) {
       activePlayer.stopVideo();
       setIsPlaying(false);
     }
@@ -219,7 +226,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           <button 
             className="control-button start-pause-button" 
             onClick={togglePlayPause}
-            disabled={!showVideo && !isPlayerReady}
+            disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
           >
             {isPlaying ? <Square size={16} /> : <Play size={16} />}
             <span>{isPlaying ? translations.stop?.[currentLanguage] || 'Stop' : translations.start?.[currentLanguage] || 'Start'}</span>
@@ -228,7 +235,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           <button 
             className="control-button restart-button secondary-blue" 
             onClick={restartMusic}
-            disabled={!showVideo && !isPlayerReady}
+            disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
           >
             <RotateCcw size={16} />
             <span>{translations.restart?.[currentLanguage] || 'Restart'}</span>

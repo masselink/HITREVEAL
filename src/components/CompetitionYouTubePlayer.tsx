@@ -37,6 +37,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
+  const [isVisiblePlayerReady, setIsVisiblePlayerReady] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [guessedArtist, setGuessedArtist] = useState(false);
@@ -120,6 +121,11 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
 
   // Initialize visible player when video is shown
   useEffect(() => {
+    if (!showVideo && visiblePlayerRef.current) {
+      visiblePlayerRef.current.destroy();
+      visiblePlayerRef.current = null;
+      setIsVisiblePlayerReady(false);
+    }
     if (showVideo && window.YT && window.YT.Player && !visiblePlayerRef.current) {
       const videoId = extractVideoId(currentSong.youtube_url);
       if (videoId) {
@@ -135,6 +141,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
           },
           events: {
             onReady: () => {
+              setIsVisiblePlayerReady(true);
               // Stop the hidden player when visible player is ready
               if (hiddenPlayerRef.current && hiddenPlayerRef.current.pauseVideo) {
                 hiddenPlayerRef.current.pauseVideo();
@@ -170,7 +177,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
 
   const playMusic = () => {
     const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
-    if (activePlayer && (showVideo || isPlayerReady)) {
+    if (activePlayer && (showVideo ? isVisiblePlayerReady : isPlayerReady)) {
       activePlayer.playVideo();
       setIsPlaying(true);
     }
@@ -178,7 +185,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
 
   const pauseMusic = () => {
     const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
-    if (activePlayer && (showVideo || isPlayerReady)) {
+    if (activePlayer && (showVideo ? isVisiblePlayerReady : isPlayerReady)) {
       activePlayer.pauseVideo();
       setIsPlaying(false);
     }
@@ -186,7 +193,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
 
   const restartMusic = () => {
     const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
-    if (activePlayer && (showVideo || isPlayerReady)) {
+    if (activePlayer && (showVideo ? isVisiblePlayerReady : isPlayerReady)) {
       activePlayer.seekTo(0);
       activePlayer.playVideo();
       setIsPlaying(true);
@@ -195,7 +202,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
 
   const stopMusic = () => {
     const activePlayer = showVideo ? visiblePlayerRef.current : hiddenPlayerRef.current;
-    if (activePlayer && (showVideo || isPlayerReady)) {
+    if (activePlayer && (showVideo ? isVisiblePlayerReady : isPlayerReady)) {
       activePlayer.stopVideo();
       setIsPlaying(false);
     }
@@ -370,7 +377,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
           <button 
             className="control-button start-pause-button" 
             onClick={togglePlayPause}
-            disabled={!showVideo && !isPlayerReady}
+            disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
           >
             {isPlaying ? <Square size={16} /> : <Play size={16} />}
             <span>{isPlaying ? translations.stop?.[currentLanguage] || 'Stop' : translations.start?.[currentLanguage] || 'Start'}</span>
@@ -379,7 +386,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
           <button 
             className="control-button restart-button secondary-blue" 
             onClick={restartMusic}
-            disabled={!showVideo && !isPlayerReady}
+            disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
           >
             <RotateCcw size={16} />
             <span>{translations.restart?.[currentLanguage] || 'Restart'}</span>
