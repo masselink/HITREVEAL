@@ -1961,6 +1961,17 @@ body::before {
     padding: var(--spacing-1) var(--spacing-3);
   }
   
+  .player-number-buttons {
+    gap: var(--spacing-1);
+    max-width: 300px;
+  }
+  
+  .player-number-button {
+    width: 36px;
+    height: 36px;
+    font-size: var(--font-size-sm);
+  }
+  
   .start-competition-button {
     width: 100%;
     max-width: 300px;
