@@ -260,6 +260,10 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
       totalPoints: getTotalScore()
     };
     
+    console.log('CompetitionYouTubePlayer - Turn Complete:', scoreDetails);
+    console.log('Guessed states:', { guessedArtist, guessedTitle, guessedYear });
+    console.log('Point values:', { artistPoints, titlePoints, yearPoints, bonusPoints });
+    
     // Pass the detailed score breakdown to the parent component
     onTurnComplete?.(scoreDetails);
   };

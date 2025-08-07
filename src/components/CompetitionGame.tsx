@@ -237,11 +237,14 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     totalPoints: number;
   }) => {
     // Award points to current player based on their selections
-    if (currentSong) {
-      const currentPlayer = players[gameState.currentPlayerIndex];
-      
-      // Update the player's score
-      setPlayers(prev => prev.map(player => 
+    const currentPlayer = players[gameState.currentPlayerIndex];
+    
+    console.log('Turn Complete - Score Details:', scoreDetails);
+    console.log('Current Player:', currentPlayer);
+    
+    // Update the player's score
+    setPlayers(prev => {
+      const updatedPlayers = prev.map(player => 
         player.id === currentPlayer.id 
           ? {
               ...player,
@@ -252,8 +255,10 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
               bonusPoints: player.bonusPoints + scoreDetails.bonusPoints
             }
           : player
-      ));
-    }
+      );
+      console.log('Updated Players:', updatedPlayers);
+      return updatedPlayers;
+    });
     
     handleBackToDashboard();
   };
