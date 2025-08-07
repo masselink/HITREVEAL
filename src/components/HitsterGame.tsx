@@ -245,6 +245,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
               
               <div className="no-match-actions">
                 <button className="primary-button" onClick={() => setScannedData('')}>
+                  <ArrowLeft size={16} />
                   {translations.back?.[currentLanguage] || 'Back'}
                 </button>
               </div>
