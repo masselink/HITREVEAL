@@ -72,34 +72,33 @@ export const QRScanner: React.FC<QRScannerProps> = ({
 
       if (videoRef.current) {
         console.log('Setting video source');
+        setDebugInfo('Setting video source...');
         videoRef.current.srcObject = stream;
         
-        // Set scanning state immediately
+        // Set scanning state immediately and try to play
         setIsScanning(true);
         scanningRef.current = true;
-        setDebugInfo('Video source set, starting playback...');
-
-        // Wait for video to load and start playing
-        videoRef.current.onloadedmetadata = () => {
-          console.log('Video metadata loaded');
-          setDebugInfo('Video metadata loaded');
-          
-          if (videoRef.current) {
-            videoRef.current.play()
-              .then(() => {
-                console.log('Video playing successfully');
-                setDebugInfo('Video playing, starting QR detection...');
-                startQRDetection();
-              })
-              .catch((error) => {
-                console.error('Error playing video:', error);
-                setDebugInfo('Error playing video: ' + error.message);
-                setCameraError('Failed to start video playback: ' + error.message);
-                setIsScanning(false);
-                scanningRef.current = false;
-              });
+        
+        // Try to play the video immediately
+        const playVideo = async () => {
+          try {
+            console.log('Attempting to play video...');
+            setDebugInfo('Attempting to play video...');
+            await videoRef.current!.play();
+            console.log('Video playing successfully');
+            setDebugInfo('Video playing, starting QR detection...');
+            startQRDetection();
+          } catch (error: any) {
+            console.error('Error playing video:', error);
+            setDebugInfo('Error playing video: ' + error.message);
+            setCameraError('Failed to start video playback: ' + error.message);
+            setIsScanning(false);
+            scanningRef.current = false;
           }
         };
+        
+        // Wait a moment for the stream to be ready, then play
+        setTimeout(playVideo, 100);
 
         videoRef.current.onerror = (error) => {
           console.error('Video error:', error);
@@ -306,7 +305,13 @@ export const QRScanner: React.FC<QRScannerProps> = ({
             autoPlay
             playsInline
             muted
-            style={{ display: 'block' }}
+            style={{ 
+              display: 'block',
+              width: '100%',
+              height: '400px',
+              objectFit: 'cover',
+              backgroundColor: '#000'
+            }}
           />
           <canvas ref={canvasRef} style={{ display: 'none' }} />
           <div className="scanner-overlay">
