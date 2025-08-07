@@ -746,25 +746,13 @@
 }
 
 /* Song Found and Music Player Styles */
-.music-player-section {
+.simple-player-section {
   background-color: var(--color-secondary);
   border: 2px solid var(--color-border);
   border-radius: var(--border-radius-lg);
   padding: var(--spacing-8);
   margin-bottom: var(--spacing-8);
   box-shadow: var(--shadow);
-}
-
-.song-found-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-3);
-  font-size: var(--font-size-xl);
-  font-weight: 600;
-  color: var(--color-accent);
-  margin-bottom: var(--spacing-6);
-  text-align: center;
 }
 
 .revealed-song-info {
@@ -796,30 +784,12 @@
   font-weight: 500;
 }
 
-.background-player-status {
-  background-color: #f8fafc;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
-  padding: var(--spacing-6);
-  margin-bottom: var(--spacing-6);
-}
-
-.status-info {
-  text-align: center;
-  margin-bottom: var(--spacing-4);
-}
-
-.status-text {
-  font-size: var(--font-size-base);
-  color: var(--color-text-light);
-  margin: 0;
-}
-
-.player-controls {
+.simple-controls {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-3);
   justify-content: center;
+  margin-bottom: var(--spacing-6);
 }
 
 .control-button {
@@ -848,55 +818,33 @@
   cursor: not-allowed;
 }
 
-.start-button {
+.start-pause-button {
   background-color: var(--color-primary);
   color: var(--color-secondary);
   border-color: var(--color-primary);
 }
 
-.start-button:hover:not(:disabled) {
+.start-pause-button:hover:not(:disabled) {
   background-color: var(--color-primary-hover);
   border-color: var(--color-primary-hover);
 }
 
-.pause-button {
-  background-color: #f59e0b;
+.secondary-blue {
+  background-color: var(--color-accent);
   color: var(--color-secondary);
-  border-color: #f59e0b;
+  border-color: var(--color-accent);
 }
 
-.pause-button:hover:not(:disabled) {
-  background-color: #d97706;
-  border-color: #d97706;
+.secondary-blue:hover:not(:disabled) {
+  background-color: var(--color-accent-light);
+  border-color: var(--color-accent-light);
 }
 
-.restart-button {
-  background-color: #3b82f6;
-  color: var(--color-secondary);
-  border-color: #3b82f6;
-}
-
-.restart-button:hover:not(:disabled) {
-  background-color: #2563eb;
-  border-color: #2563eb;
-}
-
-.stop-button {
-  background-color: #ef4444;
-  color: var(--color-secondary);
-  border-color: #ef4444;
-}
-
-.stop-button:hover:not(:disabled) {
-  background-color: #dc2626;
-  border-color: #dc2626;
-}
-
-.scan-another-section {
+.action-buttons {
   text-align: center;
 }
 
-.button-row {
+.action-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-4);
