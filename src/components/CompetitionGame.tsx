@@ -354,7 +354,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           <div className="game-session-container">
             {/* Header */}
             <div className="game-session-header">
-              <button className="back-button" onClick={handleBackToDashboard}>
+              <button className="turn-complete-button" onClick={handleBackToDashboard}>
                 <ArrowLeft size={20} />
                 <span>Turn Complete</span>
               </button>

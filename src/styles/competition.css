@@ -468,6 +468,35 @@
   box-shadow: var(--shadow-lg);
 }
 
+/* Turn Complete Button - matches current player card design */
+.turn-complete-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4) var(--spacing-6);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: var(--color-secondary);
+  border: none;
+  border-radius: var(--border-radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-lg);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-height: 48px;
+}
+
+.turn-complete-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(242, 92, 126, 0.3);
+}
+
+.turn-complete-button:active {
+  transform: translateY(0);
+}
+
 /* Used Song Styling */
 .song-row.used-song {
   opacity: 0.5;
