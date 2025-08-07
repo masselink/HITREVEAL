@@ -248,12 +248,20 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   };
 
   const handleTurnComplete = () => {
-    // Pass the current selections to the parent component
-    onTurnComplete?.({
+    // Calculate detailed score breakdown
+    const scoreDetails = {
       artist: guessedArtist,
       title: guessedTitle,
-      year: guessedYear
-    });
+      year: guessedYear,
+      artistPoints: guessedArtist ? artistPoints : 0,
+      titlePoints: guessedTitle ? titlePoints : 0,
+      yearPoints: guessedYear && currentSong.year ? yearPoints : 0,
+      bonusPoints: (guessedArtist && guessedTitle && guessedYear && currentSong.year) ? bonusPoints : 0,
+      totalPoints: getTotalScore()
+    };
+    
+    // Pass the detailed score breakdown to the parent component
+    onTurnComplete?.(scoreDetails);
   };
   return (
     <>
