@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { QrCode, Square } from 'lucide-react';
+import { QrCode, Square, List, X } from 'lucide-react';
 import { Language, Song } from '../types';
 import { translations } from '../data/translations';
 import jsQR from 'jsqr';
@@ -19,6 +19,8 @@ export const QRScanner: React.FC<QRScannerProps> = ({
 }) => {
   const [isScanning, setIsScanning] = useState(false);
   const [cameraError, setCameraError] = useState<string>('');
+  const [showSongList, setShowSongList] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -109,6 +111,35 @@ export const QRScanner: React.FC<QRScannerProps> = ({
     }
   };
 
+  const handleShowSongList = () => {
+    setShowSongList(true);
+  };
+
+  const closeSongList = () => {
+    setShowSongList(false);
+    setSearchTerm('');
+  };
+
+  const extractIdFromUrl = (url: string) => {
+    const match = url.match(/(\d+)$/);
+    if (match) {
+      return parseInt(match[1], 10).toString();
+    }
+    return '';
+  };
+
+  // Filter songs based on search term
+  const filteredSongs = songs.filter(song => {
+    const searchLower = searchTerm.toLowerCase();
+    const id = song.hitster_url ? extractIdFromUrl(song.hitster_url) : '';
+    return (
+      song.title.toLowerCase().includes(searchLower) ||
+      song.artist.toLowerCase().includes(searchLower) ||
+      song.year.toString().includes(searchLower) ||
+      (id && id.includes(searchLower))
+    );
+  });
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -117,7 +148,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
   }, []);
 
   return (
-    <div className="qr-scanner-section">
+    <>
       <div className="scanner-header">
         <h3 className="scanner-title">
           <QrCode size={24} />
@@ -170,12 +201,101 @@ export const QRScanner: React.FC<QRScannerProps> = ({
       )}
 
       <div className="scanner-controls">
-        {isScanning ? (
-          <button className="secondary-button" onClick={stopCamera}>
-            <Square size={16} />
-            <span>{translations.stopScanning?.[currentLanguage] || 'Stop Scanning'}</span>
+        <div className="scanner-button-row">
+          {isScanning ? (
+            <button className="secondary-button" onClick={stopCamera}>
+              <Square size={16} />
+              <span>{translations.stopScanning?.[currentLanguage] || 'Stop Scanning'}</span>
+            </button>
+          ) : (
+            <button className="primary-button" onClick={startCamera}>
+              <QrCode size={16} />
+              <span>{translations.startScanning?.[currentLanguage] || 'Start Scanning'}</span>
+            </button>
+          )}
+          
+          <button className="scan-another-button" onClick={handleShowSongList}>
+            <List size={16} />
+            <span>{translations.songList?.[currentLanguage] || 'Song List'}</span>
           </button>
-        ) : (
+        </div>
+      </div>
+
+      {/* Song List Overlay */}
+      {showSongList && (
+        <div className="preview-overlay">
+          <div className="preview-popup">
+            <div className="preview-header">
+              <h3 className="preview-title">
+                {translations.songList?.[currentLanguage] || 'Song List'}
+              </h3>
+              <button
+                className="preview-close"
+                onClick={closeSongList}
+                aria-label={translations.close?.[currentLanguage] || 'Close'}
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="preview-content">
+              <div className="search-section">
+                <input
+                  type="text"
+                  placeholder={translations.searchPlaceholder?.[currentLanguage] || 'Search songs, artists, years, or IDs...'}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                />
+                <div className="search-results-count">
+                  {filteredSongs.length} {translations.songsCount?.[currentLanguage] || 'of'} {songs.length} {translations.songsTotal?.[currentLanguage] || 'songs'}
+                </div>
+              </div>
+              
+              <div className="songs-list">
+                <div className="list-header">
+                  <div className="header-id">{translations.id?.[currentLanguage] || 'ID'}</div>
+                  <div className="header-title">{translations.title?.[currentLanguage] || 'Title'}</div>
+                  <div className="header-artist">{translations.artist?.[currentLanguage] || 'Artist'}</div>
+                  <div className="header-year">{translations.year?.[currentLanguage] || 'Year'}</div>
+                </div>
+                
+                <div className="list-body">
+                  {filteredSongs.map((song, index) => {
+                    const songId = extractIdFromUrl(song.hitster_url);
+                    
+                    return (
+                      <div key={index} className="song-row">
+                        <div className="row-id">
+                          #{songId}
+                        </div>
+                        <div className="row-title">{song.title}</div>
+                        <div className="row-artist">{song.artist}</div>
+                        <div className="row-year">{song.year}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              
+              {filteredSongs.length === 0 && searchTerm && (
+                <div className="no-results">
+                  {translations.noSongsFound?.[currentLanguage] || 'No songs found matching'} "{searchTerm}"
+                </div>
+              )}
+              
+              {filteredSongs.length === 0 && !searchTerm && (
+                <div className="no-songs">
+                  {translations.noValidSongs?.[currentLanguage] || 'No valid songs found in this list.'}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
           <button className="primary-button" onClick={startCamera}>
             <QrCode size={16} />
             <span>{translations.startScanning?.[currentLanguage] || 'Start Scanning'}</span>

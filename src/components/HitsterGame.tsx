@@ -126,37 +126,39 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
           </button>
         </div>
 
-        {/* QR Scanner Section */}
-        {!currentSong && !scannedData && (
-          <QRScanner
-            currentLanguage={currentLanguage}
-            songs={songs}
-            onSongFound={handleSongFound}
-            onNoMatch={handleNoMatch}
-          />
-        )}
+        <div className="qr-scanner-section">
+          {/* QR Scanner Section */}
+          {!currentSong && !scannedData && (
+            <QRScanner
+              currentLanguage={currentLanguage}
+              songs={songs}
+              onSongFound={handleSongFound}
+              onNoMatch={handleNoMatch}
+            />
+          )}
 
-        {/* No Match Message */}
-        {scannedData && !currentSong && (
-          <div className="no-match-message">
-            <h4>{translations.noMatch?.[currentLanguage] || 'Song Not Found'}</h4>
-            <p>{translations.qrCodeNotRecognized?.[currentLanguage] || 'We don\'t recognize this QR code. It might not be a HITSTER card or it\'s not in our database yet.'}</p>
-            <p>{translations.helpBySharing?.[currentLanguage] || 'Help us by sharing the information on your cards! You can contribute by visiting:'}</p>
-            <div>
-              <a 
-                href="https://github.com/masselink/HITREVEAL-Songs" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="github-link"
-              >
-                GitHub Repository
-              </a>
+          {/* No Match Message */}
+          {scannedData && !currentSong && (
+            <div className="no-match-message">
+              <h4>{translations.noMatch?.[currentLanguage] || 'Song Not Found'}</h4>
+              <p>{translations.qrCodeNotRecognized?.[currentLanguage] || 'We don\'t recognize this QR code. It might not be a HITSTER card or it\'s not in our database yet.'}</p>
+              <p>{translations.helpBySharing?.[currentLanguage] || 'Help us by sharing the information on your cards! You can contribute by visiting:'}</p>
+              <div>
+                <a 
+                  href="https://github.com/masselink/HITREVEAL-Songs" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="github-link"
+                >
+                  GitHub Repository
+                </a>
+              </div>
+              <button className="primary-button" onClick={handleScanAnother} style={{ marginTop: 'var(--spacing-4)' }}>
+                {translations.scanAnother?.[currentLanguage] || 'Scan Another Card'}
+              </button>
             </div>
-            <button className="primary-button" onClick={handleScanAnother} style={{ marginTop: 'var(--spacing-4)' }}>
-              {translations.scanAnother?.[currentLanguage] || 'Scan Another Card'}
-            </button>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* YouTube Player Section */}
         {currentSong && (

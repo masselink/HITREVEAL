@@ -733,6 +733,14 @@
   margin-top: var(--spacing-6);
 }
 
+.scanner-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  justify-content: center;
+  align-items: center;
+}
+
 .scanner-controls .secondary-button {
   background-color: #ef4444;
   color: var(--color-secondary);
