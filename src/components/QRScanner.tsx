@@ -34,6 +34,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
   const startCamera = async () => {
     try {
       setCameraError('');
+      setIsScanning(false); // Reset scanning state
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { 
           facingMode: 'environment',
@@ -46,11 +47,16 @@ export const QRScanner: React.FC<QRScannerProps> = ({
         videoRef.current.srcObject = stream;
         streamRef.current = stream;
         
-        // Wait for video to be ready before starting scanning
-        videoRef.current.onloadedmetadata = () => {
-          setIsScanning(true);
+        // Set scanning state immediately and wait for video to load
+        setIsScanning(true);
+        
+        // Wait for video to be ready before starting QR scanning
+        videoRef.current.addEventListener('loadedmetadata', () => {
           startQRScanning();
-        };
+        });
+        
+        // Also try to play the video explicitly
+        videoRef.current.play().catch(console.error);
       }
     } catch (error) {
       console.error('Camera error:', error);
@@ -62,6 +68,9 @@ export const QRScanner: React.FC<QRScannerProps> = ({
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
+    }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
     }
     if (scanIntervalRef.current) {
       clearInterval(scanIntervalRef.current);
