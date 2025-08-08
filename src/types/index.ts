@@ -5,14 +5,6 @@ export interface GameState {
   gameMode: 'waiting' | 'playing' | 'paused';
 }
 
-export interface Translations {
-  [key: string]: {
-    en: string;
-    nl: string;
-    de: string;
-  };
-}
-
 export interface GameMode {
   id: string;
   name: string;
