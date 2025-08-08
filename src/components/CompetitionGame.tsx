@@ -927,9 +927,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                     <option key={score} value={score}>{score} {translations.points?.[currentLanguage] || 'points'}</option>
                   ))}
                 </select>
-                <p className="mode-rules">
-                  {translations.pointsModeRules?.[currentLanguage] || 'First player to reach the target score wins.'}
-                </p>
               </div>
             )}
 
@@ -947,9 +944,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                     <option key={duration} value={duration}>{duration} {translations.minutes?.[currentLanguage] || 'minutes'}</option>
                   ))}
                 </select>
-                <p className="mode-rules">
-                  {translations.timeBasedRules?.[currentLanguage] || 'Game plays for the set duration and completes the current round when time expires.'}
-                </p>
               </div>
             )}
 
@@ -967,9 +961,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                     <option key={rounds} value={rounds}>{rounds} {translations.rounds?.[currentLanguage] || 'rounds'}</option>
                   ))}
                 </select>
-                <p className="mode-rules">
-                  {translations.roundsModeRules?.[currentLanguage] || 'Game ends after the specified number of rounds. Winner determined by draw type.'}
-                </p>
               </div>
             )}
           </div>
@@ -980,9 +971,20 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           <h3 className="rules-title">
             {translations.gameRules?.[currentLanguage] || 'Game Rules'}
           </h3>
-          <p className="rules-description">
-            {translations.rulesDescription?.[currentLanguage] || 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.'}
-          </p>
+          <div className="rules-description">
+            <p>{translations.gameplayRules?.[currentLanguage] || 'Players take turns listening to songs and guessing the artist, title, and year. Each player gets one song per turn, and points are awarded based on correct answers.'}</p>
+            
+            <p><strong>{translations.gameModes?.[currentLanguage] || 'Game Modes'}:</strong></p>
+            <ul>
+              <li><strong>{translations.pointsMode?.[currentLanguage] || 'Points'}:</strong> {translations.pointsModeRules?.[currentLanguage] || 'First player to reach the target score wins.'}</li>
+              <li><strong>{translations.timeBasedMode?.[currentLanguage] || 'Time Based'}:</strong> {translations.timeBasedRules?.[currentLanguage] || 'Game plays for the set duration and completes the current round when time expires.'}</li>
+              <li><strong>{translations.roundsMode?.[currentLanguage] || 'Rounds'}:</strong> {translations.roundsModeRules?.[currentLanguage] || 'Game ends after the specified number of rounds. Winner determined by draw type.'}</li>
+            </ul>
+            
+            <p><strong>{translations.winningConditions?.[currentLanguage] || 'Winning & Ties'}:</strong> {translations.tieRules?.[currentLanguage] || 'Games always complete full rounds before declaring winners. In case of ties, the draw type setting determines the outcome - either multiple winners are declared, or tied players enter Sudden Death mode for additional rounds until there is a single winner.'}</p>
+            
+            <p><strong>{translations.skipSystem?.[currentLanguage] || 'Skip System'}:</strong> {translations.skipRules?.[currentLanguage] || 'Players can skip songs they don\'t know, but this may cost points and is limited per player.'}</p>
+          </div>
         </div>
 
         {/* Number of Players */}
