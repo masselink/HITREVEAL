@@ -133,12 +133,6 @@ export const CompetitionGameSession: React.FC<CompetitionGameSessionProps> = ({
       <div className="game-session-container">
         <div className="game-session-header">
           <button className="back-button" onClick={onBack}>
-            <ArrowLeft size={20} />
-            <span>{translations.back[currentLanguage]}</span>
-          </button>
-          <div className="current-player-indicator">
-            {currentPlayer.name || `${translations.playerName[currentLanguage]} ${currentPlayer.id + 1}`}
-          </div>
         </div>
 
         <div className="qr-scanner-section">
