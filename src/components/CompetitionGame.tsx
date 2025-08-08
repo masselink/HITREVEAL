@@ -179,7 +179,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const selectRandomSong = () => {
-    const availableSongs = songs.filter(song => !usedSongs.has(song.hitster_url));
+    const availableSongs = songs.filter(song => !usedSongs.has(song.youtube_url));
     if (availableSongs.length === 0) {
       // No more songs available - end game
       endGame();
@@ -189,7 +189,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     const randomIndex = Math.floor(Math.random() * availableSongs.length);
     const selectedSong = availableSongs[randomIndex];
     setCurrentSong(selectedSong);
-    setUsedSongs(prev => new Set([...prev, selectedSong.hitster_url]));
+    setUsedSongs(prev => new Set([...prev, selectedSong.youtube_url]));
   };
 
   const handleTurnComplete = (scores: any) => {
@@ -236,7 +236,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     
     // Mark current song as used (skipped)
     if (currentSong) {
-      setUsedSongs(prev => new Set([...prev, currentSong.hitster_url]));
+      setUsedSongs(prev => new Set([...prev, currentSong.youtube_url]));
     }
     
     // Deduct skip cost from player's score
@@ -317,7 +317,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       }
       
       // Check if we're out of songs
-      const availableSongs = songs.filter(song => !usedSongs.has(song.hitster_url));
+      const availableSongs = songs.filter(song => !usedSongs.has(song.youtube_url));
       if (availableSongs.length === 0) {
         console.log('🏆 No more songs available!');
         endGame();
