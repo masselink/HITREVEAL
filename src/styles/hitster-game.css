@@ -708,7 +708,7 @@
   padding: var(--spacing-8);
   text-align: center;
   background-color: #f8fafc;
-  min-height: 250px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
