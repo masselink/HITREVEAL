@@ -923,7 +923,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   value={settings.targetScore}
                   onChange={(e) => handleSettingChange('targetScore', parseInt(e.target.value))}
                 >
-                  {[50, 75, 100, 125, 150, 200, 250, 300].map(score => (
+                  {[25, 50, 75, 100, 125, 150, 200, 250, 300].map(score => (
                     <option key={score} value={score}>{score} {translations.points?.[currentLanguage] || 'points'}</option>
                   ))}
                 </select>
@@ -957,7 +957,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   value={settings.maximumRounds}
                   onChange={(e) => handleSettingChange('maximumRounds', parseInt(e.target.value))}
                 >
-                  {[5, 10, 15, 20, 25, 30].map(rounds => (
+                  {[2, 5, 10, 15, 20, 25, 30].map(rounds => (
                     <option key={rounds} value={rounds}>{rounds} {translations.rounds?.[currentLanguage] || 'rounds'}</option>
                   ))}
                 </select>
@@ -974,7 +974,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             <select
               className="points-dropdown"
               value={settings.drawType}
-              onChange={(e) => setSettings(prev => ({ ...prev, drawType: e.target.value as 'multiple-winners' | 'sudden-death' }))}
+                  {[5, 15, 20, 30, 45, 60, 90].map(duration => (
             >
               <option value="multiple-winners">
                 {translations.multipleWinners?.[currentLanguage] || 'Multiple Winners'}
