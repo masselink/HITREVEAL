@@ -261,7 +261,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           <div className="error-reporting-section">
             <p className="error-reporting-text">
               <a 
-                href={`mailto:hitreveal-song-error@collectingvibes.com?subject=Song%20Error%20Report%20-%20${encodeURIComponent(currentSong.title)}%20by%20${encodeURIComponent(currentSong.artist)}`}
+                href={`mailto:hitreveal-song-error@collectingvibes.com?subject=Song%20Error%20Report%20-%20${encodeURIComponent(currentSong.title)}%20by%20${encodeURIComponent(currentSong.artist)}${currentSong.year ? `%20(${encodeURIComponent(currentSong.year)})` : ''}%20from%20songlist`}
                 className="error-reporting-link"
               >
                 {getTranslation('reportPlaylistProblems', currentLanguage)}
