@@ -86,6 +86,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [showPlayerPage, setShowPlayerPage] = useState(false);
+  const [playerSkips, setPlayerSkips] = useState<{ [playerId: number]: number }>({});
   const [showWinnerPage, setShowWinnerPage] = useState(false);
   const [showNoSongsModal, setShowNoSongsModal] = useState(false);
 
@@ -212,9 +213,15 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         yearPoints: 0,
         bonusPoints: 0,
         skipsUsed: 0
-      }));
       
       setPlayers(initialPlayers);
+      
+      // Initialize skip counts for all players
+      const initialSkips: { [playerId: number]: number } = {};
+      for (let i = 0; i < settings.numberOfPlayers; i++) {
+        initialSkips[i] = settings.skipsPerPlayer;
+      }
+      setPlayerSkips(initialSkips);
       setGameState({
         currentRound: 1,
         songsPlayed: 0,
