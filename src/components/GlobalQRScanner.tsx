@@ -166,3 +166,5 @@ export const GlobalQRScanner: React.FC<QRScannerProps> = ({ onSongScanned, onClo
     </div>
   );
 };
+
+export { GlobalQRScanner }
