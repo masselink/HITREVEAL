@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, X, Users, Clock, Target, Trophy, Crown, Music } from 'lucide-react';
+import { ArrowLeft, X, Users, Clock, Target, Trophy, Crown, Music, Play } from 'lucide-react';
 import { Language, SongList, Song } from '../types';
 import { getTranslation } from '../data/translations';
 import { CompetitionYouTubePlayer } from './CompetitionYouTubePlayer';
@@ -546,99 +546,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                     );
                   })}
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Quit Confirmation Modal */}
-        {showQuitConfirmation && (
-          <div className="preview-overlay">
-            <div className="quit-confirmation-modal">
-              <div className="quit-modal-header">
-                <h3 className="quit-modal-title">
-                  {getTranslation('quitGameConfirmTitle', currentLanguage)}
-                </h3>
-              </div>
-              
-              <div className="quit-modal-content">
-                <p className="quit-warning-text">
-                  {getTranslation('quitGameWarning', currentLanguage)}
-                </p>
-                
-                <div className="quit-modal-buttons">
-                  <button className="cancel-quit-button" onClick={cancelQuit}>
-                    <span>{getTranslation('cancel', currentLanguage)}</span>
-                  </button>
-                  <button className="confirm-quit-button" onClick={confirmQuit}>
-                    <X size={16} />
-                    <span>{getTranslation('quitGame', currentLanguage)}</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
-            <button 
-              className="secondary-button secondary-blue"
-              onClick={() => setShowPlayerInterface(true)}
-            >
-              {getTranslation('go', currentLanguage)}!
-            </button>
-          </div>
-
-          {/* Leaderboard */}
-          <div className="leaderboard-section">
-            <h3 className="leaderboard-title">{getTranslation('leaderboard', currentLanguage)}</h3>
-            <div className="leaderboard">
-              {[...players]
-                .sort((a, b) => b.score - a.score)
-                .map((player, index) => {
-                  const isCurrentPlayer = player.id === currentPlayer.id;
-                  const isWinning = index === 0 && player.score > 0;
-                  
-                  return (
-                    <div 
-                      key={player.id} 
-                      className={`leaderboard-row ${isCurrentPlayer ? 'current-player' : ''}`}
-                    >
-                      <div className="player-rank">
-                        {isWinning ? (
-                          <Crown size={20} className="crown-icon" />
-                        ) : (
-                          <span className="rank-number">#{index + 1}</span>
-                        )}
-                      </div>
-                      <div className="player-details">
-                        <div className="player-name">
-                          {player.name || `${getTranslation('playerName', currentLanguage)} ${player.id + 1}`}
-                        </div>
-                        <div className="score-breakdown">
-                          {player.artistPoints > 0 && (
-                            <span className="score-part artist">{getTranslation('artistPoints', currentLanguage)}: {player.artistPoints}</span>
-                          )}
-                          {player.titlePoints > 0 && (
-                            <span className="score-part title">{getTranslation('titlePoints', currentLanguage)}: {player.titlePoints}</span>
-                          )}
-                          {player.yearPoints > 0 && (
-                            <span className="score-part year">{getTranslation('yearPoints', currentLanguage)}: {player.yearPoints}</span>
-                          )}
-                          {player.bonusPoints > 0 && (
-                            <span className="score-part bonus">{getTranslation('bonusPoints', currentLanguage)}: {player.bonusPoints}</span>
-                          )}
-                          {player.artistPoints === 0 && player.titlePoints === 0 && player.yearPoints === 0 && player.bonusPoints === 0 && (
-                            <span className="score-part no-points">{getTranslation('noPointsYet', currentLanguage)}</span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="player-total-score">
-                        {player.score}
-                      </div>
-                    </div>
-                  );
-                })}
             </div>
           </div>
         </div>
