@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ArrowLeft, Play, X, List, Crown, Clock, Target, Music, Users } from 'lucide-react';
 import { Language, SongList, Song, CompetitionSettings } from '../types';
 import { CompetitionYouTubePlayer } from './CompetitionYouTubePlayer';
@@ -101,6 +101,23 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   const [showPlayerPage, setShowPlayerPage] = useState(false);
   const [showWinnerPage, setShowWinnerPage] = useState(false);
   const [showNoSongsModal, setShowNoSongsModal] = useState(false);
+
+  // Safely derive currentPlayer using useMemo to avoid initialization errors
+  const currentPlayer = useMemo(() => {
+    if (players.length === 0) {
+      return {
+        id: 0,
+        name: '',
+        score: 0,
+        artistPoints: 0,
+        titlePoints: 0,
+        yearPoints: 0,
+        bonusPoints: 0,
+        skipsUsed: 0
+      };
+    }
+    return players[gameState.currentPlayerIndex] || players[0];
+  }, [players, gameState.currentPlayerIndex]);
 
   // Load songs and check year data
   useEffect(() => {
@@ -672,7 +689,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     }
 
     // Show Dashboard
-    const currentPlayer = getCurrentPlayer();
     const leaderboard = getLeaderboard();
     const remainingTime = getRemainingTime();
     const availableSongs = songs.length - gameState.usedSongs.size;
@@ -850,7 +866,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          )}
         )}
 
         {/* No More Songs Modal */}
@@ -878,7 +894,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          )}
         )}
       </div>
     );
