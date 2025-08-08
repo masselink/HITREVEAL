@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { QrCode, Square, List, X } from 'lucide-react';
 import { Language, Song } from '../types';
-import { translations } from '../data/translations';
+import { getTranslation } from '../data/translations';
 import jsQR from 'jsqr';
 
 interface QRScannerProps {
@@ -232,14 +232,14 @@ export const QRScanner: React.FC<QRScannerProps> = ({
         <h3 className="scanner-title">
           <QrCode size={24} />
           {isScanning 
-            ? translations.scanQrCode?.[currentLanguage] || 'Scan QR Code'
-            : translations.readyToScan?.[currentLanguage] || 'Ready to Scan'
+            ? getTranslation('scanQrCode', currentLanguage)
+            : getTranslation('readyToScan', currentLanguage)
           }
         </h3>
         <p className="scanner-subtitle">
           {isScanning 
-            ? translations.scanInstruction?.[currentLanguage] || 'Point your camera at a HITSTER QR code'
-            : translations.clickToStartScanning?.[currentLanguage] || 'Click the button below to start scanning HITSTER QR codes'
+            ? getTranslation('scanInstruction', currentLanguage)
+            : getTranslation('clickToStartScanning', currentLanguage)
           }
         </p>
       </div>
@@ -251,7 +251,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
             setScannerError(null);
             startScanning();
           }}>
-            {translations.retry?.[currentLanguage] || 'Retry'}
+            {getTranslation('retry', currentLanguage)}
           </button>
         </div>
       )}
@@ -280,7 +280,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
             <div className="scanner-overlay">
               <div className="scanner-frame" />
               <p className="scanner-hint">
-                {translations.scanHint?.[currentLanguage] || 'Position QR code within the frame'}
+                {getTranslation('scanHint', currentLanguage)}
               </p>
             </div>
           </>
@@ -288,7 +288,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
           <div className="scanner-placeholder">
             <div className="scanner-placeholder-content">
               <QrCode size={64} />
-              <p>{translations.readyToScan?.[currentLanguage] || 'Ready to Scan'}</p>
+              <p>{getTranslation('readyToScan', currentLanguage)}</p>
             </div>
           </div>
         )}
@@ -299,19 +299,19 @@ export const QRScanner: React.FC<QRScannerProps> = ({
           {isScanning ? (
             <button className="secondary-button" onClick={stopScanning}>
               <Square size={16} />
-              <span>{translations.stopScanning?.[currentLanguage] || 'Stop Scanning'}</span>
+              <span>{getTranslation('stopScanning', currentLanguage)}</span>
             </button>
           ) : (
             <>
               <button className="primary-button" onClick={startScanning}>
                 <QrCode size={16} />
-                <span>{translations.startScanning?.[currentLanguage] || 'Start Scanning'}</span>
+                <span>{getTranslation('startScanning', currentLanguage)}</span>
               </button>
               
               <button className="scan-another-button" onClick={handleShowSongList}>
                 <List size={16} />
                 <span>
-                  {translations.songList?.[currentLanguage] || 'Song List'}
+                  {getTranslation('songList', currentLanguage)}
                   {songListViewCount > 0 && (
                     <span className="view-counter"> ({songListViewCount})</span>
                   )}
@@ -325,7 +325,7 @@ export const QRScanner: React.FC<QRScannerProps> = ({
       {songListViewCount > 0 && (
         <div className="counter-explanation">
           <p className="counter-explanation-text">
-            {translations.songListCounterExplanation?.[currentLanguage] || 'The number in parentheses shows how many times you\'ve viewed the song list during this game session.'}
+            {getTranslation('songListCounterExplanation', currentLanguage)}
           </p>
         </div>
       )}
@@ -335,12 +335,12 @@ export const QRScanner: React.FC<QRScannerProps> = ({
           <div className="preview-popup">
             <div className="preview-header">
               <h3 className="preview-title">
-                {translations.songList?.[currentLanguage] || 'Song List'}
+                {getTranslation('songList', currentLanguage)}
               </h3>
               <button
                 className="preview-close"
                 onClick={closeSongList}
-                aria-label={translations.close?.[currentLanguage] || 'Close'}
+                aria-label={getTranslation('close', currentLanguage)}
               >
                 <X size={20} />
               </button>
@@ -350,22 +350,22 @@ export const QRScanner: React.FC<QRScannerProps> = ({
               <div className="search-section">
                 <input
                   type="text"
-                  placeholder={translations.searchPlaceholder?.[currentLanguage] || 'Search songs, artists, years, or IDs...'}
+                  placeholder={getTranslation('searchPlaceholder', currentLanguage)}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="search-input"
                 />
                 <div className="search-results-count">
-                  {filteredSongs.length} {translations.songsCount?.[currentLanguage] || 'of'} {songs.length} {translations.songsTotal?.[currentLanguage] || 'songs'}
+                  {filteredSongs.length} {getTranslation('songsCount', currentLanguage)} {songs.length} {getTranslation('songsTotal', currentLanguage)}
                 </div>
               </div>
               
               <div className="songs-list">
                 <div className="list-header">
-                  <div className="header-id">{translations.id?.[currentLanguage] || 'ID'}</div>
-                  <div className="header-title">{translations.title?.[currentLanguage] || 'Title'}</div>
-                  <div className="header-artist">{translations.artist?.[currentLanguage] || 'Artist'}</div>
-                  <div className="header-year">{translations.year?.[currentLanguage] || 'Year'}</div>
+                  <div className="header-id">{getTranslation('id', currentLanguage)}</div>
+                  <div className="header-title">{getTranslation('title', currentLanguage)}</div>
+                  <div className="header-artist">{getTranslation('artist', currentLanguage)}</div>
+                  <div className="header-year">{getTranslation('year', currentLanguage)}</div>
                 </div>
                 
                 <div className="list-body">
@@ -388,13 +388,13 @@ export const QRScanner: React.FC<QRScannerProps> = ({
               
               {filteredSongs.length === 0 && searchTerm && (
                 <div className="no-results">
-                  {translations.noSongsFound?.[currentLanguage] || 'No songs found matching'} "{searchTerm}"
+                  {getTranslation('noSongsFound', currentLanguage)} "{searchTerm}"
                 </div>
               )}
               
               {filteredSongs.length === 0 && !searchTerm && (
                 <div className="no-songs">
-                  {translations.noValidSongs?.[currentLanguage] || 'No valid songs found in this list.'}
+                  {getTranslation('noValidSongs', currentLanguage)}
                 </div>
               )}
             </div>

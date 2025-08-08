@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, X } from 'lucide-react';
 import { Language, SongList, Song } from '../types';
-import { translations } from '../data/translations';
+import { getTranslation } from '../data/translations';
 import { QRScanner } from './QRScanner';
 import { YouTubePlayer } from './YouTubePlayer';
 import Papa from 'papaparse';
@@ -114,11 +114,11 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
           <div className="game-session-header">
             <button className="back-button" onClick={onBack}>
               <ArrowLeft size={20} />
-              <span>{translations.back?.[currentLanguage] || 'Back'}</span>
+              <span>{getTranslation('back', currentLanguage)}</span>
             </button>
           </div>
           <div className="loading-message">
-            {translations.loadingSongs?.[currentLanguage] || 'Loading songs...'}
+            {getTranslation('loadingSongs', currentLanguage)}
           </div>
         </div>
       </div>
@@ -132,7 +132,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
           <div className="game-session-header">
             <button className="back-button" onClick={onBack}>
               <ArrowLeft size={20} />
-              <span>{translations.back?.[currentLanguage] || 'Back'}</span>
+              <span>{getTranslation('back', currentLanguage)}</span>
             </button>
           </div>
           <div className="error-message">
@@ -152,7 +152,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
           <div className="game-session-header">
             <button className="back-button" onClick={handleBackToScanner}>
               <ArrowLeft size={20} />
-              <span>{translations.back?.[currentLanguage] || 'Back'}</span>
+              <span>{getTranslation('back', currentLanguage)}</span>
             </button>
             <button className="primary-button game-session-title-button" disabled>
               {songList.name}
@@ -176,22 +176,22 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
             <div className="quit-confirmation-modal">
               <div className="quit-modal-header">
                 <h3 className="quit-modal-title">
-                  {translations.quitGameConfirmTitle?.[currentLanguage] || 'Quit Game?'}
+                  {getTranslation('quitGameConfirmTitle', currentLanguage)}
                 </h3>
               </div>
               
               <div className="quit-modal-content">
                 <p className="quit-warning-text">
-                  {translations.quitGameWarning?.[currentLanguage] || 'Are you sure you want to quit this game? Your current progress will be lost.'}
+                  {getTranslation('quitGameWarning', currentLanguage)}
                 </p>
                 
                 <div className="quit-modal-buttons">
                   <button className="cancel-quit-button" onClick={cancelQuit}>
-                    <span>{translations.cancel?.[currentLanguage] || 'Cancel'}</span>
+                    <span>{getTranslation('cancel', currentLanguage)}</span>
                   </button>
                   <button className="confirm-quit-button" onClick={confirmQuit}>
                     <X size={16} />
-                    <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+                    <span>{getTranslation('quitGame', currentLanguage)}</span>
                   </button>
                 </div>
               </div>
@@ -210,7 +210,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
         <div className="game-session-header">
           <button className="primary-button quit-game-button" onClick={handleQuitGame}>
             <X size={20} />
-            <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+            <span>{getTranslation('quitGame', currentLanguage)}</span>
           </button>
         </div>
 
@@ -233,22 +233,22 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
           <div className="quit-confirmation-modal">
             <div className="quit-modal-header">
               <h3 className="quit-modal-title">
-                {translations.quitGameConfirmTitle?.[currentLanguage] || 'Quit Game?'}
+                {getTranslation('quitGameConfirmTitle', currentLanguage)}
               </h3>
             </div>
             
             <div className="quit-modal-content">
               <p className="quit-warning-text">
-                {translations.quitGameWarning?.[currentLanguage] || 'Are you sure you want to quit this game? Your current progress will be lost.'}
+                {getTranslation('quitGameWarning', currentLanguage)}
               </p>
               
               <div className="quit-modal-buttons">
                 <button className="cancel-quit-button" onClick={cancelQuit}>
-                  <span>{translations.cancel?.[currentLanguage] || 'Cancel'}</span>
+                  <span>{getTranslation('cancel', currentLanguage)}</span>
                 </button>
                 <button className="confirm-quit-button" onClick={confirmQuit}>
                   <X size={16} />
-                  <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+                  <span>{getTranslation('quitGame', currentLanguage)}</span>
                 </button>
               </div>
             </div>
@@ -262,12 +262,12 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
           <div className="no-match-popover">
             <div className="no-match-header">
               <h3 className="no-match-title">
-                {translations.noMatch?.[currentLanguage] || 'Song Not Found'}
+                {getTranslation('noMatch', currentLanguage)}
               </h3>
               <button
                 className="preview-close"
                 onClick={() => setScannedData('')}
-                aria-label={translations.close?.[currentLanguage] || 'Close'}
+                aria-label={getTranslation('close', currentLanguage)}
               >
                 <X size={20} />
               </button>
@@ -275,11 +275,11 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
             
             <div className="no-match-content">
               <p className="no-match-description">
-                {translations.qrCodeNotRecognized?.[currentLanguage] || 'We don\'t recognize this QR code. It might not be a HITSTER card or it\'s not in our database yet.'}
+                {getTranslation('qrCodeNotRecognized', currentLanguage)}
               </p>
               
               <p className="no-match-help">
-                {translations.helpBySharing?.[currentLanguage] || 'Help us by sharing the information on your cards! You can contribute by visiting:'}
+                {getTranslation('helpBySharing', currentLanguage)}
               </p>
               
               <div className="no-match-link-container">
@@ -296,7 +296,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
               <div className="no-match-actions">
                 <button className="primary-button" onClick={() => setScannedData('')}>
                   <ArrowLeft size={16} />
-                  {translations.back?.[currentLanguage] || 'Back'}
+                  {getTranslation('back', currentLanguage)}
                 </button>
               </div>
             </div>

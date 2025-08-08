@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Play, Clock, Eye, X, Square } from 'lucide-react';
 import { Language, SongList } from '../types';
-import { translations } from '../data/translations';
+import { getTranslation } from '../data/translations';
 import Papa from 'papaparse';
 
 interface GameSelectionProps {
@@ -408,13 +408,13 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
           <button 
             className="back-button"
             onClick={onBack}
-            aria-label={translations.back?.[currentLanguage] || 'Back'}
+            aria-label={getTranslation('back', currentLanguage)}
           >
             <ArrowLeft size={20} />
-            <span>{translations.back?.[currentLanguage] || 'Back'}</span>
+            <span>{getTranslation('back', currentLanguage)}</span>
           </button>
           <h2 className="game-selection-title">
-            {translations.selectGameType?.[currentLanguage] || 'Select Game Type'}
+            {getTranslation('selectGameType', currentLanguage)}
           </h2>
         </div>
 
@@ -438,7 +438,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                 {gameType.status === 'coming-soon' && (
                   <div className="coming-soon-badge">
                     <Clock size={16} />
-                    <span>{translations.comingSoon?.[currentLanguage] || 'Coming Soon'}</span>
+                    <span>{getTranslation('comingSoon', currentLanguage)}</span>
                   </div>
                 )}
               </div>
@@ -450,7 +450,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         {(selectedGameType === 'hitster-youtube' || selectedGameType === 'game-type-2') && showHitsterOptions && (
         <div className="hitster-options">
           <h3 className="options-title">
-            {translations.selectSongList?.[currentLanguage] || 'Select Song List'}
+            {getTranslation('selectSongList', currentLanguage)}
           </h3>
           
           {/* Country Filter */}
@@ -493,7 +493,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
           {/* Loading State */}
           {loading && (
             <div className="loading-message">
-              {translations.loadingSongLists?.[currentLanguage] || 'Loading song lists...'}
+              {getTranslation('loadingSongLists', currentLanguage)}
             </div>
           )}
           
@@ -576,8 +576,8 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
               <div className="selected-description">
                 <p className="description-text">
                   {!selectedSongList 
-                    ? translations.selectHitsterGame?.[currentLanguage] || 'Please select the Hitster Game you would like to play'
-                    : filteredSongLists.find(list => list.name === selectedSongList)?.description || translations.noDescriptionAvailable?.[currentLanguage] || 'No description available for this song list'
+                    ? getTranslation('selectHitsterGame', currentLanguage)
+                    : filteredSongLists.find(list => list.name === selectedSongList)?.description || getTranslation('noDescriptionAvailable', currentLanguage)
                   }
                 </p>
               </div>
@@ -591,7 +591,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                     type="button"
                   >
                     <Eye size={16} />
-                    <span>{translations.previewSongs?.[currentLanguage] || 'Preview Songs'}</span>
+                    <span>{getTranslation('previewSongs', currentLanguage)}</span>
                   </button>
                 </div>
               )}
@@ -605,7 +605,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                     type="button"
                   >
                     <Eye size={16} />
-                    <span>{translations.previewSongs?.[currentLanguage] || 'Preview Songs'}</span>
+                    <span>{getTranslation('previewSongs', currentLanguage)}</span>
                   </button>
                 </div>
               )}
@@ -619,7 +619,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                 >
                   <Play size={20} />
                   <span>
-                    {translations.startHitster?.[currentLanguage] || 'Start HITSTER'}
+                    {getTranslation('startHitster', currentLanguage)}
                   </span>
                 </button>
               )}
@@ -633,7 +633,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                 >
                   <Play size={20} />
                   <span>
-                    {translations.competitionGame?.[currentLanguage] || 'Start Competition'}
+                    {getTranslation('competitionGame', currentLanguage)}
                   </span>
                 </button>
               )}
@@ -650,12 +650,12 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
           <div className="preview-popup">
             <div className="preview-header">
               <h3 className="preview-title">
-                {selectedList?.name} - {translations.songList?.[currentLanguage] || 'Song List'}
+                {selectedList?.name} - {getTranslation('songList', currentLanguage)}
               </h3>
               <button
                 className="preview-close"
                 onClick={closePreview}
-                aria-label={translations.close?.[currentLanguage] || 'Close'}
+                aria-label={getTranslation('close', currentLanguage)}
               >
                 <X size={20} />
               </button>
@@ -664,7 +664,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             <div className="preview-content">
               {previewLoading && (
                 <div className="preview-loading">
-                  {translations.loadingSongs?.[currentLanguage] || 'Loading songs...'}
+                  {getTranslation('loadingSongs', currentLanguage)}
                 </div>
               )}
               
@@ -679,22 +679,22 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                   <div className="search-section">
                     <input
                       type="text"
-                      placeholder={translations.searchPlaceholder?.[currentLanguage] || 'Search songs, artists, years, or IDs...'}
+                      placeholder={getTranslation('searchPlaceholder', currentLanguage)}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="search-input"
                     />
                     <div className="search-results-count">
-                      {filteredSongs.length} {translations.songsCount?.[currentLanguage] || 'of'} {previewSongs.length} {translations.songsTotal?.[currentLanguage] || 'songs'}
+                      {filteredSongs.length} {getTranslation('songsCount', currentLanguage)} {previewSongs.length} {getTranslation('songsTotal', currentLanguage)}
                     </div>
                   </div>
                   
                   <div className="songs-list">
                     <div className="list-header">
-                      <div className="header-id">{translations.id?.[currentLanguage] || 'ID'}</div>
-                      <div className="header-title">{translations.title?.[currentLanguage] || 'Title'}</div>
-                      <div className="header-artist">{translations.artist?.[currentLanguage] || 'Artist'}</div>
-                      <div className="header-year">{translations.year?.[currentLanguage] || 'Year'}</div>
+                      <div className="header-id">{getTranslation('id', currentLanguage)}</div>
+                      <div className="header-title">{getTranslation('title', currentLanguage)}</div>
+                      <div className="header-artist">{getTranslation('artist', currentLanguage)}</div>
+                      <div className="header-year">{getTranslation('year', currentLanguage)}</div>
                     </div>
                     
                     <div className="list-body">
@@ -719,13 +719,13 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
               
               {!previewLoading && !previewError && previewSongs.length > 0 && filteredSongs.length === 0 && searchTerm && (
                 <div className="no-results">
-                  {translations.noSongsFound?.[currentLanguage] || 'No songs found matching'} "{searchTerm}"
+                  {getTranslation('noSongsFound', currentLanguage)} "{searchTerm}"
                 </div>
               )}
               
               {!previewLoading && !previewError && previewSongs.length === 0 && (
                 <div className="no-songs">
-                  {translations.noValidSongs?.[currentLanguage] || 'No valid songs found in this list.'}
+                  {getTranslation('noValidSongs', currentLanguage)}
                 </div>
               )}
             </div>
@@ -739,12 +739,12 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
           <div className="preview-popup">
             <div className="preview-header">
               <h3 className="preview-title">
-                {selectedList?.name} - {translations.songList?.[currentLanguage] || 'Song List'}
+                {selectedList?.name} - {getTranslation('songList', currentLanguage)}
               </h3>
               <button
                 className="preview-close"
                 onClick={closeCompetitionPreview}
-                aria-label={translations.close?.[currentLanguage] || 'Close'}
+                aria-label={getTranslation('close', currentLanguage)}
               >
                 <X size={20} />
               </button>
@@ -753,7 +753,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             <div className="preview-content">
               {competitionPreviewLoading && (
                 <div className="preview-loading">
-                  {translations.loadingSongs?.[currentLanguage] || 'Loading songs...'}
+                  {getTranslation('loadingSongs', currentLanguage)}
                 </div>
               )}
               
@@ -768,22 +768,22 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                   <div className="search-section">
                     <input
                       type="text"
-                      placeholder={translations.searchPlaceholder?.[currentLanguage] || 'Search songs, artists, years, or IDs...'}
+                      placeholder={getTranslation('searchPlaceholder', currentLanguage)}
                       value={competitionSearchTerm}
                       onChange={(e) => setCompetitionSearchTerm(e.target.value)}
                       className="search-input"
                     />
                     <div className="search-results-count">
-                      {filteredCompetitionSongs.length} {translations.songsCount?.[currentLanguage] || 'of'} {competitionPreviewSongs.length} {translations.songsTotal?.[currentLanguage] || 'songs'}
+                      {filteredCompetitionSongs.length} {getTranslation('songsCount', currentLanguage)} {competitionPreviewSongs.length} {getTranslation('songsTotal', currentLanguage)}
                     </div>
                   </div>
                   
                   <div className="songs-list">
                     <div className="list-header">
-                      <div className="header-id">{translations.id?.[currentLanguage] || 'ID'}</div>
-                      <div className="header-title">{translations.title?.[currentLanguage] || 'Title'}</div>
-                      <div className="header-artist">{translations.artist?.[currentLanguage] || 'Artist'}</div>
-                      <div className="header-year">{translations.year?.[currentLanguage] || 'Year'}</div>
+                      <div className="header-id">{getTranslation('id', currentLanguage)}</div>
+                      <div className="header-title">{getTranslation('title', currentLanguage)}</div>
+                      <div className="header-artist">{getTranslation('artist', currentLanguage)}</div>
+                      <div className="header-year">{getTranslation('year', currentLanguage)}</div>
                     </div>
                     
                     <div className="list-body">
@@ -808,13 +808,13 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
               
               {!competitionPreviewLoading && !competitionPreviewError && competitionPreviewSongs.length > 0 && filteredCompetitionSongs.length === 0 && competitionSearchTerm && (
                 <div className="no-results">
-                  {translations.noSongsFound?.[currentLanguage] || 'No songs found matching'} "{competitionSearchTerm}"
+                  {getTranslation('noSongsFound', currentLanguage)} "{competitionSearchTerm}"
                 </div>
               )}
               
               {!competitionPreviewLoading && !competitionPreviewError && competitionPreviewSongs.length === 0 && (
                 <div className="no-songs">
-                  {translations.noValidSongs?.[currentLanguage] || 'No valid songs found in this list.'}
+                  {getTranslation('noValidSongs', currentLanguage)}
                 </div>
               )}
             </div>

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Play, Pause, RotateCcw, Square, Eye, QrCode, List, X, Music } from 'lucide-react';
 import { Language, Song } from '../types';
-import { translations } from '../data/translations';
+import { getTranslation } from '../data/translations';
 
 interface YouTubePlayerProps {
   currentLanguage: Language;
@@ -202,7 +202,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         <div className="reveal-section-header">
           <h3 className="reveal-section-title">
             <Music size={24} />
-            {translations.songFoundReveal?.[currentLanguage] || 'Song Found! Do you need a reveal?'}
+            {getTranslation('songFoundReveal', currentLanguage)}
           </h3>
         </div>
 
@@ -229,7 +229,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
           >
             {isPlaying ? <Square size={16} /> : <Play size={16} />}
-            <span>{isPlaying ? translations.stop?.[currentLanguage] || 'Stop' : translations.start?.[currentLanguage] || 'Start'}</span>
+            <span>{isPlaying ? getTranslation('stop', currentLanguage) : getTranslation('start', currentLanguage)}</span>
           </button>
           
           <button 
@@ -238,7 +238,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
           >
             <RotateCcw size={16} />
-            <span>{translations.restart?.[currentLanguage] || 'Restart'}</span>
+            <span>{getTranslation('restart', currentLanguage)}</span>
           </button>
         </div>
 
@@ -252,7 +252,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           )}
           <button className="scan-another-button" onClick={onScanAnother}>
             <QrCode size={16} />
-            <span>{translations.scanAnother?.[currentLanguage] || 'Scan Another Card'}</span>
+            <span>{getTranslation('scanAnother', currentLanguage)}</span>
           </button>
         </div>
 

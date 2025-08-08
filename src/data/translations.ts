@@ -28,6 +28,7 @@ export const translations: Translations = {
     de: 'Eine interaktive Musikspiel-App, mit der du das beliebte HITSTER-Spiel über YouTube Music spielen kannst.\n\nHITREVEAL ist eine unabhängige Anwendung und steht in keiner Weise in Verbindung mit HITSTER oder dessen Verlegern oder wird von diesen unterstützt.\n\nDiese App wurde mit dem Ziel entwickelt, den Spaß an Musikspielen wie HITSTER einer breiteren Community zugänglich zu machen, einschließlich YouTube Music-Nutzern.',
     fr: 'Une application de jeu musical interactif qui vous permet de jouer au populaire jeu HITSTER via YouTube Music.\n\nHITREVEAL est une application indépendante et n\'est en aucun cas connectée à, ou soutenue par, HITSTER ou ses éditeurs.\n\nCette application a été développée dans le but de rendre le plaisir des jeux musicaux comme HITSTER accessible à une communauté plus large, y compris les utilisateurs de YouTube Music.'
   },
+}
 // This file is deprecated - translations are now in separate language files
 // Import from src/data/translations/index.ts instead
 export * from './translations/index';
