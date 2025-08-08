@@ -172,6 +172,60 @@ export const translations: Translations = {
     de: 'QR Code scannen',
     fr: 'Scanner le code QR'
   },
+  scanQRCode: {
+    en: 'Scan QR Code',
+    nl: 'Scan QR Code',
+    de: 'QR Code scannen',
+    fr: 'Scanner le code QR'
+  },
+  cameraError: {
+    en: 'Camera Error',
+    nl: 'Camera Fout',
+    de: 'Kamera Fehler',
+    fr: 'Erreur de Caméra'
+  },
+  songAlreadyUsed: {
+    en: 'Song Already Used',
+    nl: 'Nummer Al Gebruikt',
+    de: 'Lied Bereits Verwendet',
+    fr: 'Chanson Déjà Utilisée'
+  },
+  invalidQRCode: {
+    en: 'Invalid QR Code',
+    nl: 'Ongeldige QR Code',
+    de: 'Ungültiger QR Code',
+    fr: 'Code QR Invalide'
+  },
+  camera: {
+    en: 'Camera',
+    nl: 'Camera',
+    de: 'Kamera',
+    fr: 'Caméra'
+  },
+  manual: {
+    en: 'Manual',
+    nl: 'Handmatig',
+    de: 'Manuell',
+    fr: 'Manuel'
+  },
+  pasteQRData: {
+    en: 'Paste QR Data',
+    nl: 'Plak QR Data',
+    de: 'QR Daten Einfügen',
+    fr: 'Coller les Données QR'
+  },
+  processing: {
+    en: 'Processing',
+    nl: 'Verwerken',
+    de: 'Verarbeitung',
+    fr: 'Traitement'
+  },
+  submit: {
+    en: 'Submit',
+    nl: 'Verzenden',
+    de: 'Senden',
+    fr: 'Soumettre'
+  },
   scanInstruction: {
     en: 'Point your camera at a HITSTER QR code',
     nl: 'Richt je camera op een HITSTER QR code',
