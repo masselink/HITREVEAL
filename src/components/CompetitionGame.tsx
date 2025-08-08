@@ -193,8 +193,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   const handleTurnComplete = (scores: any) => {
     console.log('🎯 TURN COMPLETE RECEIVED IN COMPETITION GAME!');
     console.log('📊 Scores received:', scores);
-    console.log('🎮 Current game settings:', settings);
-    console.log('👥 Current players before update:', players);
     
     if (!currentSong) {
       console.error('❌ No current song available');
@@ -203,7 +201,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
 
     // Update current player's score
     const currentPlayer = players[currentPlayerIndex];
-    console.log('👤 Current player:', currentPlayer);
     
     setPlayers(prev => prev.map(player => {
       if (player.id === currentPlayer.id) {
@@ -215,14 +212,12 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           bonusPoints: player.bonusPoints + (scores.bonusPoints || 0),
           score: player.score + (scores.totalPoints || 0)
         };
-        console.log('🔄 Updated player:', updatedPlayer);
-        console.log('🎯 New score vs target:', updatedPlayer.score, 'vs', settings.targetScore);
         return updatedPlayer;
       }
       return player;
     }));
 
-    // Move to next player (but don't check win conditions yet)
+    // Move to next player
     const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
     
     if (nextPlayerIndex === 0) {
@@ -273,37 +268,52 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     
     if (nextPlayerIndex === 0) {
       // Completed a full round
-      setCurrentRound(prev => prev + 1);
-    }
-    
-    setCurrentPlayerIndex(nextPlayerIndex);
-    
+    if (gamePhase === 'playing' && !showPlayerInterface) {
+      checkWinConditions();
     selectRandomSong();
-  };
+  }, [showPlayerInterface, gamePhase, currentRound, players]);
 
   const checkWinConditions = () => {
-    // Only check win conditions when in dashboard mode (not in player interface)
-    if (showPlayerInterface) {
-      console.log('🚫 Skipping win check - player interface active');
+    // Only check when we're in dashboard mode
+    if (showPlayerInterface || gamePhase !== 'playing') {
       return;
     }
     
-    console.log('👥 Current players:', players);
-    console.log('🎯 Target score:', settings.targetScore);
+    console.log('🏁 Checking win conditions...');
+    console.log('🎮 Game mode:', settings.gameMode);
     console.log('🔄 Current round:', currentRound);
-    console.log('🎵 Max rounds:', settings.maximumRounds);
+    console.log('👤 Current player index:', currentPlayerIndex);
     
     const maxScore = Math.max(...players.map(p => p.score));
-    console.log('📊 Max score found:', maxScore);
     
-    if (settings.gameMode === 'points' && maxScore >= settings.targetScore) {
-      console.log('🏆 Points win condition met!');
-      endGame();
-    } else if (settings.gameMode === 'rounds' && currentRound > settings.maximumRounds) {
-      console.log('🏆 Rounds win condition met!');
-      endGame();
+    // Check if we're at the start of a new round (currentPlayerIndex === 0)
+    // This means all players have completed their turn in the previous round
+    const isRoundComplete = currentPlayerIndex === 0;
+    
+    if (isRoundComplete) {
+      console.log('✅ Round completed, checking win conditions...');
+      
+      if (settings.gameMode === 'points' && maxScore >= settings.targetScore) {
+        console.log('🏆 Points win condition met!');
+        endGame();
+        return;
+      }
+      
+      if (settings.gameMode === 'rounds' && currentRound > settings.maximumRounds) {
+        console.log('🏆 Rounds win condition met!');
+        endGame();
+        return;
+      }
+      
+      // Check if we're out of songs
+      const availableSongs = songs.filter(song => !usedSongs.has(song.hitster_url));
+      if (availableSongs.length === 0) {
+        console.log('🏆 No more songs available!');
+        endGame();
+        return;
+      }
     } else {
-      console.log('⏳ No win condition met, continuing game...');
+      console.log('⏳ Round not complete yet, continuing...');
     }
   };
 
