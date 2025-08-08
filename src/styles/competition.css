@@ -44,7 +44,7 @@
 
 /* Center the header when only quit button is present */
 .competition-dashboard .game-session-header {
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
