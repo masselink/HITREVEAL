@@ -304,7 +304,6 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               onClick={() => handleToggleGuess('title')}
             >
               <div className="scoring-checkbox">
-                <div className="hitreveal-text">HITREVEAL! HOW DID YOU DO?</div>
               </div>
               
               <div className="scoring-content">
