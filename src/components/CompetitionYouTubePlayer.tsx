@@ -248,9 +248,10 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   };
 
   const handleTurnComplete = () => {
-    console.log('🎯 Turn Complete Button Pressed');
-    console.log('Current guessed states:', { guessedArtist, guessedTitle, guessedYear });
-    console.log('Point settings:', { artistPoints, titlePoints, yearPoints, bonusPoints });
+    console.log('🎯 TURN COMPLETE BUTTON PRESSED!');
+    console.log('🔍 Current guessed states:', { guessedArtist, guessedTitle, guessedYear });
+    console.log('⚙️ Point settings:', { artistPoints, titlePoints, yearPoints, bonusPoints });
+    console.log('🎵 Current song has year:', !!currentSong.year);
     
     // Calculate detailed score breakdown
     const scoreDetails = {
@@ -264,18 +265,20 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
       totalPoints: getTotalScore()
     };
     
-    console.log('📊 Score Details Being Passed:', scoreDetails);
+    console.log('📊 SCORE DETAILS BEING PASSED:', scoreDetails);
     console.log('🔄 onTurnComplete callback exists:', !!onTurnComplete);
+    console.log('🔄 onTurnComplete type:', typeof onTurnComplete);
     
     // Pass the detailed score breakdown to the parent component
     if (onTurnComplete) {
-      console.log('✅ Calling onTurnComplete with scores');
+      console.log('✅ CALLING onTurnComplete WITH SCORES');
       onTurnComplete(scoreDetails);
     } else {
-      console.error('onTurnComplete callback not provided!');
+      console.error('❌ onTurnComplete callback not provided!');
       // Fallback to just going back
       onScanAnother();
     }
+    console.log('🏁 TURN COMPLETE FUNCTION FINISHED');
   };
   return (
     <>
@@ -291,6 +294,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
         {/* Song Info (only show when revealed) */}
         {showReveal && (
           <div className="revealed-song-info">
+            <Check size={16} />
             <div className="competition-scoring-section">
               <div 
                 className={`scoring-item ${guessedTitle ? 'selected' : ''}`}
