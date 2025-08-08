@@ -248,6 +248,10 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   };
 
   const handleTurnComplete = () => {
+    console.log('🎯 Turn Complete Button Pressed');
+    console.log('Current guessed states:', { guessedArtist, guessedTitle, guessedYear });
+    console.log('Point settings:', { artistPoints, titlePoints, yearPoints, bonusPoints });
+    
     // Calculate detailed score breakdown
     const scoreDetails = {
       artist: guessedArtist,
@@ -260,13 +264,12 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
       totalPoints: getTotalScore()
     };
     
-    console.log('CompetitionYouTubePlayer - Turn Complete:', scoreDetails);
-    console.log('Guessed states:', { guessedArtist, guessedTitle, guessedYear });
-    console.log('Point values:', { artistPoints, titlePoints, yearPoints, bonusPoints });
-    console.log('Calculated total:', getTotalScore());
+    console.log('📊 Score Details Being Passed:', scoreDetails);
+    console.log('🔄 onTurnComplete callback exists:', !!onTurnComplete);
     
     // Pass the detailed score breakdown to the parent component
     if (onTurnComplete) {
+      console.log('✅ Calling onTurnComplete with scores');
       onTurnComplete(scoreDetails);
     } else {
       console.error('onTurnComplete callback not provided!');

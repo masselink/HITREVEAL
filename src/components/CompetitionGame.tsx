@@ -235,12 +235,17 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     yearPoints: number;
     bonusPoints: number;
     totalPoints: number;
+    artistPoints: number;
+    titlePoints: number;
+    yearPoints: number;
+    bonusPoints: number;
+    totalPoints: number;
   }) => {
-    const currentPlayerId = gameState.currentPlayerIndex;
+    console.log('🎮 Game Dashboard - Turn Complete Received');
+    console.log('📊 Score Details Received:', scoreDetails);
     
-    console.log('Turn Complete - Score Details:', scoreDetails);
-    console.log('Current Player ID:', currentPlayerId);
-    console.log('Current Player Index:', currentPlayerId);
+    const currentPlayerId = gameState.currentPlayerIndex;
+    console.log('👤 Current Player Index:', currentPlayerId);
     console.log('Players before update:', players);
     
     // Update the player's score
@@ -249,7 +254,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         index === currentPlayerId
           ? {
               ...player,
-              score: player.score + scoreDetails.totalPoints,
+              score: player.score + (scoreDetails.totalPoints || 0),
               artistPoints: player.artistPoints + scoreDetails.artistPoints,
               titlePoints: player.titlePoints + scoreDetails.titlePoints,
               yearPoints: player.yearPoints + scoreDetails.yearPoints,
@@ -257,12 +262,13 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             }
           : player
       );
-      console.log('Updated Players:', updatedPlayers);
+      console.log('✅ Updated Players:', updatedPlayers);
       return updatedPlayers;
     });
     
     // Small delay to ensure state updates before going back
     setTimeout(() => {
+      console.log('🔄 Returning to dashboard');
       handleBackToDashboard();
     }, 100);
   };
