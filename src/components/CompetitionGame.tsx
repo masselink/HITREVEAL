@@ -212,7 +212,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         artistPoints: 0,
         titlePoints: 0,
         yearPoints: 0,
-        winners: winners.length > 1 ? winners : [winners[0]],
+        bonusPoints: 0,
         skipsUsed: 0
       }));
       
