@@ -249,8 +249,9 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   };
 
   const handleSkip = () => {
-    onSkip?.();
-    onScanAnother();
+    if (onSkip) {
+      onSkip();
+    }
   };
 
   const handleTurnComplete = () => {

@@ -223,11 +223,16 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   const handleSkip = () => {
     const currentPlayer = players[currentPlayerIndex];
     
+    // Mark current song as used (skipped)
+    if (currentSong) {
+      setUsedSongs(prev => new Set([...prev, currentSong.hitster_url]));
+    }
+    
     // Deduct skip cost from player's score
     if (settings.skipCost > 0) {
       setPlayers(prev => prev.map(player => 
         player.id === currentPlayer.id 
-          ? { ...player, score: Math.max(0, player.score - settings.skipCost) }
+          ? { ...player, score: player.score - settings.skipCost }
           : player
       ));
     }
@@ -245,8 +250,8 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         : player
     ));
 
-    // Move to next turn
-    nextTurn();
+    // Select a new song for the same player (don't advance to next player)
+    selectRandomSong();
   };
 
   const nextTurn = () => {
