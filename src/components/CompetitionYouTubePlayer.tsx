@@ -297,7 +297,9 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
         {/* Song Info (only show when revealed) */}
         {showReveal && (
           <div className="revealed-song-info">
-            <Check size={16} />
+            <div className="hitreveal-header">
+              <h3>HITREVEAL! How did you do?</h3>
+            </div>
             <div className="competition-scoring-section">
               <div 
                 className={`scoring-item ${guessedTitle ? 'selected' : ''}`}
