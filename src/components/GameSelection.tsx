@@ -329,12 +329,20 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     setCompetitionPreviewError(null);
     
     try {
-      const response = await fetch(selectedList.github_link);
+      // Ensure the URL has a protocol
+      let url = selectedList.github_link;
+      if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+        url = 'https://' + url;
+      }
+      
+      console.log('Loading preview from:', url);
+      const response = await fetch(url);
       if (!response.ok) {
-        throw new Error('Failed to fetch song list');
+        throw new Error(`Failed to fetch song list: ${response.status} ${response.statusText}`);
       }
       
       const csvText = await response.text();
+      console.log('Preview CSV loaded, parsing...');
       
       Papa.parse(csvText, {
         header: true,
@@ -346,18 +354,19 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             row.title && 
             row.artist
           );
+          console.log(`Preview parsed ${data.length} total songs, ${validData.length} valid songs`);
           setCompetitionPreviewSongs(validData);
           setCompetitionPreviewLoading(false);
         },
         error: (error) => {
           console.error('Error parsing preview CSV:', error);
-          setCompetitionPreviewError('Failed to load song list preview');
+          setCompetitionPreviewError(`Failed to parse preview CSV: ${error.message}`);
           setCompetitionPreviewLoading(false);
         }
       });
     } catch (err) {
       console.error('Error fetching preview:', err);
-      setCompetitionPreviewError('Failed to load song list preview');
+      setCompetitionPreviewError(`Failed to load preview: ${err instanceof Error ? err.message : 'Unknown error'}`);
       setCompetitionPreviewLoading(false);
     }
   };

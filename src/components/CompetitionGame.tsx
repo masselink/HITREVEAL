@@ -87,12 +87,20 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   useEffect(() => {
     const loadSongs = async () => {
       try {
+        // Ensure the URL has a protocol
+        let url = songList.github_link;
+        if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+          url = 'https://' + url;
+        }
+        
+        console.log('Loading songs from:', url);
         const response = await fetch(songList.github_link);
         if (!response.ok) {
-          throw new Error('Failed to fetch song list');
+          throw new Error(`Failed to fetch song list: ${response.status} ${response.statusText}`);
         }
         
         const csvText = await response.text();
+        console.log('CSV loaded, parsing...');
         
         Papa.parse(csvText, {
           header: true,
@@ -103,17 +111,18 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
               row.title && 
               row.artist
             );
+            console.log(`Parsed ${data.length} total songs, ${validData.length} valid songs`);
             setSongs(validData);
             setSongsLoaded(true);
           },
           error: (error) => {
             console.error('Error parsing CSV:', error);
-            setLoadingError('Failed to load songs');
+            setLoadingError(`Failed to parse CSV: ${error.message}`);
           }
         });
       } catch (err) {
         console.error('Error loading songs:', err);
-        setLoadingError('Failed to load songs');
+        setLoadingError(`Failed to load songs: ${err instanceof Error ? err.message : 'Unknown error'}`);
       }
     };
 
