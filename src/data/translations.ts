@@ -110,6 +110,12 @@ export const translations: Translations = {
     de: 'Fordere deine Freunde heraus',
     fr: 'Défiez vos amis'
   },
+  competitionSubtitle2: {
+    en: '(or play alone)',
+    nl: '(of speel alleen)',
+    de: '(oder alleine spielen)',
+    fr: '(ou jouer seul)'
+  },
   back: {
     en: 'Back',
     nl: 'Terug',

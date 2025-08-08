@@ -435,6 +435,11 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                     {gameType.subtitle[currentLanguage]}
                   </p>
                 )}
+                {gameType.id === 'game-type-2' && (
+                  <p className="game-type-subtitle">
+                    {translations.competitionSubtitle2[currentLanguage]}
+                  </p>
+                )}
                 {gameType.status === 'coming-soon' && (
                   <div className="coming-soon-badge">
                     <Clock size={16} />
