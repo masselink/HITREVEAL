@@ -300,6 +300,7 @@
   font-weight: 600;
   color: var(--color-accent);
   margin: 0 0 var(--spacing-1) 0;
+  text-align: left;
 }
 
 .score-breakdown {
