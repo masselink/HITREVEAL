@@ -974,7 +974,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             <select
               className="points-dropdown"
               value={settings.drawType}
-                  {[5, 15, 20, 30, 45, 60, 90].map(duration => (
+              onChange={(e) => setSettings(prev => ({ ...prev, drawType: e.target.value as 'multiple-winners' | 'sudden-death' }))}
             >
               <option value="multiple-winners">
                 {translations.multipleWinners?.[currentLanguage] || 'Multiple Winners'}
