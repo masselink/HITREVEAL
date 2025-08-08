@@ -212,7 +212,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         artistPoints: 0,
         titlePoints: 0,
         yearPoints: 0,
-        bonusPoints: 0,
+        winners: winners.length > 1 ? winners : [winners[0]],
         skipsUsed: 0
       }));
       
@@ -299,7 +299,12 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       if (elapsed >= settings.gameDuration && shouldIncrementRound) {
         hasWinner = true;
         const maxScore = Math.max(...players.map(p => p.score));
-        winners = players.filter(p => p.score === maxScore);
+        const tiedPlayers = players.filter(p => p.score === maxScore);
+        if (settings.drawType === 'multiple-winners') {
+          winners = tiedPlayers;
+        } else {
+          winners = tiedPlayers.length > 1 ? [tiedPlayers[0]] : tiedPlayers;
+        }
       }
     } else if (settings.gameMode === 'rounds') {
       // Check if maximum rounds reached and round is complete
@@ -307,7 +312,12 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       if (nextRound > settings.maximumRounds) {
         hasWinner = true;
         const maxScore = Math.max(...players.map(p => p.score));
-        winners = players.filter(p => p.score === maxScore);
+        const tiedPlayers = players.filter(p => p.score === maxScore);
+        if (settings.drawType === 'multiple-winners') {
+          winners = tiedPlayers;
+        } else {
+          winners = tiedPlayers.length > 1 ? [tiedPlayers[0]] : tiedPlayers;
+        }
       }
     }
     
@@ -317,7 +327,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         setGameState(prev => ({
           ...prev,
           gameEnded: true,
-          winners: winners,
+          winners: winners.length > 1 ? [winners[0]] : winners,
           isGameActive: false
         }));
         setShowWinnerPage(true);
