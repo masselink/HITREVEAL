@@ -467,6 +467,20 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     return [...players].sort((a, b) => b.score - a.score);
   };
 
+  const getTranslation = (key: string, language: Language) => {
+    const translations = {
+      point: { en: 'point', es: 'punto', fr: 'point' },
+      points: { en: 'points', es: 'puntos', fr: 'points' },
+      minute: { en: 'minute', es: 'minuto', fr: 'minute' },
+      minutes: { en: 'minutes', es: 'minutos', fr: 'minutes' },
+      round: { en: 'round', es: 'ronda', fr: 'manche' },
+      rounds: { en: 'rounds', es: 'rondas', fr: 'manches' },
+      skipOption: { en: 'skip', es: 'salto', fr: 'saut' },
+      skips: { en: 'skips', es: 'saltos', fr: 'sauts' }
+    };
+    return translations[key]?.[language] || key;
+  };
+
   const translations = {
     back: { en: 'Back', es: 'Atrás', fr: 'Retour' },
     loadingSongs: { en: 'Loading songs...', es: 'Cargando canciones...', fr: 'Chargement des chansons...' },
@@ -843,7 +857,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          )}
         )}
 
         {/* No More Songs Modal */}
@@ -871,7 +885,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          )}
         )}
       </div>
     );
@@ -1069,7 +1083,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 onChange={(e) => handleSettingChange('artistPoints', parseInt(e.target.value))}
               >
                 {[1, 2, 3, 4, 5].map(points => (
-                  <option key={points} value={points}>{points} {translations.points?.[currentLanguage] || 'points'}</option>
+                  <option key={points} value={points}>{points} {getTranslation(points === 1 ? 'point' : 'points', currentLanguage)}</option>
                 ))}
               </select>
             </div>
@@ -1084,7 +1098,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 onChange={(e) => handleSettingChange('titlePoints', parseInt(e.target.value))}
               >
                 {[1, 2, 3, 4, 5].map(points => (
-                  <option key={points} value={points}>{points} {translations.points?.[currentLanguage] || 'points'}</option>
+                  <option key={points} value={points}>{points} {getTranslation(points === 1 ? 'point' : 'points', currentLanguage)}</option>
                 ))}
               </select>
             </div>
@@ -1100,7 +1114,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 disabled={!hasYearData}
               >
                 {[1, 2, 3, 4, 5].map(points => (
-                  <option key={points} value={points}>{points} {translations.points?.[currentLanguage] || 'points'}</option>
+                  <option key={points} value={points}>{points} {getTranslation(points === 1 ? 'point' : 'points', currentLanguage)}</option>
                 ))}
               </select>
               {!hasYearData && (
@@ -1121,7 +1135,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 disabled={!hasYearData}
               >
                 {[0, 1, 2, 3, 4, 5].map(points => (
-                  <option key={points} value={points}>{points} {translations.points?.[currentLanguage] || 'points'}</option>
+                  <option key={points} value={points}>{points} {getTranslation(points === 1 ? 'point' : 'points', currentLanguage)}</option>
                 ))}
               </select>
               {!hasYearData && (
@@ -1149,7 +1163,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 onChange={(e) => handleSettingChange('skipsPerPlayer', parseInt(e.target.value))}
               >
                 {[0, 1, 2, 3, 4, 5].map(skips => (
-                  <option key={skips} value={skips}>{skips}</option>
+                  <option key={skips} value={skips}>{skips} {getTranslation(skips === 1 ? 'skipOption' : 'skips', currentLanguage)}</option>
                 ))}
               </select>
             </div>
@@ -1164,7 +1178,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 onChange={(e) => handleSettingChange('skipCost', parseInt(e.target.value))}
               >
                 {[0, 1, 2, 3, 4, 5, 10].map(cost => (
-                  <option key={cost} value={cost}>{cost} {translations.points?.[currentLanguage] || 'points'}</option>
+                  <option key={cost} value={cost}>{cost} {getTranslation(cost === 1 ? 'point' : 'points', currentLanguage)}</option>
                 ))}
               </select>
             </div>
