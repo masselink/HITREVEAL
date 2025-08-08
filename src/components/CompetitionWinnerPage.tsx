@@ -25,6 +25,7 @@ interface GameSettings {
   bonusPoints: number;
   skipsPerPlayer: number;
   skipCost: number;
+  drawType: 'highest-score' | 'multiple-winners' | 'sudden-death';
 }
 
 interface GameStats {
@@ -65,21 +66,26 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
   }, []);
 
   const translations = {
-    congratulations: { en: 'Congratulations!', es: '¡Felicitaciones!', fr: 'Félicitations!' },
-    winner: { en: 'Winner', es: 'Ganador', fr: 'Gagnant' },
-    winners: { en: 'Winners', es: 'Ganadores', fr: 'Gagnants' },
-    gameStats: { en: 'Game Statistics', es: 'Estadísticas del Juego', fr: 'Statistiques du Jeu' },
-    finalScores: { en: 'Final Scores', es: 'Puntuaciones Finales', fr: 'Scores Finaux' },
-    totalRounds: { en: 'Total Rounds', es: 'Rondas Totales', fr: 'Manches Totales' },
-    songsPlayed: { en: 'Songs Played', es: 'Canciones Jugadas', fr: 'Chansons Jouées' },
-    gameDuration: { en: 'Game Duration', es: 'Duración del Juego', fr: 'Durée du Jeu' },
-    suddenDeath: { en: 'Sudden Death Mode', es: 'Modo Muerte Súbita', fr: 'Mode Mort Subite' },
-    minutes: { en: 'minutes', es: 'minutos', fr: 'minutes' },
-    playAgain: { en: 'Play Again', es: 'Jugar de Nuevo', fr: 'Rejouer' },
-    backToMenu: { en: 'Back to Menu', es: 'Volver al Menú', fr: 'Retour au Menu' },
-    points: { en: 'points', es: 'puntos', fr: 'points' }
+    congratulations: { en: 'Congratulations!', nl: 'Gefeliciteerd!', de: 'Herzlichen Glückwunsch!', fr: 'Félicitations!' },
+    winner: { en: 'Winner', nl: 'Winnaar', de: 'Gewinner', fr: 'Gagnant' },
+    winners: { en: 'Winners', nl: 'Winnaars', de: 'Gewinner', fr: 'Gagnants' },
+    gameStats: { en: 'Game Statistics', nl: 'Spelstatistieken', de: 'Spielstatistiken', fr: 'Statistiques du Jeu' },
+    finalScores: { en: 'Final Scores', nl: 'Eindscores', de: 'Endpunktzahlen', fr: 'Scores Finaux' },
+    totalRounds: { en: 'Total Rounds', nl: 'Totaal Rondes', de: 'Gesamtrunden', fr: 'Manches Totales' },
+    songsPlayed: { en: 'Songs Played', nl: 'Liedjes Gespeeld', de: 'Gespielte Lieder', fr: 'Chansons Jouées' },
+    gameDuration: { en: 'Game Duration', nl: 'Spelduur', de: 'Spieldauer', fr: 'Durée du Jeu' },
+    suddenDeath: { en: 'Sudden Death Mode', nl: 'Sudden Death Modus', de: 'Sudden Death Modus', fr: 'Mode Mort Subite' },
+    minutes: { en: 'minutes', nl: 'minuten', de: 'Minuten', fr: 'minutes' },
+    playAgain: { en: 'Play Again', nl: 'Opnieuw Spelen', de: 'Nochmal Spielen', fr: 'Rejouer' },
+    backToMenu: { en: 'Back to Menu', nl: 'Terug naar Menu', de: 'Zurück zum Menü', fr: 'Retour au Menu' },
+    points: { en: 'points', nl: 'punten', de: 'Punkte', fr: 'points' }
   };
 
+  // Determine actual winners based on highest score from allPlayers
+  const maxScore = Math.max(...allPlayers.map(p => p.score));
+  const actualWinners = allPlayers.filter(p => p.score === maxScore);
+  
+  // Sort players by score for final scores display
   const sortedPlayers = [...allPlayers].sort((a, b) => b.score - a.score);
 
   return (
@@ -111,14 +117,14 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
             {translations.congratulations[currentLanguage]}
           </h1>
           <h2 className="winner-subtitle">
-            {winners.length === 1 
+            {actualWinners.length === 1 
               ? translations.winner[currentLanguage]
               : translations.winners[currentLanguage]
             }
           </h2>
           
           <div className="winner-names">
-            {winners.map((winner, index) => (
+            {actualWinners.map((winner) => (
               <div key={winner.id} className="winner-card">
                 <Trophy size={24} />
                 <span className="winner-name">{winner.name}</span>
@@ -178,40 +184,45 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
           </h3>
           
           <div className="scores-list">
-            {sortedPlayers.map((player, index) => (
-              <div 
-                key={player.id} 
-                className={`score-row ${winners.some(w => w.id === player.id) ? 'winner-row' : ''}`}
-              >
-                <div className="player-rank">
-                  {index === 0 || winners.some(w => w.id === player.id) ? (
-                    <Crown size={20} className="crown-icon" />
-                  ) : (
-                    <span className="rank-number">#{index + 1}</span>
-                  )}
-                </div>
-                <div className="player-details">
-                  <div className="player-name">{player.name}</div>
-                  <div className="score-breakdown">
-                    {player.artistPoints > 0 && (
-                      <span className="score-part artist">A: {player.artistPoints}</span>
-                    )}
-                    {player.titlePoints > 0 && (
-                      <span className="score-part title">T: {player.titlePoints}</span>
-                    )}
-                    {player.yearPoints > 0 && (
-                      <span className="score-part year">Y: {player.yearPoints}</span>
-                    )}
-                    {player.bonusPoints > 0 && (
-                      <span className="score-part bonus">B: {player.bonusPoints}</span>
+            {sortedPlayers.map((player, index) => {
+              // Show crown for all players with the highest score (all winners)
+              const isWinner = actualWinners.some(w => w.id === player.id);
+              
+              return (
+                <div 
+                  key={player.id} 
+                  className={`score-row ${isWinner ? 'winner-row' : ''}`}
+                >
+                  <div className="player-rank">
+                    {isWinner ? (
+                      <Crown size={20} className="crown-icon" />
+                    ) : (
+                      <span className="rank-number">#{index + 1}</span>
                     )}
                   </div>
+                  <div className="player-details">
+                    <div className="player-name">{player.name}</div>
+                    <div className="score-breakdown">
+                      {player.artistPoints > 0 && (
+                        <span className="score-part artist">A: {player.artistPoints}</span>
+                      )}
+                      {player.titlePoints > 0 && (
+                        <span className="score-part title">T: {player.titlePoints}</span>
+                      )}
+                      {player.yearPoints > 0 && (
+                        <span className="score-part year">Y: {player.yearPoints}</span>
+                      )}
+                      {player.bonusPoints > 0 && (
+                        <span className="score-part bonus">B: {player.bonusPoints}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="player-total-score">
+                    {player.score}
+                  </div>
                 </div>
-                <div className="player-total-score">
-                  {player.score}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
