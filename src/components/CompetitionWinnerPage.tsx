@@ -120,7 +120,7 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
           <div className="winner-names">
             {winners.map((winner, index) => (
               <div key={winner.id} className="winner-card">
-                <Crown size={24} />
+                <Trophy size={24} />
                 <span className="winner-name">{winner.name}</span>
                 <span className="winner-score">{winner.score} {translations.points[currentLanguage]}</span>
               </div>
