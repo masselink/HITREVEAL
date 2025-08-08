@@ -12,11 +12,13 @@ function App() {
   const [gameSession, setGameSession] = React.useState<SongList | null>(null);
 
   const handleLogoClick = () => {
+    window.scrollTo(0, 0);
     setShowGameSelection(false);
     setGameSession(null);
   };
 
   const handleStartGame = (gameType: string, songList?: SongList) => {
+    window.scrollTo(0, 0);
     if (songList) {
       setGameSession(songList);
       // Store the game type for the session
@@ -25,6 +27,7 @@ function App() {
   };
 
   const handleBackFromGame = () => {
+    window.scrollTo(0, 0);
     setGameSession(null);
   };
 

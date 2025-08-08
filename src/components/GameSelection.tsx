@@ -247,6 +247,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
       return;
     }
     
+    window.scrollTo(0, 0);
     const selectedList = filteredSongLists.find(list => list.name === selectedSongList);
     if (selectedList) {
       onStartGame('hitster-youtube', selectedList);
@@ -259,6 +260,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
       return;
     }
     
+    window.scrollTo(0, 0);
     const selectedList = filteredSongLists.find(list => list.name === selectedSongList);
     if (selectedList) {
       onStartGame('game-type-2', selectedList);

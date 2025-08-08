@@ -172,6 +172,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       return; // Don't start if there are validation errors
     }
     
+    window.scrollTo(0, 0);
     setGamePhase('playing');
     setGameStartTime(new Date());
     setGameHasStarted(true);
@@ -333,6 +334,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const handlePlayAgain = () => {
+    window.scrollTo(0, 0);
     // Reset game state
     setGamePhase('settings');
     setCurrentPlayerIndex(0);
@@ -361,6 +363,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const handleBackToMenu = () => {
+    window.scrollTo(0, 0);
     onBack();
   };
 
@@ -369,6 +372,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const confirmQuit = () => {
+    window.scrollTo(0, 0);
     onBack();
   };
 
@@ -377,6 +381,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const handleBackToDashboard = () => {
+    window.scrollTo(0, 0);
     setShowPlayerInterface(false);
   };
 

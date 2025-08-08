@@ -284,6 +284,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
     console.log('🔄 onTurnComplete callback exists:', !!onTurnComplete);
     console.log('🔄 onTurnComplete type:', typeof onTurnComplete);
     
+    window.scrollTo(0, 0);
     // Pass the detailed score breakdown to the parent component
     if (onTurnComplete) {
       console.log('✅ CALLING onTurnComplete WITH SCORES');

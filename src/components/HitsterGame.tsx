@@ -80,6 +80,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
   };
 
   const handleScanAnother = () => {
+    window.scrollTo(0, 0);
     setCurrentSong(null);
     setScannedData('');
     setShouldAutoStartScanning(true);
@@ -103,6 +104,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
   };
 
   const handleBackToScanner = () => {
+    window.scrollTo(0, 0);
     setShowPlayer(false);
     setCurrentSong(null);
     setScannedData('');

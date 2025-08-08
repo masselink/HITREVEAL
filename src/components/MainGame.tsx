@@ -19,10 +19,12 @@ export const MainGame: React.FC<MainGameProps> = ({
 }) => {
 
   const handleStartGame = () => {
+    window.scrollTo(0, 0);
     onShowGameSelection(true);
   };
 
   const handleBackToMain = () => {
+    window.scrollTo(0, 0);
     onShowGameSelection(false);
   };
 
