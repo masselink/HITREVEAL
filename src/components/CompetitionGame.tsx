@@ -207,7 +207,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       // Initialize players
       const initialPlayers: Player[] = playerNames.map((name, index) => ({
         id: index,
-        name,
+        name: name.trim() || `Player ${index + 1}`,
         score: 0,
         artistPoints: 0,
         titlePoints: 0,
