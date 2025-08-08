@@ -60,5 +60,5 @@ export interface CompetitionSettings {
   bonusPoints: number;
   skipsPerPlayer: number;
   skipCost: number;
-  drawType: 'highest-score' | 'multiple-winners' | 'sudden-death';
+  drawType: 'highest-score' | 'multiple-winners';
 }
