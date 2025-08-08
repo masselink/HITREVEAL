@@ -300,11 +300,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         hasWinner = true;
         const maxScore = Math.max(...players.map(p => p.score));
         const tiedPlayers = players.filter(p => p.score === maxScore);
-        if (settings.drawType === 'multiple-winners') {
-          winners = tiedPlayers;
-        } else {
-          winners = tiedPlayers.length > 1 ? [tiedPlayers[0]] : tiedPlayers;
-        }
+        winners = tiedPlayers;
       }
     } else if (settings.gameMode === 'rounds') {
       // Check if maximum rounds reached and round is complete
@@ -313,11 +309,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         hasWinner = true;
         const maxScore = Math.max(...players.map(p => p.score));
         const tiedPlayers = players.filter(p => p.score === maxScore);
-        if (settings.drawType === 'multiple-winners') {
-          winners = tiedPlayers;
-        } else {
-          winners = tiedPlayers.length > 1 ? [tiedPlayers[0]] : tiedPlayers;
-        }
+        winners = tiedPlayers;
       }
     }
     
@@ -327,7 +319,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         setGameState(prev => ({
           ...prev,
           gameEnded: true,
-          winners: winners.length > 1 ? [winners[0]] : winners,
+          winners: winners,
           isGameActive: false
         }));
         setShowWinnerPage(true);
@@ -358,7 +350,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           setGameState(prev => ({
             ...prev,
             gameEnded: true,
-            winners: winners,
+            winners: settings.drawType === 'multiple-winners' ? winners : [winners[0]],
             isGameActive: false
           }));
           setShowWinnerPage(true);
