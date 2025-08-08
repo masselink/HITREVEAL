@@ -399,9 +399,9 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           <div className="game-session-container">
             {/* Header */}
             <div className="game-session-header">
-              <button className="turn-complete-button" onClick={handleBackToDashboard}>
+              <button className="back-button" onClick={handleBackToDashboard}>
                 <ArrowLeft size={20} />
-                <span>Turn Complete</span>
+                <span>Back to Dashboard</span>
               </button>
               <button className="primary-button game-session-title-button" disabled>
                 {getCurrentPlayer()?.name}'s Turn

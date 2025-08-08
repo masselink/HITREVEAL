@@ -434,7 +434,15 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
           )}
           
           {showReveal && (
-            <button className="turn-complete-button" onClick={handleTurnComplete}>
+            <button 
+              className="turn-complete-button" 
+              onClick={() => {
+                console.log('🎯 TURN COMPLETE BUTTON CLICKED IN PLAYER!');
+                handleTurnComplete();
+              }}
+              type="button"
+            >
+              <ArrowLeft size={16} />
               <span>TURN COMPLETE</span>
             </button>
           )}
