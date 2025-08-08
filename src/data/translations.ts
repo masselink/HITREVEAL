@@ -727,5 +727,59 @@ export const translations: Translations = {
     nl: 'Klassement',
     de: 'Bestenliste',
     fr: 'Classement'
+  },
+  winner: {
+    en: 'Winner!',
+    nl: 'Winnaar!',
+    de: 'Gewinner!',
+    fr: 'Gagnant!'
+  },
+  winners: {
+    en: 'Winners!',
+    nl: 'Winnaars!',
+    de: 'Gewinner!',
+    fr: 'Gagnants!'
+  },
+  tie: {
+    en: 'It\'s a Tie!',
+    nl: 'Het is Gelijkspel!',
+    de: 'Unentschieden!',
+    fr: 'Égalité!'
+  },
+  playAgain: {
+    en: 'Play Again',
+    nl: 'Opnieuw Spelen',
+    de: 'Nochmal Spielen',
+    fr: 'Rejouer'
+  },
+  backToMenu: {
+    en: 'Back to Menu',
+    nl: 'Terug naar Menu',
+    de: 'Zurück zum Menü',
+    fr: 'Retour au Menu'
+  },
+  noMoreTurns: {
+    en: 'No More Turns',
+    nl: 'Geen Beurten Meer',
+    de: 'Keine Züge Mehr',
+    fr: 'Plus de Tours'
+  },
+  noMoreTurnsMessage: {
+    en: 'There are not enough songs left in the list for all players to have another turn. The winner will be decided based on the last completed full round.',
+    nl: 'Er zijn niet genoeg nummers over in de lijst voor alle spelers om nog een beurt te hebben. De winnaar wordt bepaald op basis van de laatst voltooide volledige ronde.',
+    de: 'Es sind nicht genügend Songs in der Liste übrig, damit alle Spieler noch einen Zug haben können. Der Gewinner wird basierend auf der letzten vollständig abgeschlossenen Runde bestimmt.',
+    fr: 'Il n\'y a pas assez de chansons restantes dans la liste pour que tous les joueurs aient un autre tour. Le gagnant sera déterminé sur la base du dernier tour complet terminé.'
+  },
+  okay: {
+    en: 'Okay',
+    nl: 'Oké',
+    de: 'Okay',
+    fr: 'D\'accord'
+  },
+  songsUsed: {
+    en: 'Songs Used',
+    nl: 'Gebruikte Nummers',
+    de: 'Verwendete Songs',
+    fr: 'Chansons Utilisées'
   }
 };
