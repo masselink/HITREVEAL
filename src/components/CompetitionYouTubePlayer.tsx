@@ -285,95 +285,94 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   };
   return (
     <>
-      <div className="simple-player-section">
-        {/* Reveal Section Header */}
-        <div className="reveal-section-header">
-          <h3 className="reveal-section-title">
-            <Music size={24} />
-            {translations.songFoundReveal?.[currentLanguage] || 'Song Found! Do you need a reveal?'}
-          </h3>
-        </div>
+      {/* Reveal Section Header */}
+      <div className="reveal-section-header">
+        <h3 className="reveal-section-title">
+          <Music size={24} />
+          {translations.songFoundReveal?.[currentLanguage] || 'Song Found! Playing...'}
+        </h3>
+      </div>
 
-        {/* Song Info (only show when revealed) */}
-        {showReveal && (
-          <div className="revealed-song-info">
-            <div className="hitreveal-header">
-              <h3>HITREVEAL! How did you do?</h3>
-            </div>
-            <div className="competition-scoring-section">
-              <div 
-                className={`scoring-item ${guessedTitle ? 'selected' : ''}`}
-                onClick={() => handleToggleGuess('title')}
-              >
-                <div className="scoring-checkbox">
-                  {guessedTitle && <Check size={16} />}
-                </div>
-                <div className="scoring-content">
-                  <div className="scoring-label">Title</div>
-                  <div className="scoring-value">{currentSong.title}</div>
-                </div>
-                <div className="scoring-points">+{titlePoints}</div>
-              </div>
-              
-              <div 
-                className={`scoring-item ${guessedArtist ? 'selected' : ''}`}
-                onClick={() => handleToggleGuess('artist')}
-              >
-                <div className="scoring-checkbox">
-                  {guessedArtist && <Check size={16} />}
-                </div>
-                <div className="scoring-content">
-                  <div className="scoring-label">Artist</div>
-                  <div className="scoring-value">{currentSong.artist}</div>
-                </div>
-                <div className="scoring-points">+{artistPoints}</div>
-              </div>
-              
-              {currentSong.year && (
-                <div 
-                  className={`scoring-item ${guessedYear ? 'selected' : ''}`}
-                  onClick={() => handleToggleGuess('year')}
-                >
-                  <div className="scoring-checkbox">
-                    {guessedYear && <Check size={16} />}
-                  </div>
-                  <div className="scoring-content">
-                    <div className="scoring-label">Year</div>
-                    <div className="scoring-value">{currentSong.year}</div>
-                  </div>
-                  <div className="scoring-points">+{yearPoints}</div>
-                </div>
-              )}
-              
-              {bonusPoints > 0 && currentSong.year && (
-                <div className={`bonus-item ${guessedArtist && guessedTitle && guessedYear ? 'active' : ''}`}>
-                  <div className="bonus-content">
-                    <div className="bonus-label">Bonus (All Correct)</div>
-                    <div className="bonus-points">+{bonusPoints}</div>
-                  </div>
-                </div>
-              )}
-              
-              <div className="total-score">
-                <div className="total-label">Total Score</div>
-                <div className="total-points">{getTotalScore()} points</div>
-              </div>
-              
-              {/* Turn Complete Button - moved here */}
-              <button 
-                className="turn-complete-button" 
-                onClick={() => {
-                  console.log('🎯 TURN COMPLETE BUTTON CLICKED IN PLAYER!');
-                  handleTurnComplete();
-                }}
-                type="button"
-              >
-                <ArrowLeft size={16} />
-                <span>TURN COMPLETE</span>
-              </button>
-            </div>
+      {/* Song Info (only show when revealed) */}
+      {showReveal && (
+        <div className="revealed-song-info">
+          <div className="hitreveal-header">
+            <h3>HITREVEAL! How did you do?</h3>
           </div>
-        )}
+          <div className="competition-scoring-section">
+            <div 
+              className={`scoring-item ${guessedTitle ? 'selected' : ''}`}
+              onClick={() => handleToggleGuess('title')}
+            >
+              <div className="scoring-checkbox">
+                <div className="hitreveal-text">HITREVEAL! HOW DID YOU DO?</div>
+              </div>
+              
+              <div className="scoring-content">
+                <div className="scoring-label">Title</div>
+                <div className="scoring-value">{currentSong.title}</div>
+              </div>
+              
+              <div className="scoring-points">+{titlePoints}</div>
+            </div>
+            
+            <div 
+              className={`scoring-item ${guessedArtist ? 'selected' : ''}`}
+              onClick={() => handleToggleGuess('artist')}
+            >
+              <div className="scoring-checkbox">
+              </div>
+              <div className="scoring-content">
+                <div className="scoring-label">Artist</div>
+                <div className="scoring-value">{currentSong.artist}</div>
+              </div>
+              <div className="scoring-points">+{artistPoints}</div>
+            </div>
+            
+            {currentSong.year && (
+              <div 
+                className={`scoring-item ${guessedYear ? 'selected' : ''}`}
+                onClick={() => handleToggleGuess('year')}
+              >
+                <div className="scoring-checkbox">
+                </div>
+                <div className="scoring-content">
+                  <div className="scoring-label">Year</div>
+                  <div className="scoring-value">{currentSong.year}</div>
+                </div>
+                <div className="scoring-points">+{yearPoints}</div>
+              </div>
+            )}
+            
+            {bonusPoints > 0 && currentSong.year && (
+              <div className={`bonus-item ${guessedArtist && guessedTitle && guessedYear ? 'active' : ''}`}>
+                <div className="bonus-content">
+                  <div className="bonus-label">Bonus (All Correct)</div>
+                  <div className="bonus-points">+{bonusPoints}</div>
+                </div>
+              </div>
+            )}
+            
+            <div className="total-score">
+              <div className="total-label">Total Score</div>
+              <div className="total-points">{getTotalScore()} points</div>
+            </div>
+            
+            {/* Turn Complete Button - moved here */}
+            <button 
+              className="turn-complete-button" 
+              onClick={() => {
+                console.log('🎯 TURN COMPLETE BUTTON CLICKED IN PLAYER!');
+                handleTurnComplete();
+              }}
+              type="button"
+            >
+              <ArrowLeft size={16} />
+              <span>TURN COMPLETE</span>
+            </button>
+          </div>
+        </div>
+      )}
 
         {/* Song Info (legacy - keeping for non-competition modes) */}
         {showReveal && false && (
@@ -392,71 +391,53 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
           </div>
         )}
 
-        {/* Legacy song info display - hidden for competition */}
-        {false && showReveal && (
-          <div className="revealed-song-info">
-            <div className="song-title">
-              {currentSong.title}
-            </div>
-            <div className="song-artist">
-              {currentSong.artist}
-            </div>
-            {currentSong.year && (
-              <div className="song-year">
-                {currentSong.year}
-              </div>
-            )}
+      {/* Legacy song info display - hidden for competition */}
+      {false && showReveal && (
+        <div className="revealed-song-info">
+          <div className="song-title">
+            {currentSong.title}
           </div>
+          <div className="song-artist">
+      {/* Simple Controls */}
+      <div className="simple-controls">
+        <button 
+          className="control-button start-pause-button" 
+          onClick={togglePlayPause}
+          disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
+        >
+          {isPlaying ? <Square size={16} /> : <Play size={16} />}
+          <span>{isPlaying ? translations.stop?.[currentLanguage] || 'Stop' : translations.start?.[currentLanguage] || 'Start'}</span>
+        </button>
+        
+        <button 
+          className="control-button restart-button secondary-blue" 
+          onClick={restartMusic}
+          disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
+        >
+          <RotateCcw size={16} />
+          <span>{translations.restart?.[currentLanguage] || 'Restart'}</span>
+        </button>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="action-buttons">
+        {!showReveal && (
+          <>
+            <button className="primary-button" onClick={handleReveal}>
+              <Eye size={16} />
+              <span>HITREVEAL</span>
+            </button>
+            <button className="scan-another-button skip-with-cost" onClick={handleSkip}>
+              <span>SKIP</span>
+              <span className="skip-cost">-{skipCost || 0}</span>
+            </button>
+          </>
         )}
+      </div>
 
-        {/* YouTube Video Player (visible when revealed) */}
-        {showVideo && (
-          <div className="youtube-video-container">
-            <div id="competition-visible-youtube-player"></div>
-          </div>
-        )}
-
-        {/* Simple Controls */}
-        <div className="simple-controls">
-          <button 
-            className="control-button start-pause-button" 
-            onClick={togglePlayPause}
-            disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
-          >
-            {isPlaying ? <Square size={16} /> : <Play size={16} />}
-            <span>{isPlaying ? translations.stop?.[currentLanguage] || 'Stop' : translations.start?.[currentLanguage] || 'Start'}</span>
-          </button>
-          
-          <button 
-            className="control-button restart-button secondary-blue" 
-            onClick={restartMusic}
-            disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
-          >
-            <RotateCcw size={16} />
-            <span>{translations.restart?.[currentLanguage] || 'Restart'}</span>
-          </button>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="action-buttons">
-          {!showReveal && (
-            <>
-              <button className="primary-button" onClick={handleReveal}>
-                <Eye size={16} />
-                <span>HITREVEAL</span>
-              </button>
-              <button className="scan-another-button skip-with-cost" onClick={handleSkip}>
-                <span>SKIP</span>
-                <span className="skip-cost">-{skipCost || 0}</span>
-              </button>
-            </>
-          )}
-        </div>
-
-        {/* Hidden YouTube Player */}
-        <div className="background-video-container">
-          <div id="competition-youtube-player"></div>
-        </div>
+      {/* Hidden YouTube Player */}
+      <div className="background-video-container">
+        <div id="competition-youtube-player"></div>
       </div>
     </>
   );
