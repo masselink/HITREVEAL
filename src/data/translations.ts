@@ -674,12 +674,6 @@ export const translations: Translations = {
     de: 'Mehrere Gewinner',
     fr: 'Plusieurs Gagnants'
   },
-  suddenDeath: {
-    en: 'Sudden Death',
-    nl: 'Sudden Death',
-    de: 'Sudden Death',
-    fr: 'Sudden Death'
-  },
   pointsModeRules: {
     en: 'First player to reach the target score wins.',
     nl: 'De eerste speler die de doelscore behaalt wint.',
@@ -703,12 +697,6 @@ export const translations: Translations = {
     nl: 'Alle spelers met de hoogste score worden tot winnaar uitgeroepen.',
     de: 'Alle Spieler mit der höchsten Punktzahl werden zu Gewinnern erklärt.',
     fr: 'Tous les joueurs avec le score le plus élevé sont déclarés gagnants.'
-  },
-  suddenDeathDesc: {
-    en: 'Players with highest score play additional rounds until there is a single winner.',
-    nl: 'Spelers met hoogste score spelen extra rondes tot er één winnaar is.',
-    de: 'Spieler mit der höchsten Punktzahl spielen zusätzliche Runden, bis es einen einzigen Gewinner gibt.',
-    fr: 'Les joueurs avec le score le plus élevé jouent des rounds supplémentaires jusqu\'à ce qu\'il y ait un seul gagnant.'
   },
   yearScoringDisabled: {
     en: 'Year scoring disabled - some songs missing year data',

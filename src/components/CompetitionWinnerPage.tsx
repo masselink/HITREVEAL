@@ -26,6 +26,7 @@ interface GameSettings {
   skipsPerPlayer: number;
   skipCost: number;
   drawType: 'highest-score' | 'multiple-winners' | 'sudden-death';
+  drawType: 'highest-score' | 'multiple-winners';
 }
 
 interface GameStats {
@@ -41,7 +42,6 @@ interface CompetitionWinnerPageProps {
   allPlayers: Player[];
   gameSettings: GameSettings;
   gameStats: GameStats;
-  notEnoughSongs?: boolean;
   onPlayAgain: () => void;
   onBackToMenu: () => void;
 }
@@ -52,7 +52,6 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
   allPlayers,
   gameSettings,
   gameStats,
-  notEnoughSongs = false,
   onPlayAgain,
   onBackToMenu
 }) => {
@@ -76,14 +75,10 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
     totalRounds: { en: 'Total Rounds', nl: 'Totaal Rondes', de: 'Gesamtrunden', fr: 'Manches Totales' },
     songsPlayed: { en: 'Songs Played', nl: 'Liedjes Gespeeld', de: 'Gespielte Lieder', fr: 'Chansons Jouées' },
     gameDuration: { en: 'Game Duration', nl: 'Spelduur', de: 'Spieldauer', fr: 'Durée du Jeu' },
-    suddenDeath: { en: 'Sudden Death Mode', nl: 'Sudden Death Modus', de: 'Sudden Death Modus', fr: 'Mode Mort Subite' },
     minutes: { en: 'minutes', nl: 'minuten', de: 'Minuten', fr: 'minutes' },
     playAgain: { en: 'Play Again', nl: 'Opnieuw Spelen', de: 'Nochmal Spielen', fr: 'Rejouer' },
     backToMenu: { en: 'Back to Menu', nl: 'Terug naar Menu', de: 'Zurück zum Menü', fr: 'Retour au Menu' },
     points: { en: 'points', nl: 'punten', de: 'Punkte', fr: 'points' },
-    suddenDeathWinner: { en: 'Winner by Sudden Death!', nl: 'Winnaar door Sudden Death!', de: 'Gewinner durch Sudden Death!', fr: 'Gagnant par Mort Subite!' },
-    notEnoughSongsTitle: { en: 'Not Enough Songs', nl: 'Niet Genoeg Nummers', de: 'Nicht Genug Songs', fr: 'Pas Assez de Chansons' },
-    notEnoughSongsMessage: { en: 'There were not enough songs left in the list to decide a winner through sudden death mode.', nl: 'Er waren niet genoeg nummers over in de lijst om een winnaar te bepalen via sudden death modus.', de: 'Es waren nicht genug Songs in der Liste übrig, um einen Gewinner durch Sudden Death Modus zu bestimmen.', fr: 'Il n\'y avait pas assez de chansons restantes dans la liste pour déterminer un gagnant par le mode mort subite.' }
   };
 
   // Determine actual winners based on highest score from allPlayers
@@ -115,25 +110,6 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
       <div className="winner-content">
         {/* Winner Announcement */}
         <div className="winner-announcement">
-          {notEnoughSongs && (
-            <div className="not-enough-songs-notice">
-              <h3 className="notice-title">
-                {translations.notEnoughSongsTitle[currentLanguage]}
-              </h3>
-              <p className="notice-message">
-                {translations.notEnoughSongsMessage[currentLanguage]}
-              </p>
-            </div>
-          )}
-          
-          {gameStats.wasSuddenDeath && !notEnoughSongs && (
-            <div className="sudden-death-notice">
-              <h3 className="sudden-death-title">
-                ⚡ {translations.suddenDeathWinner[currentLanguage]}
-              </h3>
-            </div>
-          )}
-          
           <div className="winner-trophy">
             <Trophy size={80} />
           </div>
@@ -188,16 +164,6 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
                 <div className="stat-label">{translations.gameDuration[currentLanguage]}</div>
               </div>
             </div>
-            
-            {gameStats.wasSuddenDeath && (
-              <div className="stat-card sudden-death-stat">
-                <Star size={24} />
-                <div className="stat-content">
-                  <div className="stat-value">!</div>
-                  <div className="stat-label">{translations.suddenDeath[currentLanguage]}</div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
