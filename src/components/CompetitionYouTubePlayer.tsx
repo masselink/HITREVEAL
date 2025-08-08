@@ -445,7 +445,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
           <button 
             className="scan-another-button skip-with-cost" 
             onClick={handleSkip}
-            disabled={skipsRemaining === 0 || (currentPlayerScore !== undefined && currentPlayerScore < skipCost)}
+            disabled={skipsRemaining === 0}
           >
             <span>{skipsRemaining} SKIP{skipsRemaining !== 1 ? 'S' : ''}</span>
             <span className="skip-cost">-{skipCost || 0}</span>
