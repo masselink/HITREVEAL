@@ -434,18 +434,21 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
       {/* Action Buttons */}
       <div className="action-buttons">
         {!showReveal && (
-          <>
-            <button className="primary-button" onClick={handleReveal}>
-              <Eye size={16} />
-              <span>HITREVEAL</span>
-            </button>
-            {onSkip && skipsRemaining > 0 && (
-              <button className="scan-another-button skip-with-cost" onClick={handleSkip}>
-                <span>SKIP ({skipsRemaining})</span>
-                <span className="skip-cost">-{skipCost || 0}</span>
-              </button>
-            )}
-          </>
+          <button className="primary-button" onClick={handleReveal}>
+            <Eye size={16} />
+            <span>HITREVEAL</span>
+          </button>
+        )}
+        
+        {onSkip && (
+          <button 
+            className="scan-another-button skip-with-cost" 
+            onClick={handleSkip}
+            disabled={skipsRemaining === 0 || (currentPlayerScore !== undefined && currentPlayerScore < skipCost)}
+          >
+            <span>{skipsRemaining} SKIP{skipsRemaining !== 1 ? 'S' : ''}</span>
+            <span className="skip-cost">-{skipCost || 0}</span>
+          </button>
         )}
       </div>
 
