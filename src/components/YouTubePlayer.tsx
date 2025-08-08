@@ -19,7 +19,7 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   allSongs,
   onScanAnother,
   onSongListView,
-  songListViewCount
+  songListViewCount,
   songListName = 'Unknown Songlist',
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
