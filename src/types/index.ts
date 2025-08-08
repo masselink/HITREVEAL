@@ -10,6 +10,7 @@ export interface Translations {
     en: string;
     nl: string;
     de: string;
+    fr: string;
   };
 }
 
