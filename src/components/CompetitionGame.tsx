@@ -541,6 +541,9 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   <p className="player-status">
                     {translations.yourTurn?.[currentLanguage] || 'Your Turn'}
                   </p>
+                  <p className="player-skips">
+                    {currentPlayer?.skipsUsed || 0} / {settings.skipsPerPlayer} skips
+                  </p>
                 </div>
               </div>
               <button className="player-go-button" onClick={handlePlayerGo}>
