@@ -222,8 +222,16 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       return player;
     }));
 
-    // Move to next player
-    nextTurn();
+    // Move to next player (but don't check win conditions yet)
+    const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    
+    if (nextPlayerIndex === 0) {
+      // Completed a full round
+      setCurrentRound(prev => prev + 1);
+    }
+    
+    setCurrentPlayerIndex(nextPlayerIndex);
+    selectRandomSong();
   };
 
   const handleSkip = () => {
