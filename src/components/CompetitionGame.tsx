@@ -456,10 +456,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         <div className="game-session-container">
           {/* Header */}
           <div className="game-session-header">
-            <button className="back-button" onClick={handleBackToDashboard}>
-              <ArrowLeft size={20} />
-              <span>{getTranslation('back', currentLanguage)}</span>
-            </button>
           </div>
 
           {/* YouTube Player */}
