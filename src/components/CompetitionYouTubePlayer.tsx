@@ -72,13 +72,12 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
             onReady: () => {
               console.log('Competition YouTube player ready');
               setIsPlayerReady(true);
-              // Autostart playing when player is ready
+              // Load the video but don't autoplay on mobile to avoid issues
               if (currentSong) {
                 const videoId = extractVideoId(currentSong.youtube_url);
                 if (videoId) {
                   hiddenPlayerRef.current.loadVideoById(videoId);
-                  hiddenPlayerRef.current.playVideo();
-                  setIsPlaying(true);
+                  // Don't autoplay in onReady to avoid mobile issues
                 }
               }
             },
@@ -119,8 +118,15 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
       const videoId = extractVideoId(currentSong.youtube_url);
       if (videoId) {
         hiddenPlayerRef.current.loadVideoById(videoId);
-        hiddenPlayerRef.current.playVideo();
-        setIsPlaying(true);
+        // On mobile, autoplay might be blocked, so we don't set isPlaying to true immediately
+        // Let the user manually start playback
+        try {
+          hiddenPlayerRef.current.playVideo();
+          setIsPlaying(true);
+        } catch (error) {
+          console.log('Autoplay blocked on mobile, user interaction required');
+          setIsPlaying(false);
+        }
       }
     }
   }, [currentSong, isPlayerReady]);
