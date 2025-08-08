@@ -1,750 +1,995 @@
-import { Translations } from '../types';
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, Play, X, List, Crown, Clock, Target, Music, Users } from 'lucide-react';
+import { Language, SongList, Song } from '../types';
+import { CompetitionYouTubePlayer } from './CompetitionYouTubePlayer';
+import Papa from 'papaparse';
 
-export const translations: Translations = {
-  // Header
-  gameTitle: {
-    en: 'HitReveal',
-    nl: 'HitReveal',
-    de: 'HitReveal',
-    fr: 'HitReveal'
-  },
-  
-  // Main Game Area
-  welcomeTitle: {
-    en: 'Welcome to HITREVEAL',
-    nl: 'Welkom bij HITREVEAL',
-    de: 'Willkommen bei HITREVEAL',
-    fr: 'Bienvenue sur HITREVEAL'
-  },
-  welcomeSubtitle: {
-    en: 'The ultimate music guessing experience',
-    nl: 'De ultieme muziek raad ervaring',
-    de: 'Das ultimative Musik-Ratespiel',
-    fr: 'L\'expérience ultime de devinette musicale'
-  },
-  gameDescription: {
-    en: 'An interactive music game app that lets you play the popular HITSTER game through YouTube Music.\n\nHITREVEAL is an independent application and is in no way connected to, or supported by, HITSTER or its publishers.\n\nThis app was developed with the goal of making the fun of music games like HITSTER accessible to a broader community, including YouTube Music users.',
-    nl: 'Een interactieve muziekspel-app waarmee je het populaire spel HITSTER kunt spelen maar dan via YouTube Music.\n\nHITREVEAL is een onafhankelijke applicatie en staat op geen enkele manier in verbinding met, of wordt ondersteund door, HITSTER of haar uitgevers.\n\nDeze app is ontwikkeld met als doel het plezier van muziekspellen zoals HITSTER toegankelijk te maken voor een bredere community, waaronder gebruikers YouTube Music.',
-    de: 'Eine interaktive Musikspiel-App, mit der du das beliebte HITSTER-Spiel über YouTube Music spielen kannst.\n\nHITREVEAL ist eine unabhängige Anwendung und steht in keiner Weise in Verbindung mit HITSTER oder dessen Verlegern oder wird von diesen unterstützt.\n\nDiese App wurde mit dem Ziel entwickelt, den Spaß an Musikspielen wie HITSTER einer breiteren Community zugänglich zu machen, einschließlich YouTube Music-Nutzern.',
-    fr: 'Une application de jeu musical interactif qui vous permet de jouer au populaire jeu HITSTER via YouTube Music.\n\nHITREVEAL est une application indépendante et n\'est en aucun cas connectée à, ou soutenue par, HITSTER ou ses éditeurs.\n\nCette application a été développée dans le but de rendre le plaisir des jeux musicaux comme HITSTER accessible à une communauté plus large, y compris les utilisateurs de YouTube Music.'
-  },
-  startGame: {
-    en: 'Play a Game',
-    nl: 'Speel een spel',
-    de: 'Spiel ein Spiel',
-    fr: 'Jouer un jeu'
-  },
-  howToPlay: {
-    en: 'How to Play',
-    nl: 'Hoe te spelen',
-    de: 'Spielanleitung',
-    fr: 'Comment jouer'
-  },
-  
-  // Footer
-  footerAbout: {
-    en: 'About',
-    nl: 'Over ons',
-    de: 'Über uns',
-    fr: 'À propos'
-  },
-  footerPrivacy: {
-    en: 'Privacy Policy',
-    nl: 'Privacybeleid',
-    de: 'Datenschutz',
-    fr: 'Politique de confidentialité'
-  },
-  footerTerms: {
-    en: 'Terms of Service',
-    nl: 'Gebruiksvoorwaarden',
-    de: 'Nutzungsbedingungen',
-    fr: 'Conditions d\'utilisation'
-  },
-  footerContact: {
-    en: 'Contact',
-    nl: 'Contact',
-    de: 'Kontakt',
-    fr: 'Contact'
-  },
-  footerDisclaimer: {
-    en: 'CollectingVibes is an inspiring initiative by an autistic young person with a powerful mission: spreading positivity in a world that can sometimes be overwhelming. From his unique perspective, he wants to remind people of the beautiful, the hopeful, and the connecting even when life is full of challenges.\n\nIn a time when negativity often dominates, CollectingVibes invites you to pause and appreciate the small bright spots. A smile, a kind gesture, a moment of peace – these are the vibes we collect and share together.\n\nBecause yes, life is sometimes difficult. But you don\'t face it alone. Together we can handle any challenge. Together we make the world a little brighter.',
-    nl: 'CollectingVibes is een inspirerend initiatief van een autistische jongen met een krachtige missie: positiviteit verspreiden in een wereld die soms overweldigend kan zijn. Vanuit zijn unieke perspectief wil hij mensen herinneren aan het mooie, het hoopvolle en het verbindende zelfs wanneer het leven vol uitdagingen zit.\n\nIn een tijd waarin negativiteit vaak de boventoon voert, nodigt CollectingVibes je uit om stil te staan bij de kleine lichtpuntjes. Een glimlach, een vriendelijk gebaar, een moment van rust – het zijn deze vibes die we samen verzamelen en delen.\n\nWant ja, het leven is soms moeilijk. Maar je staat er niet alleen voor. Samen kunnen we elke uitdaging aan. Samen maken we de wereld een beetje lichter.',
-    de: 'CollectingVibes ist eine inspirierende Initiative eines autistischen jungen Menschen mit einer kraftvollen Mission: Positivität in einer Welt zu verbreiten, die manchmal überwältigend sein kann. Aus seiner einzigartigen Perspektive möchte er Menschen an das Schöne, das Hoffnungsvolle und das Verbindende erinnern, auch wenn das Leben voller Herausforderungen ist.\n\nIn einer Zeit, in der Negativität oft dominiert, lädt CollectingVibes dich ein, innezuhalten und die kleinen Lichtblicke zu schätzen. Ein Lächeln, eine freundliche Geste, ein Moment der Ruhe – das sind die Vibes, die wir gemeinsam sammeln und teilen.\n\nDenn ja, das Leben ist manchmal schwierig. Aber du stehst nicht allein da. Gemeinsam können wir jede Herausforderung meistern. Gemeinsam machen wir die Welt ein wenig heller.',
-    fr: 'CollectingVibes est une initiative inspirante d\'un jeune autiste avec une mission puissante : répandre la positivité dans un monde qui peut parfois être accablant. De sa perspective unique, il veut rappeler aux gens le beau, l\'espoir et la connexion même quand la vie est pleine de défis.\n\nÀ une époque où la négativité domine souvent, CollectingVibes vous invite à faire une pause et à apprécier les petits points lumineux. Un sourire, un geste bienveillant, un moment de paix – ce sont ces vibes que nous collectons et partageons ensemble.\n\nParce que oui, la vie est parfois difficile. Mais vous n\'y faites pas face seul. Ensemble, nous pouvons relever n\'importe quel défi. Ensemble, nous rendons le monde un peu plus lumineux.'
-  },
-  footerDonationText: {
-    en: 'Like the project and want to contribute?\n\nConsider a donation via:',
-    nl: 'Vind je het project leuk en wil je bijdragen?\n\nOverweeg een donatie via:',
-    de: 'Gefällt Ihnen das Projekt und möchten Sie beitragen?\n\nErwägen Sie eine Spende über:',
-    fr: 'Vous aimez le projet et souhaitez contribuer?\n\nConsidérez un don via :'
-  },
-  footerDisclaimer2: {
-    en: 'This application is vibe-coded as an experimental project. There is no guarantee that everything works correctly or that it does not cause errors. Use this app at your own risk.',
-    nl: 'Deze applicatie is vibe-coded als een experimenteel project. Er is geen garantie dat alles correct werkt of dat het geen fouten veroorzaakt. Gebruik deze app op eigen risico.',
-    de: 'Diese Anwendung ist vibe-coded als experimentelles Projekt. Es gibt keine Garantie, dass alles korrekt funktioniert oder dass es keine Fehler verursacht. Verwenden Sie diese App auf eigenes Risiko.',
-    fr: 'Cette application est vibe-codée comme un projet expérimental. Il n\'y a aucune garantie que tout fonctionne correctement ou qu\'elle ne cause pas d\'erreurs. Utilisez cette application à vos propres risques.'
-  },
-  donateButton: {
-    en: 'Donate',
-    nl: 'Doneren',
-    de: 'Spenden',
-    fr: 'Faire un don'
-  },
-  footerCopyright: {
-    en: '© 2025 HITREVEAL Music Quiz Game.\nMade with ❤️ by CollectingVibes.',
-    nl: '© 2025 HITREVEAL Music Quiz Game.\nMade with ❤️ by CollectingVibes.',
-    de: '© 2025 HITREVEAL Music Quiz Game.\nMade with ❤️ by CollectingVibes.',
-    fr: '© 2025 HITREVEAL Music Quiz Game.\nMade with ❤️ by CollectingVibes.'
-  },
-  
-  // Game Selection
-  competitionGame: {
-    en: 'Competition Game',
-    nl: 'Competitie Spel',
-    de: 'Wettbewerbsspiel',
-    fr: 'Jeu de Compétition'
-  },
-  competitionSubtitle: {
-    en: 'Challenge your friends',
-    nl: 'Daag je vrienden uit',
-    de: 'Fordere deine Freunde heraus',
-    fr: 'Défiez vos amis'
-  },
-  back: {
-    en: 'Back',
-    nl: 'Terug',
-    de: 'Zurück',
-    fr: 'Retour'
-  },
-  selectGameType: {
-    en: 'Select Game Type',
-    nl: 'Selecteer Speltype',
-    de: 'Spieltyp auswählen',
-    fr: 'Sélectionner le type de jeu'
-  },
-  comingSoon: {
-    en: 'Coming Soon',
-    nl: 'Binnenkort',
-    de: 'Demnächst',
-    fr: 'Bientôt disponible'
-  },
-  selectSongList: {
-    en: 'Select Hitster Game',
-    nl: 'Selecteer Hitster Spel',
-    de: 'Hitster Spiel auswählen',
-    fr: 'Sélectionner le jeu Hitster'
-  },
-  loadingSongLists: {
-    en: 'Loading song lists...',
-    nl: 'Songlijsten laden...',
-    de: 'Songlisten werden geladen...',
-    fr: 'Chargement des listes de chansons...'
-  },
-  chooseSongList: {
-    en: 'Choose a song list...',
-    nl: 'Kies een songlijst...',
-    de: 'Wähle eine Songliste...',
-    fr: 'Choisir une liste de chansons...'
-  },
-  language: {
-    en: 'Language',
-    nl: 'Taal',
-    de: 'Sprache',
-    fr: 'Langue'
-  },
-  songs: {
-    en: 'Songs',
-    nl: 'Liedjes',
-    de: 'Lieder',
-    fr: 'Chansons'
-  },
-  startHitster: {
-    en: 'Start Game',
-    nl: 'Start Spel',
-    de: 'Spiel starten',
-    fr: 'Commencer le jeu'
-  },
-  
-  // Game Session
-  scanQrCode: {
-    en: 'Scan QR Code',
-    nl: 'Scan QR Code',
-    de: 'QR Code scannen',
-    fr: 'Scanner le code QR'
-  },
-  scanInstruction: {
-    en: 'Point your camera at a HITSTER QR code',
-    nl: 'Richt je camera op een HITSTER QR code',
-    de: 'Richte deine Kamera auf einen HITSTER QR-Code',
-    fr: 'Pointez votre caméra vers un code QR HITSTER'
-  },
-  noMatch: {
-    en: 'Song Not Found',
-    nl: 'Nummer niet gevonden',
-    de: 'Lied nicht gefunden',
-    fr: 'Chanson non trouvée'
-  },
-  noMatchDescription: {
-    en: 'Sorry, we don\'t have this song in our database yet.',
-    nl: 'Sorry, we hebben dit nummer nog niet in onze database.',
-    de: 'Entschuldigung, wir haben dieses Lied noch nicht in unserer Datenbank.',
-    fr: 'Désolé, nous n\'avons pas encore cette chanson dans notre base de données.'
-  },
-  helpDatabase: {
-    en: 'Help us expand our database by contributing song lists:',
-    nl: 'Help ons onze database uit te breiden door songlijsten bij te dragen:',
-    de: 'Hilf uns, unsere Datenbank zu erweitern, indem du Songlisten beiträgst:',
-    fr: 'Aidez-nous à étendre notre base de données en contribuant des listes de chansons :'
-  },
-  play: {
-    en: 'Play',
-    nl: 'Afspelen',
-    de: 'Abspielen',
-    fr: 'Jouer'
-  },
-  pause: {
-    en: 'Pause',
-    nl: 'Pauzeren',
-    de: 'Pausieren',
-    fr: 'Pause'
-  },
-  restart: {
-    en: 'Restart',
-    nl: 'Herstart',
-    de: 'Neustart',
-    fr: 'Redémarrer'
-  },
-  stop: {
-    en: 'Stop',
-    nl: 'Stop',
-    de: 'Stopp',
-    fr: 'Arrêter'
-  },
-  start: {
-    en: 'Start',
-    nl: 'Start',
-    de: 'Start',
-    fr: 'Démarrer'
-  },
-  status: {
-    en: 'Status',
-    nl: 'Status',
-    de: 'Status',
-    fr: 'Statut'
-  },
-  playingInBackground: {
-    en: 'Playing in background',
-    nl: 'Speelt op de achtergrond',
-    de: 'Spielt im Hintergrund',
-    fr: 'Lecture en arrière-plan'
-  },
-  stopped: {
-    en: 'Stopped',
-    nl: 'Gestopt',
-    de: 'Gestoppt',
-    fr: 'Arrêté'
-  },
-  scanAnother: {
-    en: 'Scan Another Card',
-    nl: 'Scan een andere kaart',
-    de: 'Weitere Karte scannen',
-    fr: 'Scanner une autre carte'
-  },
-  startScanning: {
-    en: 'Start Scanning',
-    nl: 'Start Scannen',
-    de: 'Scannen starten',
-    fr: 'Commencer le scan'
-  },
-  scanHint: {
-    en: 'Position QR code within the frame',
-    nl: 'Plaats QR code binnen het kader',
-    de: 'QR-Code im Rahmen positionieren',
-    fr: 'Positionnez le code QR dans le cadre'
-  },
-  retry: {
-    en: 'Retry',
-    nl: 'Opnieuw proberen',
-    de: 'Erneut versuchen',
-    fr: 'Réessayer'
-  },
-  playerNote: {
-    en: 'Use the controls above to play, pause, restart, or stop the music.',
-    nl: 'Gebruik de knoppen hierboven om de muziek af te spelen, te pauzeren, opnieuw te starten of te stoppen.',
-    de: 'Verwende die Steuerelemente oben, um die Musik abzuspielen, zu pausieren, neu zu starten oder zu stoppen.',
-    fr: 'Utilisez les contrôles ci-dessus pour jouer, mettre en pause, redémarrer ou arrêter la musique.'
-  },
-  noDescriptionAvailable: {
-    en: 'No description available for this song list',
-    nl: 'Geen beschrijving beschikbaar voor deze songlijst',
-    de: 'Keine Beschreibung für diese Songliste verfügbar',
-    fr: 'Aucune description disponible pour cette liste de chansons'
-  },
-  selectHitsterGame: {
-    en: 'Please select the Hitster Game you would like to play',
-    nl: 'Selecteer het Hitster spel dat je wilt spelen',
-    de: 'Bitte wähle das Hitster-Spiel aus, das du spielen möchtest',
-    fr: 'Veuillez sélectionner le jeu Hitster que vous souhaitez jouer'
-  },
-  qrCodeNotRecognized: {
-    en: 'We don\'t recognize this QR code. It might not be a HITSTER card or it\'s not in our database yet.',
-    nl: 'We herkennen deze QR-code niet. Het is mogelijk geen HITSTER kaart of staat nog niet in onze database.',
-    de: 'Wir erkennen diesen QR-Code nicht. Es könnte keine HITSTER-Karte sein oder ist noch nicht in unserer Datenbank.',
-    fr: 'Nous ne reconnaissons pas ce code QR. Ce n\'est peut-être pas une carte HITSTER ou elle n\'est pas encore dans notre base de données.'
-  },
-  helpBySharing: {
-    en: 'Help us by sharing the information on your cards! You can contribute by visiting:',
-    nl: 'Help ons door de informatie op je kaarten te delen! Je kunt bijdragen door te bezoeken:',
-    de: 'Hilf uns, indem du die Informationen auf deinen Karten teilst! Du kannst beitragen, indem du besuchst:',
-    fr: 'Aidez-nous en partageant les informations de vos cartes ! Vous pouvez contribuer en visitant :'
-  },
-  
-  // Preview functionality
-  previewSongs: {
-    en: 'Preview Songs',
-    nl: 'Bekijk Nummers',
-    de: 'Songs Vorschau',
-    fr: 'Aperçu des chansons'
-  },
-  songList: {
-    en: 'Song List',
-    nl: 'Songlijst',
-    de: 'Songliste',
-    fr: 'Liste de chansons'
-  },
-  loadingSongs: {
-    en: 'Loading songs...',
-    nl: 'Nummers laden...',
-    de: 'Songs werden geladen...',
-    fr: 'Chargement des chansons...'
-  },
-  searchPlaceholder: {
-    en: 'Search songs, artists, years, or IDs...',
-    nl: 'Zoek nummers, artiesten, jaren of ID\'s...',
-    de: 'Suche Songs, Künstler, Jahre oder IDs...',
-    fr: 'Rechercher des chansons, artistes, années ou IDs...'
-  },
-  songsCount: {
-    en: 'of',
-    nl: 'van',
-    de: 'von',
-    fr: 'sur'
-  },
-  songsTotal: {
-    en: 'songs',
-    nl: 'nummers',
-    de: 'Songs',
-    fr: 'chansons'
-  },
-  id: {
-    en: 'ID',
-    nl: 'ID',
-    de: 'ID',
-    fr: 'ID'
-  },
-  title: {
-    en: 'Title',
-    nl: 'Titel',
-    de: 'Titel',
-    fr: 'Titre'
-  },
-  artist: {
-    en: 'Artist',
-    nl: 'Artiest',
-    de: 'Künstler',
-    fr: 'Artiste'
-  },
-  year: {
-    en: 'Year',
-    nl: 'Jaar',
-    de: 'Jahr',
-    fr: 'Année'
-  },
-  noSongsFound: {
-    en: 'No songs found matching',
-    nl: 'Geen nummers gevonden voor',
-    de: 'Keine Songs gefunden für',
-    fr: 'Aucune chanson trouvée correspondant à'
-  },
-  noValidSongs: {
-    en: 'No valid songs found in this list.',
-    nl: 'Geen geldige nummers gevonden in deze lijst.',
-    de: 'Keine gültigen Songs in dieser Liste gefunden.',
-    fr: 'Aucune chanson valide trouvée dans cette liste.'
-  },
-  close: {
-    en: 'Close',
-    nl: 'Sluiten',
-    de: 'Schließen',
-    fr: 'Fermer'
-  },
-  readyToScan: {
-    en: 'Ready to Scan',
-    nl: 'Klaar om te scannen',
-    de: 'Bereit zum Scannen',
-    fr: 'Prêt à scanner'
-  },
-  clickToStartScanning: {
-    en: 'Click the button below to start scanning HITSTER QR codes',
-    nl: 'Klik op de knop hieronder om HITSTER QR-codes te scannen',
-    de: 'Klicke auf die Schaltfläche unten, um HITSTER QR-Codes zu scannen',
-    fr: 'Cliquez sur le bouton ci-dessous pour commencer à scanner les codes QR HITSTER'
-  },
-  stopScanning: {
-    en: 'Stop Scanning',
-    nl: 'Stop Scannen',
-    de: 'Scannen stoppen',
-    fr: 'Arrêter le scan'
-  },
-  songFoundReveal: {
-    en: 'Song Found! Playing...',
-    nl: 'Nummer gevonden! Speelt...',
-    de: 'Lied gefunden! Spielt...',
-    fr: 'Chanson trouvée ! Lecture...'
-  },
-  
-  // Competition Game Settings
-  gameSettings: {
-    en: 'Game Settings',
-    nl: 'Spelinstellingen',
-    de: 'Spieleinstellungen',
-    fr: 'Paramètres du jeu'
-  },
-  numberOfPlayers: {
-    en: 'Number of Players',
-    nl: 'Aantal spelers',
-    de: 'Anzahl der Spieler',
-    fr: 'Nombre de joueurs'
-  },
-  targetScore: {
-    en: 'Target Score',
-    nl: 'Doelscore',
-    de: 'Zielpunktzahl',
-    fr: 'Score cible'
-  },
-  pointsSystem: {
-    en: 'Points System',
-    nl: 'Puntensysteem',
-    de: 'Punktesystem',
-    fr: 'Système de points'
-  },
-  artistCorrect: {
-    en: 'Artist Correct',
-    nl: 'Artiest goed',
-    de: 'Künstler richtig',
-    fr: 'Artiste correct'
-  },
-  titleCorrect: {
-    en: 'Title Correct',
-    nl: 'Titel goed',
-    de: 'Titel richtig',
-    fr: 'Titre correct'
-  },
-  yearCorrect: {
-    en: 'Year Correct',
-    nl: 'Jaar goed',
-    de: 'Jahr richtig',
-    fr: 'Année correcte'
-  },
-  bonusAllCorrect: {
-    en: 'Bonus (All Correct)',
-    nl: 'Bonus (alles goed)',
-    de: 'Bonus (alles richtig)',
-    fr: 'Bonus (tout correct)'
-  },
-  skipsSettings: {
-    en: 'Skip Settings',
-    nl: 'Skip instellingen',
-    de: 'Skip-Einstellungen',
-    fr: 'Paramètres de skip'
-  },
-  skipsPerPlayer: {
-    en: 'Skips per Player',
-    nl: 'Skips per speler',
-    de: 'Skips pro Spieler',
-    fr: 'Skips par joueur'
-  },
-  skipCost: {
-    en: 'Skip Cost (Points)',
-    nl: 'Skip kosten (punten)',
-    de: 'Skip-Kosten (Punkte)',
-    fr: 'Coût du skip (points)'
-  },
-  points: {
-    en: 'points',
-    nl: 'punten',
-    de: 'Punkte',
-    fr: 'points'
-  },
-  startCompetition: {
-    en: 'Start Competition',
-    nl: 'Start Competitie',
-    de: 'Wettbewerb starten',
-    fr: 'Commencer la compétition'
-  },
-  minimum2Players: {
-    en: 'Single player mode available',
-    nl: 'Enkele speler modus beschikbaar',
-    de: 'Einzelspieler-Modus verfügbar',
-    fr: 'Mode solo disponible'
-  },
-  playerNames: {
-    en: 'Player Names',
-    nl: 'Spelersnamen',
-    de: 'Spielernamen',
-    fr: 'Noms des joueurs'
-  },
-  playerName: {
-    en: 'Player',
-    nl: 'Speler',
-    de: 'Spieler',
-    fr: 'Joueur'
-  },
-  enterPlayerName: {
-    en: 'Enter player name',
-    nl: 'Voer spelersnaam in',
-    de: 'Spielername eingeben',
-    fr: 'Entrez le nom du joueur'
-  },
-  allPlayerNameRequired: {
-    en: 'All player names are required',
-    nl: 'Alle spelersnamen zijn vereist',
-    de: 'Alle Spielernamen sind erforderlich',
-    fr: 'Tous les noms de joueurs sont requis'
-  },
-  gameRules: {
-    en: 'Game Rules',
-    nl: 'Spelregels',
-    de: 'Spielregeln',
-    fr: 'Règles du jeu'
-  },
-  rulesDescription: {
-    en: 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.',
-    nl: 'Spelers raden om de beurt artiest, titel en jaar. Punten worden toegekend op basis van juiste antwoorden. De eerste speler die de doelscore behaalt wint. Bij gelijkstand bepalen Sudden Death rondes de winnaar.',
-    de: 'Die Spieler raten abwechselnd Künstler, Titel und Jahr. Punkte werden basierend auf richtigen Antworten vergeben. Der erste Spieler, der die Zielpunktzahl erreicht, gewinnt. Bei Gleichstand entscheiden Sudden Death-Runden über den Gewinner.',
-    fr: 'Les joueurs devinent à tour de rôle l\'artiste, le titre et l\'année. Les points sont attribués en fonction des bonnes réponses. Le premier joueur à atteindre le score cible gagne. En cas d\'égalité, les rounds de Sudden Death déterminent le gagnant.'
-  },
-  gameMode: {
-    en: 'Game Mode',
-    nl: 'Spelmodus',
-    de: 'Spielmodus',
-    fr: 'Mode de jeu'
-  },
-  targetScoreMode: {
-    en: 'Target Score',
-    nl: 'Doelscore',
-    de: 'Zielpunktzahl',
-    fr: 'Score cible'
-  },
-  timeBasedMode: {
-    en: 'Time Based',
-    nl: 'Tijd gebaseerd',
-    de: 'Zeitbasiert',
-    fr: 'Basé sur le temps'
-  },
-  gameDuration: {
-    en: 'Game Duration (Minutes)',
-    nl: 'Spelduur (Minuten)',
-    de: 'Spieldauer (Minuten)',
-    fr: 'Durée du jeu (Minutes)'
-  },
-  minutes: {
-    en: 'minutes',
-    nl: 'minuten',
-    de: 'Minuten',
-    fr: 'minutes'
-  },
-  targetScorePoints: {
-    en: 'Target Score',
-    nl: 'Doelscore',
-    de: 'Zielpunktzahl',
-    fr: 'Score cible'
-  },
-  timeBasedRules: {
-    en: 'Game plays for the set duration and completes the current round when time expires.',
-    nl: 'Het spel speelt voor de ingestelde duur en voltooit de huidige ronde wanneer de tijd afloopt.',
-    de: 'Das Spiel läuft für die eingestellte Dauer und beendet die aktuelle Runde, wenn die Zeit abläuft.',
-    fr: 'Le jeu se joue pendant la durée définie et termine le tour en cours à l\'expiration du temps.'
-  },
-  targetScoreRules: {
-    en: 'First player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.',
-    nl: 'De eerste speler die de doelscore behaalt wint. Bij gelijkstand bepalen Sudden Death rondes de winnaar.',
-    de: 'Der erste Spieler, der die Zielpunktzahl erreicht, gewinnt. Bei Gleichstand entscheiden Sudden Death-Runden über den Gewinner.',
-    fr: 'Le premier joueur à atteindre le score cible gagne. En cas d\'égalité, les rounds de Sudden Death déterminent le gagnant.'
-  },
-  pointsMode: {
-    en: 'Points',
-    nl: 'Punten',
-    de: 'Punkte',
-    fr: 'Points'
-  },
-  roundsMode: {
-    en: 'Rounds',
-    nl: 'Rondes',
-    de: 'Runden',
-    fr: 'Rounds'
-  },
-  maximumRounds: {
-    en: 'Maximum Rounds',
-    nl: 'Maximum Rondes',
-    de: 'Maximum Runden',
-    fr: 'Rounds Maximum'
-  },
-  rounds: {
-    en: 'rounds',
-    nl: 'rondes',
-    de: 'Runden',
-    fr: 'rounds'
-  },
-  drawType: {
-    en: 'Draw Type',
-    nl: 'Gelijkspel Type',
-    de: 'Unentschieden Typ',
-    fr: 'Type d\'Égalité'
-  },
-  highestScoreWins: {
-    en: 'Highest Score Wins',
-    nl: 'Hoogste Score Wint',
-    de: 'Höchste Punktzahl Gewinnt',
-    fr: 'Score le Plus Élevé Gagne'
-  },
-  multipleWinners: {
-    en: 'Multiple Winners',
-    nl: 'Meerdere Winnaars',
-    de: 'Mehrere Gewinner',
-    fr: 'Plusieurs Gagnants'
-  },
-  suddenDeath: {
-    en: 'Sudden Death',
-    nl: 'Sudden Death',
-    de: 'Sudden Death',
-    fr: 'Sudden Death'
-  },
-  pointsModeRules: {
-    en: 'First player to reach the target score wins.',
-    nl: 'De eerste speler die de doelscore behaalt wint.',
-    de: 'Der erste Spieler, der die Zielpunktzahl erreicht, gewinnt.',
-    fr: 'Le premier joueur à atteindre le score cible gagne.'
-  },
-  roundsModeRules: {
-    en: 'Game ends after the specified number of rounds. Winner determined by draw type.',
-    nl: 'Het spel eindigt na het opgegeven aantal rondes. Winnaar bepaald door gelijkspel type.',
-    de: 'Das Spiel endet nach der angegebenen Anzahl von Runden. Gewinner wird durch Unentschieden-Typ bestimmt.',
-    fr: 'Le jeu se termine après le nombre spécifié de rounds. Le gagnant est déterminé par le type d\'égalité.'
-  },
-  highestScoreWinsDesc: {
-    en: 'Player with highest score wins, regardless of ties.',
-    nl: 'Speler met hoogste score wint, ongeacht gelijkstand.',
-    de: 'Spieler mit der höchsten Punktzahl gewinnt, unabhängig von Unentschieden.',
-    fr: 'Le joueur avec le score le plus élevé gagne, indépendamment des égalités.'
-  },
-  multipleWinnersDesc: {
-    en: 'All players with the highest score are declared winners.',
-    nl: 'Alle spelers met de hoogste score worden tot winnaar uitgeroepen.',
-    de: 'Alle Spieler mit der höchsten Punktzahl werden zu Gewinnern erklärt.',
-    fr: 'Tous les joueurs avec le score le plus élevé sont déclarés gagnants.'
-  },
-  suddenDeathDesc: {
-    en: 'Players with highest score play additional rounds until there is a single winner.',
-    nl: 'Spelers met hoogste score spelen extra rondes tot er één winnaar is.',
-    de: 'Spieler mit der höchsten Punktzahl spielen zusätzliche Runden, bis es einen einzigen Gewinner gibt.',
-    fr: 'Les joueurs avec le score le plus élevé jouent des rounds supplémentaires jusqu\'à ce qu\'il y ait un seul gagnant.'
-  },
-  yearScoringDisabled: {
-    en: 'Year scoring disabled - some songs missing year data',
-    nl: 'Jaar scoring uitgeschakeld - sommige nummers missen jaar gegevens',
-    de: 'Jahr-Bewertung deaktiviert - einige Songs fehlen Jahresangaben',
-    fr: 'Score d\'année désactivé - certaines chansons manquent de données d\'année'
-  },
-  bonusRequiresYear: {
-    en: 'Bonus requires year data',
-    nl: 'Bonus vereist jaar gegevens',
-    de: 'Bonus erfordert Jahresangaben',
-    fr: 'Le bonus nécessite des données d\'année'
-  },
-  songListCounterExplanation: {
-    en: 'The number in parentheses shows how many times you\'ve viewed the song list during this game session.',
-    nl: 'Het getal tussen haakjes toont hoe vaak je de songlijst hebt bekeken tijdens deze spelsessie.',
-    de: 'Die Zahl in Klammern zeigt, wie oft du die Songliste während dieser Spielsitzung angesehen hast.',
-    fr: 'Le nombre entre parenthèses indique combien de fois vous avez consulté la liste de chansons pendant cette session de jeu.'
-  },
-  quitGame: {
-    en: 'Quit Game',
-    nl: 'Spel Verlaten',
-    de: 'Spiel Beenden',
-    fr: 'Quitter le Jeu'
-  },
-  quitGameConfirmTitle: {
-    en: 'Quit Game?',
-    nl: 'Spel Verlaten?',
-    de: 'Spiel Beenden?',
-    fr: 'Quitter le Jeu?'
-  },
-  quitGameWarning: {
-    en: 'Are you sure you want to quit this game? Your current progress will be lost.',
-    nl: 'Weet je zeker dat je dit spel wilt verlaten? Je huidige voortgang gaat verloren.',
-    de: 'Bist du sicher, dass du dieses Spiel beenden möchtest? Dein aktueller Fortschritt geht verloren.',
-    fr: 'Êtes-vous sûr de vouloir quitter ce jeu? Votre progression actuelle sera perdue.'
-  },
-  cancel: {
-    en: 'Cancel',
-    nl: 'Annuleren',
-    de: 'Abbrechen',
-    fr: 'Annuler'
-  },
-  round: {
-    en: 'Round',
-    nl: 'Ronde',
-    de: 'Runde',
-    fr: 'Round'
-  },
-  played: {
-    en: 'played',
-    nl: 'gespeeld',
-    de: 'gespielt',
-    fr: 'joués'
-  },
-  left: {
-    en: 'left',
-    nl: 'over',
-    de: 'übrig',
-    fr: 'restantes'
-  },
-  total: {
-    en: 'total',
-    nl: 'totaal',
-    de: 'gesamt',
-    fr: 'total'
-  },
-  yourTurn: {
-    en: 'Your Turn',
-    nl: 'Jouw Beurt',
-    de: 'Du bist dran',
-    fr: 'Votre Tour'
-  },
-  leaderboard: {
-    en: 'Leaderboard',
-    nl: 'Klassement',
-    de: 'Bestenliste',
-    fr: 'Classement'
-  },
-  noMoreTurns: {
-    en: 'No More Turns Possible',
-      if (songsLoaded && gameStarted && !showPlayerPage) {
-        const availableSongs = songs.length - gameState.usedSongs.size;
-        const remainingPlayers = settings.numberOfPlayers;
-        
-        // Check if there are fewer songs available than players at the start of dashboard
-        if (availableSongs < remainingPlayers && availableSongs >= 0) {
-          setShowNoMoreTurnsWarning(true);
-        }
-      }
-    };
+interface CompetitionSettings {
+  numberOfPlayers: number;
+  gameMode: 'points' | 'time-based' | 'rounds';
+  targetScore: number;
+  gameDuration: number;
+  maximumRounds: number;
+  artistPoints: number;
+  titlePoints: number;
+  yearPoints: number;
+  bonusPoints: number;
+  skipsPerPlayer: number;
+  skipCost: number;
+}
 
-    checkInitialSongAvailability();
-  }, [songsLoaded, gameStarted, showPlayerPage, songs.length, gameState.usedSongs.size, settings.numberOfPlayers]);
+interface Player {
+  id: number;
+  name: string;
+  score: number;
+  artistPoints: number;
+  titlePoints: number;
+  yearPoints: number;
+  bonusPoints: number;
+  skipsUsed: number;
+}
+
+interface GameState {
+  currentRound: number;
+  songsPlayed: number;
+  currentPlayerIndex: number;
+  usedSongs: Set<number>;
+  gameStartTime: number;
+  isGameActive: boolean;
+}
+
+interface CompetitionGameProps {
+  currentLanguage: Language;
+  songList: SongList;
+  onBack: () => void;
+}
+
+export const CompetitionGame: React.FC<CompetitionGameProps> = ({
+  currentLanguage,
+  songList,
+  onBack
+}) => {
+  const [songs, setSongs] = useState<Song[]>([]);
+  const [songsLoaded, setSongsLoaded] = useState(false);
+  const [loadingError, setLoadingError] = useState<string>('');
+  const [hasYearData, setHasYearData] = useState(true);
+  const [playerNames, setPlayerNames] = useState<string[]>([]);
+  const [settings, setSettings] = useState<CompetitionSettings>({
+    numberOfPlayers: 2,
+    gameMode: 'points',
+    targetScore: 100,
+    gameDuration: 30,
+    maximumRounds: 10,
+    artistPoints: 1,
+    titlePoints: 2,
+    yearPoints: 1,
+    bonusPoints: 2,
+    skipsPerPlayer: 3,
+    skipCost: 5
+  });
+  const [gameStarted, setGameStarted] = useState(false);
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [gameState, setGameState] = useState<GameState>({
+    currentRound: 1,
+    songsPlayed: 0,
+    currentPlayerIndex: 0,
+    usedSongs: new Set(),
+    gameStartTime: 0,
+    isGameActive: false
+  });
+  const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
+  const [currentSong, setCurrentSong] = useState<Song | null>(null);
+  const [showPlayerPage, setShowPlayerPage] = useState(false);
+  const [showNoMoreTurnsWarning, setShowNoMoreTurnsWarning] = useState(false);
 
   // Load songs and check year data
   useEffect(() => {
+    const loadSongs = async () => {
+      try {
+        const response = await fetch(songList.github_link);
+        if (!response.ok) {
+          throw new Error('Failed to fetch song list');
+        }
+        
+        const csvText = await response.text();
+        
+        Papa.parse(csvText, {
+          header: true,
+          complete: (results) => {
+            const data = results.data as Song[];
+            const validData = data.filter(row => 
+              row.youtube_url && 
+              row.title && 
+              row.artist
+            );
+            
+            // Check if all songs have year data
+            const allHaveYear = validData.every(song => 
+              song.year && song.year.toString().trim() !== ''
+            );
+            
+            setSongs(validData);
+            setHasYearData(allHaveYear);
+            setSongsLoaded(true);
+          },
+          error: (error) => {
+            console.error('Error parsing CSV:', error);
+            setLoadingError('Failed to load songs');
+          }
+        });
+      } catch (err) {
+        console.error('Error loading songs:', err);
+        setLoadingError('Failed to load songs');
+      }
+    };
+
+    loadSongs();
+  }, [songList]);
+
+  // Initialize player names when number changes
+  useEffect(() => {
+    const newNames = Array(settings.numberOfPlayers).fill('').map((_, index) => 
+      playerNames[index] || ''
+    );
+    setPlayerNames(newNames);
+  }, [settings.numberOfPlayers]);
+
+  const handlePlayerNumberChange = (number: number) => {
+    setSettings(prev => ({ ...prev, numberOfPlayers: number }));
+  };
+
+  const handlePlayerNameChange = (index: number, name: string) => {
+    const newNames = [...playerNames];
+    newNames[index] = name;
+    setPlayerNames(newNames);
+  };
+
+  const handleGameModeChange = (mode: 'points' | 'time-based' | 'rounds') => {
+    setSettings(prev => ({ ...prev, gameMode: mode }));
+  };
+
+  const handleSettingChange = (key: keyof CompetitionSettings, value: number) => {
+    setSettings(prev => ({ ...prev, [key]: value }));
+  };
+
+  const canStartGame = () => {
+    return playerNames.every(name => name.trim() !== '');
+  };
+
+  const handleStartGame = () => {
+    if (canStartGame()) {
+      // Randomly select starting player
+      const randomStartingPlayer = Math.floor(Math.random() * settings.numberOfPlayers);
+      
+      // Initialize players
+      const initialPlayers: Player[] = playerNames.map((name, index) => ({
+        id: index,
+        name,
+        score: 0,
+        artistPoints: 0,
+        titlePoints: 0,
+        yearPoints: 0,
+        bonusPoints: 0,
+        skipsUsed: 0
+      }));
+      
+      setPlayers(initialPlayers);
+      setGameState({
+        currentRound: 1,
+        songsPlayed: 0,
+        currentPlayerIndex: randomStartingPlayer,
+        usedSongs: new Set(),
+        gameStartTime: Date.now(),
+        isGameActive: true
+      });
+      setGameStarted(true);
+    }
+  };
+
+  const checkForNoMoreTurns = () => {
+    const availableSongs = songs.length - gameState.usedSongs.size;
+    const remainingPlayers = settings.numberOfPlayers;
+    
+    // Check if there are fewer songs available than players
+    if (availableSongs < remainingPlayers && availableSongs > 0) {
+      setShowNoMoreTurnsWarning(true);
+      return true;
+    }
+    return false;
+  };
+
+  const handlePlayerGo = () => {
+    // Check if we should show the warning before proceeding
+    if (checkForNoMoreTurns()) {
+      return; // Don't proceed with the turn, show warning instead
+    }
+    
+    // Select a random song that hasn't been used
+    const availableSongs = songs.filter((_, index) => !gameState.usedSongs.has(index));
+    
+    if (availableSongs.length === 0) {
+      console.log('No more songs available!');
+      return;
+    }
+    
+    const randomIndex = Math.floor(Math.random() * availableSongs.length);
+    const selectedSong = availableSongs[randomIndex];
+    
+    // Find the original index to mark as used
+    const originalIndex = songs.findIndex(song => song === selectedSong);
+    
+    setCurrentSong(selectedSong);
+    setShowPlayerPage(true);
+    
+    // Mark song as used
+    setGameState(prev => ({
+      ...prev,
+      usedSongs: new Set([...prev.usedSongs, originalIndex]),
+    }));
+  };
+
+  const handleBackToDashboard = () => {
+    setShowPlayerPage(false);
+    setCurrentSong(null);
+    
+    // Move to next player
+    const nextPlayerIndex = (gameState.currentPlayerIndex + 1) % settings.numberOfPlayers;
+    
+    // Calculate if we should increment the round
+    // A round completes when we've cycled through all players once from the starting player
+    const totalTurnsPlayed = gameState.songsPlayed + 1; // +1 because we're about to complete this turn
+    const shouldIncrementRound = totalTurnsPlayed % settings.numberOfPlayers === 0;
+    
+    setGameState(prev => ({
+      ...prev,
+      currentPlayerIndex: nextPlayerIndex,
+      currentRound: shouldIncrementRound ? prev.currentRound + 1 : prev.currentRound,
+      songsPlayed: totalTurnsPlayed
+    }));
+  };
+
+  const handleTurnComplete = (scoreDetails: { 
+    artist: boolean; 
+    title: boolean; 
+    year: boolean;
+    artistPoints: number;
+    titlePoints: number;
+    yearPoints: number;
+    bonusPoints: number;
+    totalPoints: number;
+  }) => {
+    console.log('🎮 GAME DASHBOARD - TURN COMPLETE RECEIVED!');
+    console.log('📊 SCORE DETAILS RECEIVED:', scoreDetails);
+    
+    const currentPlayerId = gameState.currentPlayerIndex;
+    console.log('👤 CURRENT PLAYER INDEX:', currentPlayerId);
+    console.log('👥 PLAYERS BEFORE UPDATE:', players);
+    
+    // Update the player's score
+    setPlayers(prev => {
+      const updatedPlayers = prev.map((player, index) => 
+        index === currentPlayerId
+          ? {
+              ...player,
+              score: player.score + (scoreDetails.totalPoints || 0),
+              artistPoints: player.artistPoints + scoreDetails.artistPoints,
+              titlePoints: player.titlePoints + scoreDetails.titlePoints,
+              yearPoints: player.yearPoints + scoreDetails.yearPoints,
+              bonusPoints: player.bonusPoints + scoreDetails.bonusPoints
+            }
+          : player
+      );
+      console.log('✅ UPDATED PLAYERS:', updatedPlayers);
+      return updatedPlayers;
+    });
+    
+    // Small delay to ensure state updates before going back
+    setTimeout(() => {
+      console.log('🔄 RETURNING TO DASHBOARD');
+      handleBackToDashboard();
+    }, 100);
+  };
+  const handleQuitGame = () => {
+    setShowQuitConfirmation(true);
+  };
+
+  const confirmQuit = () => {
+    onBack();
+  };
+
+  const cancelQuit = () => {
+    setShowQuitConfirmation(false);
+  };
+
+  const handleNoMoreTurnsOkay = () => {
+    setShowNoMoreTurnsWarning(false);
+    // End the game or handle final scoring logic here
+    // For now, we'll just close the warning
+  };
+
+  const getGameStatusText = () => {
+    if (settings.gameMode === 'points') {
+      return `${settings.targetScore} ${translations.points?.[currentLanguage] || 'points'}`;
+    } else if (settings.gameMode === 'time-based') {
+      return `${settings.gameDuration} ${translations.minutes?.[currentLanguage] || 'minutes'}`;
+    } else {
+      return `${settings.maximumRounds} ${translations.rounds?.[currentLanguage] || 'rounds'}`;
+    }
+  };
+
+  const getRemainingTime = () => {
+    if (settings.gameMode !== 'time-based' || !gameState.isGameActive) return null;
+    
+    const elapsed = Math.floor((Date.now() - gameState.gameStartTime) / 1000 / 60);
+    const remaining = Math.max(0, settings.gameDuration - elapsed);
+    return remaining;
+  };
+
+  const getCurrentPlayer = () => {
+    return players[gameState.currentPlayerIndex];
+  };
+
+  const getLeaderboard = () => {
+    return [...players].sort((a, b) => b.score - a.score);
+  };
+
+  const translations = {
+    back: { en: 'Back', es: 'Atrás', fr: 'Retour' },
+    loadingSongs: { en: 'Loading songs...', es: 'Cargando canciones...', fr: 'Chargement des chansons...' },
+    quitGame: { en: 'Quit Game', es: 'Salir del juego', fr: 'Quitter le jeu' },
+    minutes: { en: 'minutes', es: 'minutos', fr: 'minutes' },
+    round: { en: 'Round', es: 'Ronda', fr: 'Manche' },
+    songsTotal: { en: 'songs', es: 'canciones', fr: 'chansons' },
+    played: { en: 'played', es: 'jugadas', fr: 'jouées' },
+    targetScore: { en: 'Target Score', es: 'Puntuación objetivo', fr: 'Score cible' },
+    gameDuration: { en: 'Game Duration', es: 'Duración del juego', fr: 'Durée du jeu' },
+    maximumRounds: { en: 'Maximum Rounds', es: 'Rondas máximas', fr: 'Manches maximum' },
+    left: { en: 'left', es: 'restantes', fr: 'restantes' },
+    total: { en: 'total', es: 'total', fr: 'total' },
+    yourTurn: { en: 'Your Turn', es: 'Tu turno', fr: 'Votre tour' },
+    points: { en: 'points', es: 'puntos', fr: 'points' },
+    leaderboard: { en: 'Leaderboard', es: 'Clasificación', fr: 'Classement' },
+    quitGameConfirmTitle: { en: 'Quit Game?', es: '¿Salir del juego?', fr: 'Quitter le jeu?' },
+    quitGameWarning: { en: 'Are you sure you want to quit this game? Your current progress will be lost.', es: '¿Estás seguro de que quieres salir de este juego? Se perderá tu progreso actual.', fr: 'Êtes-vous sûr de vouloir quitter ce jeu? Votre progression actuelle sera perdue.' },
+    cancel: { en: 'Cancel', es: 'Cancelar', fr: 'Annuler' },
+    gameSettings: { en: 'Game Settings', es: 'Configuración del juego', fr: 'Paramètres du jeu' },
+    gameMode: { en: 'Game Mode', es: 'Modo de juego', fr: 'Mode de jeu' },
+    pointsMode: { en: 'Points', es: 'Puntos', fr: 'Points' },
+    timeBasedMode: { en: 'Time Based', es: 'Basado en tiempo', fr: 'Basé sur le temps' },
+    roundsMode: { en: 'Rounds', es: 'Rondas', fr: 'Manches' },
+    targetScorePoints: { en: 'Target Score', es: 'Puntuación objetivo', fr: 'Score cible' },
+    pointsModeRules: { en: 'First player to reach the target score wins.', es: 'El primer jugador en alcanzar la puntuación objetivo gana.', fr: 'Le premier joueur à atteindre le score cible gagne.' },
+    timeBasedRules: { en: 'Game plays for the set duration and completes the current round when time expires.', es: 'El juego se juega durante la duración establecida y completa la ronda actual cuando expira el tiempo.', fr: 'Le jeu se joue pendant la durée définie et termine le tour en cours lorsque le temps expire.' },
+    rounds: { en: 'rounds', es: 'rondas', fr: 'manches' },
+    roundsModeRules: { en: 'Game ends after the specified number of rounds. Winner determined by draw type.', es: 'El juego termina después del número especificado de rondas. El ganador se determina por tipo de empate.', fr: 'Le jeu se termine après le nombre spécifié de manches. Le gagnant est déterminé par le type d\'égalité.' },
+    gameRules: { en: 'Game Rules', es: 'Reglas del juego', fr: 'Règles du jeu' },
+    rulesDescription: { en: 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.', es: 'Los jugadores se turnan para adivinar artista, título y año. Se otorgan puntos basados en respuestas correctas. El primer jugador en alcanzar la puntuación objetivo gana. En caso de empate, las rondas de Muerte Súbita determinan el ganador.', fr: 'Les joueurs devinent à tour de rôle l\'artiste, le titre et l\'année. Les points sont attribués en fonction des bonnes réponses. Le premier joueur à atteindre le score cible gagne. En cas d\'égalité, les manches de Mort Subite déterminent le gagnant.' },
+    numberOfPlayers: { en: 'Number of Players', es: 'Número de jugadores', fr: 'Nombre de joueurs' },
+    playerNames: { en: 'Player Names', es: 'Nombres de jugadores', fr: 'Noms des joueurs' },
+    playerName: { en: 'Player', es: 'Jugador', fr: 'Joueur' },
+    enterPlayerName: { en: 'Enter player name', es: 'Ingresa el nombre del jugador', fr: 'Entrez le nom du joueur' },
+    pointsSystem: { en: 'Points System', es: 'Sistema de puntos', fr: 'Système de points' },
+    artistCorrect: { en: 'Artist Correct', es: 'Artista correcto', fr: 'Artiste correct' },
+    titleCorrect: { en: 'Title Correct', es: 'Título correcto', fr: 'Titre correct' },
+    yearCorrect: { en: 'Year Correct', es: 'Año correcto', fr: 'Année correcte' },
+    bonusAllCorrect: { en: 'Bonus (All Correct)', es: 'Bonus (Todo correcto)', fr: 'Bonus (Tout correct)' },
+    yearScoringDisabled: { en: 'Year scoring disabled - some songs missing year data', es: 'Puntuación de año deshabilitada - algunas canciones no tienen datos de año', fr: 'Score d\'année désactivé - certaines chansons manquent de données d\'année' },
+    bonusRequiresYear: { en: 'Bonus requires year data', es: 'El bonus requiere datos de año', fr: 'Le bonus nécessite des données d\'année' },
+    skipsSettings: { en: 'Skip Settings', es: 'Configuración de saltos', fr: 'Paramètres de saut' },
+    skipsPerPlayer: { en: 'Skips per Player', es: 'Saltos por jugador', fr: 'Sauts par joueur' },
+    skipCost: { en: 'Skip Cost (Points)', es: 'Costo de salto (Puntos)', fr: 'Coût de saut (Points)' },
+    startCompetition: { en: 'Start Competition', es: 'Iniciar competencia', fr: 'Commencer la compétition' },
+    allPlayerNameRequired: { en: 'All player names are required', es: 'Se requieren todos los nombres de jugadores', fr: 'Tous les noms de joueurs sont requis' }
+  };
+
+  if (!songsLoaded && !loadingError) {
+    return (
+      <div className="game-session">
+        <div className="game-session-container">
+          <div className="game-session-header">
+            <button className="back-button" onClick={onBack}>
+              <ArrowLeft size={20} />
+              <span>{translations.back?.[currentLanguage] || 'Back'}</span>
+            </button>
+          </div>
+          <div className="loading-message">
+            {translations.loadingSongs?.[currentLanguage] || 'Loading songs...'}
+          </div>
+        </div>
+      </div>
+    );
   }
+
+  if (loadingError) {
+    return (
+      <div className="game-session">
+        <div className="game-session-container">
+          <div className="game-session-header">
+            <button className="back-button" onClick={onBack}>
+              <ArrowLeft size={20} />
+              <span>{translations.back?.[currentLanguage] || 'Back'}</span>
+            </button>
+          </div>
+          <div className="error-message">
+            {loadingError}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Game Dashboard View
+  if (gameStarted) {
+    // Show Player Page
+    if (showPlayerPage && currentSong) {
+      return (
+        <div className="game-session">
+          <div className="game-session-container">
+            {/* Header */}
+            <div className="game-session-header">
+              <h2 className="current-player-turn-title">
+                {getCurrentPlayer()?.name}'s Turn
+              </h2>
+            </div>
+
+            {/* Competition YouTube Player */}
+            <div className="simple-player-section">
+              <CompetitionYouTubePlayer
+                currentLanguage={currentLanguage}
+                currentSong={currentSong}
+                allSongs={songs}
+                onScanAnother={handleBackToDashboard}
+                onSongListView={() => {}}
+                songListViewCount={0}
+                onTurnComplete={handleTurnComplete}
+                artistPoints={settings.artistPoints}
+                titlePoints={settings.titlePoints}
+                yearPoints={settings.yearPoints}
+                bonusPoints={settings.bonusPoints}
+                skipCost={settings.skipCost}
+                onGuess={(guessType, isCorrect) => {
+                  console.log(`Player guessed ${guessType}: ${isCorrect ? 'correct' : 'incorrect'}`);
+                }}
+                onSkip={() => {
+                  console.log('Player skipped the song');
+                  handleBackToDashboard();
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Quit Confirmation Modal */}
+          {showQuitConfirmation && (
+            <div className="preview-overlay">
+              <div className="quit-confirmation-modal">
+                <div className="quit-modal-header">
+                  <h3 className="quit-modal-title">
+                    {translations.quitGameConfirmTitle?.[currentLanguage] || 'Quit Game?'}
+                  </h3>
+                </div>
+                
+                <div className="quit-modal-content">
+                  <p className="quit-warning-text">
+                    {translations.quitGameWarning?.[currentLanguage] || 'Are you sure you want to quit this game? Your current progress will be lost.'}
+                  </p>
+                  
+                  <div className="quit-modal-buttons">
+                    <button className="cancel-quit-button" onClick={cancelQuit}>
+                      <span>{translations.cancel?.[currentLanguage] || 'Cancel'}</span>
+                    </button>
+                    <button className="confirm-quit-button" onClick={confirmQuit}>
+                      <X size={16} />
+                      <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Show Dashboard
+    const currentPlayer = getCurrentPlayer();
+    const leaderboard = getLeaderboard();
+    const remainingTime = getRemainingTime();
+    const availableSongs = songs.length - gameState.usedSongs.size;
+
+    return (
+      <div className="game-session">
+        <div className="competition-dashboard">
+          {/* Header */}
+          <div className="game-session-header">
+            <button className="primary-button quit-game-button" onClick={handleQuitGame}>
+              <X size={20} />
+              <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+            </button>
+          </div>
+
+          {/* Game Status */}
+          <div className="game-status-section">
+            <div className="status-cards">
+              <div className="status-card">
+                <div className="status-icon">
+                  <Users size={24} />
+                </div>
+                <div className="status-content">
+                  <div className="status-title">
+                    {translations.round?.[currentLanguage] || 'Round'} {gameState.currentRound}
+                  </div>
+                  <div className="status-subtitle">
+                    {gameState.songsPlayed} {translations.songsTotal?.[currentLanguage] || 'songs'} {translations.played?.[currentLanguage] || 'played'}
+                  </div>
+                </div>
+              </div>
+
+              <div className="status-card">
+                <div className="status-icon">
+                  <Music size={24} />
+                </div>
+                <div className="status-content">
+                  <div className="status-title">
+                    {availableSongs} {translations.songsTotal?.[currentLanguage] || 'songs'} {translations.left?.[currentLanguage] || 'left'}
+                  </div>
+                  <div className="status-subtitle">
+                    {songs.length} {translations.total?.[currentLanguage] || 'total'} {translations.songsTotal?.[currentLanguage] || 'songs'}
+                  </div>
+                </div>
+              </div>
+
+              <div className="status-card">
+                <div className="status-icon">
+                  <Clock size={24} />
+                </div>
+                <div className="status-content">
+                  <div className="status-title">
+                    {Math.floor((Date.now() - gameState.gameStartTime) / 1000 / 60)}m {Math.floor(((Date.now() - gameState.gameStartTime) / 1000) % 60)}s
+                  </div>
+                  <div className="status-subtitle">
+                    Time Played
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Current Player */}
+          <div className="current-player-section">
+            <div className="current-player-card">
+              <div className="player-indicator">
+                <div className="player-avatar">
+                  {currentPlayer?.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="player-info">
+                  <h3 className="player-name">{currentPlayer?.name}</h3>
+                  <p className="player-status">
+                    {translations.yourTurn?.[currentLanguage] || 'Your Turn'}
+                  </p>
+                  <p className="player-skips">
+                    {currentPlayer?.skipsUsed || 0} / {settings.skipsPerPlayer} skips
+                  </p>
+                </div>
+              </div>
+              <button className="player-go-button" onClick={handlePlayerGo}>
+                GO
+              </button>
+              <div className="player-score">
+                <span className="score-value">{currentPlayer?.score ?? 0}</span>
+                <span className="score-label">{translations.points?.[currentLanguage] || 'points'}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Leaderboard */}
+          <div className="leaderboard-section">
+            <h3 className="leaderboard-title">
+              {translations.leaderboard?.[currentLanguage] || 'Leaderboard'}
+            </h3>
+            <div className="leaderboard">
+              {leaderboard.map((player, index) => (
+                <div 
+                  key={player.id} 
+                  className={`leaderboard-row ${player.id === currentPlayer?.id ? 'current-player' : ''}`}
+                >
+                  <div className="player-rank">
+                    {index === 0 ? (
+                      <Crown size={20} className="crown-icon" />
+                    ) : (
+                      <span className="rank-number">#{index + 1}</span>
+                    )}
+                  </div>
+                  <div className="player-details">
+                    <div className="player-name">{player.name}</div>
+                    <div className="score-breakdown">
+                      {player.artistPoints > 0 && (
+                        <span className="score-part artist">
+                          A: {player.artistPoints}
+                        </span>
+                      )}
+                      {player.titlePoints > 0 && (
+                        <span className="score-part title">
+                          T: {player.titlePoints}
+                        </span>
+                      )}
+                      {player.yearPoints > 0 && (
+                        <span className="score-part year">
+                          Y: {player.yearPoints}
+                        </span>
+                      )}
+                      {player.bonusPoints > 0 && (
+                        <span className="score-part bonus">
+                          B: {player.bonusPoints}
+                        </span>
+                      )}
+                     {player.score === 0 && (
+                       <span className="score-part no-points">
+                         No points yet
+                       </span>
+                     )}
+                    </div>
+                  </div>
+                  <div className="player-total-score">
+                    {player.score}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* No More Turns Warning Modal */}
+        {showNoMoreTurnsWarning && (
+          <div className="preview-overlay">
+            <div className="quit-confirmation-modal">
+              <div className="quit-modal-header">
+                <h3 className="quit-modal-title">
+                  {translations.noMoreTurns?.[currentLanguage] || 'No More Turns Possible'}
+                </h3>
+              </div>
+              
+              <div className="quit-modal-content">
+                <p className="quit-warning-text">
+                  {translations.noMoreTurnsWarning?.[currentLanguage] || 'There are not enough songs left for all players to have another turn. The winner will be decided based on the last completed full round.'}
+                </p>
+                
+                <div className="quit-modal-buttons">
+                  <button className="confirm-quit-button" onClick={handleNoMoreTurnsOkay}>
+                    <span>{translations.okay?.[currentLanguage] || 'Okay'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Quit Confirmation Modal */}
+        {showQuitConfirmation && (
+          <div className="preview-overlay">
+            <div className="quit-confirmation-modal">
+              <div className="quit-modal-header">
+                <h3 className="quit-modal-title">
+                  {translations.quitGameConfirmTitle?.[currentLanguage] || 'Quit Game?'}
+                </h3>
+              </div>
+              
+              <div className="quit-modal-content">
+                <p className="quit-warning-text">
+                  {translations.quitGameWarning?.[currentLanguage] || 'Are you sure you want to quit this game? Your current progress will be lost.'}
+                </p>
+                
+                <div className="quit-modal-buttons">
+                  <button className="cancel-quit-button" onClick={cancelQuit}>
+                    <span>{translations.cancel?.[currentLanguage] || 'Cancel'}</span>
+                  </button>
+                  <button className="confirm-quit-button" onClick={confirmQuit}>
+                    <X size={16} />
+                    <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Settings View (existing code)
+  return (
+    <div className="game-session">
+      <div className="competition-settings">
+        {/* Header */}
+        <div className="game-session-header">
+          <button className="back-button" onClick={onBack}>
+            <ArrowLeft size={20} />
+            <span>{translations.back?.[currentLanguage] || 'Back'}</span>
+          </button>
+        </div>
+
+        <h2 className="settings-title">
+          {translations.gameSettings?.[currentLanguage] || 'Game Settings'}
+        </h2>
+
+        {/* Game Mode */}
+        <div className="settings-section">
+          <h3 className="section-title">
+            {translations.gameMode?.[currentLanguage] || 'Game Mode'}
+          </h3>
+          <div className="game-mode-selection">
+            <button
+              className={`mode-button ${settings.gameMode === 'points' ? 'active' : ''}`}
+              onClick={() => handleGameModeChange('points')}
+            >
+              {translations.pointsMode?.[currentLanguage] || 'Points'}
+            </button>
+            <button
+              className={`mode-button ${settings.gameMode === 'time-based' ? 'active' : ''}`}
+              onClick={() => handleGameModeChange('time-based')}
+            >
+              {translations.timeBasedMode?.[currentLanguage] || 'Time Based'}
+            </button>
+            <button
+              className={`mode-button ${settings.gameMode === 'rounds' ? 'active' : ''}`}
+              onClick={() => handleGameModeChange('rounds')}
+            >
+              {translations.roundsMode?.[currentLanguage] || 'Rounds'}
+            </button>
+          </div>
+
+          {/* Mode-specific settings */}
+          <div className="mode-specific-settings">
+            {settings.gameMode === 'points' && (
+              <div className="setting-group">
+                <label className="setting-label">
+                  {translations.targetScorePoints?.[currentLanguage] || 'Target Score'}
+                </label>
+                <select
+                  className="points-dropdown"
+                  value={settings.targetScore}
+                  onChange={(e) => handleSettingChange('targetScore', parseInt(e.target.value))}
+                >
+                  {[50, 75, 100, 125, 150, 200, 250, 300].map(score => (
+                    <option key={score} value={score}>{score} {translations.points?.[currentLanguage] || 'points'}</option>
+                  ))}
+                </select>
+                <p className="mode-rules">
+                  {translations.pointsModeRules?.[currentLanguage] || 'First player to reach the target score wins.'}
+                </p>
+              </div>
+            )}
+
+            {settings.gameMode === 'time-based' && (
+              <div className="setting-group">
+                <label className="setting-label">
+                  {translations.gameDuration?.[currentLanguage] || 'Game Duration (Minutes)'}
+                </label>
+                <select
+                  className="points-dropdown"
+                  value={settings.gameDuration}
+                  onChange={(e) => handleSettingChange('gameDuration', parseInt(e.target.value))}
+                >
+                  {[15, 20, 30, 45, 60, 90].map(duration => (
+                    <option key={duration} value={duration}>{duration} {translations.minutes?.[currentLanguage] || 'minutes'}</option>
+                  ))}
+                </select>
+                <p className="mode-rules">
+                  {translations.timeBasedRules?.[currentLanguage] || 'Game plays for the set duration and completes the current round when time expires.'}
+                </p>
+              </div>
+            )}
+
+            {settings.gameMode === 'rounds' && (
+              <div className="setting-group">
+                <label className="setting-label">
+                  {translations.maximumRounds?.[currentLanguage] || 'Maximum Rounds'}
+                </label>
+                <select
+                  className="points-dropdown"
+                  value={settings.maximumRounds}
+                  onChange={(e) => handleSettingChange('maximumRounds', parseInt(e.target.value))}
+                >
+                  {[5, 10, 15, 20, 25, 30].map(rounds => (
+                    <option key={rounds} value={rounds}>{rounds} {translations.rounds?.[currentLanguage] || 'rounds'}</option>
+                  ))}
+                </select>
+                <p className="mode-rules">
+                  {translations.roundsModeRules?.[currentLanguage] || 'Game ends after the specified number of rounds. Winner determined by draw type.'}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Game Rules */}
+        <div className="rules-section">
+          <h3 className="rules-title">
+            {translations.gameRules?.[currentLanguage] || 'Game Rules'}
+          </h3>
+          <p className="rules-description">
+            {translations.rulesDescription?.[currentLanguage] || 'Players take turns guessing artist, title, and year. Points are awarded based on correct answers. The first player to reach the target score wins. In case of a tie, Sudden Death rounds determine the winner.'}
+          </p>
+        </div>
+
+        {/* Number of Players */}
+        <div className="settings-section">
+          <h3 className="section-title">
+            {translations.numberOfPlayers?.[currentLanguage] || 'Number of Players'}
+          </h3>
+          <div className="setting-group">
+            <div className="player-number-selection">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => (
+                <button
+                  key={number}
+                  className={`player-number-button ${settings.numberOfPlayers === number ? 'active' : ''}`}
+                  onClick={() => handlePlayerNumberChange(number)}
+                >
+                  {number}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Player Names */}
+          <div className="setting-group">
+            <div className="setting-label">
+              {translations.playerNames?.[currentLanguage] || 'Player Names'}
+            </div>
+            <div className="player-names-grid">
+              {Array(settings.numberOfPlayers).fill(0).map((_, index) => (
+                <div key={index} className="player-name-input">
+                  <label className="player-label">
+                    {translations.playerName?.[currentLanguage] || 'Player'} {index + 1}
+                  </label>
+                  <input
+                    type="text"
+                    className="player-name-field"
+                    placeholder={translations.enterPlayerName?.[currentLanguage] || 'Enter player name'}
+                    value={playerNames[index] || ''}
+                    onChange={(e) => handlePlayerNameChange(index, e.target.value)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Points System */}
+        <div className="settings-section">
+          <h3 className="section-title">
+            {translations.pointsSystem?.[currentLanguage] || 'Points System'}
+          </h3>
+          <div className="points-grid">
+            <div className="setting-group">
+              <label className="setting-label">
+                {translations.artistCorrect?.[currentLanguage] || 'Artist Correct'}
+              </label>
+              <select
+                className="points-dropdown"
+                value={settings.artistPoints}
+                onChange={(e) => handleSettingChange('artistPoints', parseInt(e.target.value))}
+              >
+                {[1, 2, 3, 4, 5].map(points => (
+                  <option key={points} value={points}>{points} {translations.points?.[currentLanguage] || 'points'}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="setting-group">
+              <label className="setting-label">
+                {translations.titleCorrect?.[currentLanguage] || 'Title Correct'}
+              </label>
+              <select
+                className="points-dropdown"
+                value={settings.titlePoints}
+                onChange={(e) => handleSettingChange('titlePoints', parseInt(e.target.value))}
+              >
+                {[1, 2, 3, 4, 5].map(points => (
+                  <option key={points} value={points}>{points} {translations.points?.[currentLanguage] || 'points'}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="setting-group">
+              <label className="setting-label">
+                {translations.yearCorrect?.[currentLanguage] || 'Year Correct'}
+              </label>
+              <select
+                className="points-dropdown"
+                value={settings.yearPoints}
+                onChange={(e) => handleSettingChange('yearPoints', parseInt(e.target.value))}
+                disabled={!hasYearData}
+              >
+                {[1, 2, 3, 4, 5].map(points => (
+                  <option key={points} value={points}>{points} {translations.points?.[currentLanguage] || 'points'}</option>
+                ))}
+              </select>
+              {!hasYearData && (
+                <p className="setting-warning">
+                  {translations.yearScoringDisabled?.[currentLanguage] || 'Year scoring disabled - some songs missing year data'}
+                </p>
+              )}
+            </div>
+
+            <div className="setting-group">
+              <label className="setting-label">
+                {translations.bonusAllCorrect?.[currentLanguage] || 'Bonus (All Correct)'}
+              </label>
+              <select
+                className="points-dropdown"
+                value={settings.bonusPoints}
+                onChange={(e) => handleSettingChange('bonusPoints', parseInt(e.target.value))}
+                disabled={!hasYearData}
+              >
+                {[0, 1, 2, 3, 4, 5].map(points => (
+                  <option key={points} value={points}>{points} {translations.points?.[currentLanguage] || 'points'}</option>
+                ))}
+              </select>
+              {!hasYearData && (
+                <p className="setting-warning">
+                  {translations.bonusRequiresYear?.[currentLanguage] || 'Bonus requires year data'}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Skip Settings */}
+        <div className="settings-section">
+          <h3 className="section-title">
+            {translations.skipsSettings?.[currentLanguage] || 'Skip Settings'}
+          </h3>
+          <div className="skip-settings-grid">
+            <div className="setting-group">
+              <label className="setting-label">
+                {translations.skipsPerPlayer?.[currentLanguage] || 'Skips per Player'}
+              </label>
+              <select
+                className="skip-dropdown"
+                value={settings.skipsPerPlayer}
+                onChange={(e) => handleSettingChange('skipsPerPlayer', parseInt(e.target.value))}
+              >
+                {[0, 1, 2, 3, 4, 5].map(skips => (
+                  <option key={skips} value={skips}>{skips}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="setting-group">
+              <label className="setting-label">
+                {translations.skipCost?.[currentLanguage] || 'Skip Cost (Points)'}
+              </label>
+              <select
+                className="skip-dropdown"
+                value={settings.skipCost}
+                onChange={(e) => handleSettingChange('skipCost', parseInt(e.target.value))}
+              >
+                {[0, 1, 2, 3, 4, 5, 10].map(cost => (
+                  <option key={cost} value={cost}>{cost} {translations.points?.[currentLanguage] || 'points'}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Start Game */}
+        <div className="start-game-section">
+          <button
+            className="start-competition-button"
+            onClick={handleStartGame}
+            disabled={!canStartGame()}
+          >
+            <Play size={20} />
+            <span>{translations.startCompetition?.[currentLanguage] || 'Start Competition'}</span>
+          </button>
+          
+          {!canStartGame() && (
+            <div className="validation-warning">
+              {translations.allPlayerNameRequired?.[currentLanguage] || 'All player names are required'}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
