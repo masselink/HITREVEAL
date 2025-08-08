@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Play, X, List, Crown, Clock, Target, Music, Users } from 'lucide-react';
-import { Language, SongList, Song } from '../types';
+import { Language, SongList, Song, CompetitionSettings } from '../types';
 import { CompetitionYouTubePlayer } from './CompetitionYouTubePlayer';
 import Papa from 'papaparse';
 
@@ -84,6 +84,19 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     winners: []
   });
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
+  const [gameSettings, setGameSettings] = useState<CompetitionSettings>({
+    numberOfPlayers: 2,
+    gameMode: 'points',
+    targetScore: 50,
+    gameDuration: 10,
+    maximumRounds: 10,
+    artistPoints: 1,
+    titlePoints: 2,
+    yearPoints: 1,
+    bonusPoints: 2,
+    skipsPerPlayer: 3,
+    skipCost: 1
+  });
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [showPlayerPage, setShowPlayerPage] = useState(false);
   const [showWinnerPage, setShowWinnerPage] = useState(false);
