@@ -60,6 +60,7 @@
   letter-spacing: 0.1em;
   animation: pulse-sudden-death 2s infinite;
   box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+  cursor: default;
 }
 
 @keyframes pulse-sudden-death {
@@ -1300,6 +1301,47 @@
   background-color: var(--color-accent-light);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
+}
+
+/* Winner Page Notices */
+.not-enough-songs-notice {
+  background-color: #fef3c7;
+  border: 2px solid #f59e0b;
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-6);
+  margin-bottom: var(--spacing-6);
+  text-align: center;
+}
+
+.notice-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: var(--spacing-3);
+}
+
+.notice-message {
+  font-size: var(--font-size-base);
+  color: #78350f;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.sudden-death-notice {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: white;
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-4) var(--spacing-6);
+  margin-bottom: var(--spacing-6);
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+}
+
+.sudden-death-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.05em;
 }
 
 /* Mobile Responsive */

@@ -83,7 +83,11 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     currentPlayerIndex: 0,
     usedSongs: new Set(),
     gameStartTime: 0,
-    isGameActive: false
+    isGameActive: false,
+    isSuddenDeath: false,
+    suddenDeathPlayers: [],
+    gameEnded: false,
+    winners: []
   });
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);

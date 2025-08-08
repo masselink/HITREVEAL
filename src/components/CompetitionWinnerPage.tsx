@@ -41,6 +41,7 @@ interface CompetitionWinnerPageProps {
   allPlayers: Player[];
   gameSettings: GameSettings;
   gameStats: GameStats;
+  notEnoughSongs?: boolean;
   onPlayAgain: () => void;
   onBackToMenu: () => void;
 }
@@ -51,6 +52,7 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
   allPlayers,
   gameSettings,
   gameStats,
+  notEnoughSongs = false,
   onPlayAgain,
   onBackToMenu
 }) => {
@@ -78,7 +80,10 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
     minutes: { en: 'minutes', nl: 'minuten', de: 'Minuten', fr: 'minutes' },
     playAgain: { en: 'Play Again', nl: 'Opnieuw Spelen', de: 'Nochmal Spielen', fr: 'Rejouer' },
     backToMenu: { en: 'Back to Menu', nl: 'Terug naar Menu', de: 'Zurück zum Menü', fr: 'Retour au Menu' },
-    points: { en: 'points', nl: 'punten', de: 'Punkte', fr: 'points' }
+    points: { en: 'points', nl: 'punten', de: 'Punkte', fr: 'points' },
+    suddenDeathWinner: { en: 'Winner by Sudden Death!', nl: 'Winnaar door Sudden Death!', de: 'Gewinner durch Sudden Death!', fr: 'Gagnant par Mort Subite!' },
+    notEnoughSongsTitle: { en: 'Not Enough Songs', nl: 'Niet Genoeg Nummers', de: 'Nicht Genug Songs', fr: 'Pas Assez de Chansons' },
+    notEnoughSongsMessage: { en: 'There were not enough songs left in the list to decide a winner through sudden death mode.', nl: 'Er waren niet genoeg nummers over in de lijst om een winnaar te bepalen via sudden death modus.', de: 'Es waren nicht genug Songs in der Liste übrig, um einen Gewinner durch Sudden Death Modus zu bestimmen.', fr: 'Il n\'y avait pas assez de chansons restantes dans la liste pour déterminer un gagnant par le mode mort subite.' }
   };
 
   // Determine actual winners based on highest score from allPlayers
@@ -110,6 +115,25 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
       <div className="winner-content">
         {/* Winner Announcement */}
         <div className="winner-announcement">
+          {notEnoughSongs && (
+            <div className="not-enough-songs-notice">
+              <h3 className="notice-title">
+                {translations.notEnoughSongsTitle[currentLanguage]}
+              </h3>
+              <p className="notice-message">
+                {translations.notEnoughSongsMessage[currentLanguage]}
+              </p>
+            </div>
+          )}
+          
+          {gameStats.wasSuddenDeath && !notEnoughSongs && (
+            <div className="sudden-death-notice">
+              <h3 className="sudden-death-title">
+                ⚡ {translations.suddenDeathWinner[currentLanguage]}
+              </h3>
+            </div>
+          )}
+          
           <div className="winner-trophy">
             <Trophy size={80} />
           </div>
