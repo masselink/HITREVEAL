@@ -443,23 +443,15 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           </div>
 
           {/* YouTube Player */}
-          <CompetitionYouTubePlayer
-            currentLanguage={currentLanguage}
-            currentSong={currentSong}
-            allSongs={songs}
-            onScanAnother={selectRandomSong}
-            onSongListView={() => {}}
-            songListViewCount={0}
-            onTurnComplete={handleTurnComplete}
-            onSkip={handleSkip}
-            artistPoints={settings.artistPoints}
-            titlePoints={settings.titlePoints}
-            yearPoints={settings.yearPoints}
-            bonusPoints={settings.bonusPoints}
-            skipCost={settings.skipCost}
-            skipsPerPlayer={settings.skipsPerPlayer}
-            currentPlayerSkipsRemaining={playerSkips[currentPlayer.id] || 0}
-          />
+          {/* GO Button to Start Turn */}
+          <div className="go-button-section">
+            <button 
+              className="player-go-button"
+              onClick={() => setShowPlayerInterface(true)}
+            >
+              {getTranslation('go', currentLanguage)}
+            </button>
+          </div>
 
           {/* Leaderboard */}
           <div className="leaderboard-section">
