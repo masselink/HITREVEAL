@@ -66,7 +66,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     yearPoints: 1,
     bonusPoints: 2,
     skipsPerPlayer: 2,
-    skipCost: 5
+    skipCost: 3
   });
 
   const [players, setPlayers] = useState<Player[]>([
