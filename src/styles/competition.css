@@ -1100,7 +1100,7 @@
 }
 
 .winner-trophy {
-  color: #fbbf24;
+  color: var(--color-primary);
   margin-bottom: var(--spacing-4);
   animation: trophy-bounce 2s ease-in-out infinite;
 }
