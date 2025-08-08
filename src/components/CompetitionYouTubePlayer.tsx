@@ -18,7 +18,6 @@ interface CompetitionYouTubePlayerProps {
   yearPoints?: number;
   bonusPoints?: number;
   skipCost?: number;
-  skipCost?: number;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
@@ -398,6 +397,16 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
             {currentSong.title}
           </div>
           <div className="song-artist">
+            {currentSong.artist}
+          </div>
+          {currentSong.year && (
+            <div className="song-year">
+              {currentSong.year}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Simple Controls */}
       <div className="simple-controls">
         <button 
