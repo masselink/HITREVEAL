@@ -222,6 +222,10 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       return player;
     }));
 
+    // Check win conditions after score update
+    setTimeout(() => {
+      checkWinConditions();
+    }, 200);
     // Move to next player
     nextTurn();
   };
@@ -269,11 +273,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     }
     
     setCurrentPlayerIndex(nextPlayerIndex);
-    
-    // Check win conditions after state updates
-    setTimeout(() => {
-      checkWinConditions();
-    }, 200);
     
     selectRandomSong();
   };
