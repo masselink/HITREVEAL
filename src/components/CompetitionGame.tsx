@@ -95,7 +95,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         }
         
         console.log('Loading songs from:', url);
-        const response = await fetch(songList.github_link);
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error(`Failed to fetch song list: ${response.status} ${response.statusText}`);
         }
