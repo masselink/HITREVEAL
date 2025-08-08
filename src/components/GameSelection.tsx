@@ -77,10 +77,10 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         fr: 'Jeu de Compétition'
       },
       subtitle: {
-        en: 'Challenge your friends',
-        nl: 'Daag je vrienden uit',
-        de: 'Fordere deine Freunde heraus',
-        fr: 'Défiez vos amis'
+        en: 'Challenge your friends or play solo...',
+        nl: 'Daag je vrienden uit of speel solo...',
+        de: 'Fordere deine Freunde heraus oder spiele solo...',
+        fr: 'Défiez vos amis ou jouez en solo...'
       },
       status: 'available' as const
     }
