@@ -222,7 +222,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       return player;
     }));
 
-    // Check win conditions after score update
     // Move to next player
     nextTurn();
   };
@@ -272,10 +271,15 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setCurrentPlayerIndex(nextPlayerIndex);
     
     selectRandomSong();
-    checkWinConditions();
   };
 
   const checkWinConditions = () => {
+    // Only check win conditions when in dashboard mode (not in player interface)
+    if (showPlayerInterface) {
+      console.log('🚫 Skipping win check - player interface active');
+      return;
+    }
+    
     console.log('👥 Current players:', players);
     console.log('🎯 Target score:', settings.targetScore);
     console.log('🔄 Current round:', currentRound);
@@ -456,6 +460,17 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   // Playing Phase
   if (gamePhase === 'playing' && currentSong) {
     const currentPlayer = players[currentPlayerIndex];
+    
+    // Check win conditions when returning to dashboard
+    React.useEffect(() => {
+      if (!showPlayerInterface) {
+        // Small delay to ensure state updates are complete
+        const timer = setTimeout(() => {
+          checkWinConditions();
+        }, 100);
+        return () => clearTimeout(timer);
+      }
+    }, [showPlayerInterface, players, currentRound]);
     
     return (
       <div className="game-session">
