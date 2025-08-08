@@ -669,7 +669,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           <div className="game-session-header">
             {gameState.isSuddenDeath && (
               <button className="sudden-death-indicator">
-                <span>{translations.suddenDeath?.[currentLanguage] || 'SUDDEN DEATH'}</span>
+                <span>{translations.suddenDeath?.[currentLanguage] || 'Sudden Death'}</span>
               </button>
             )}
             <button className="primary-button quit-game-button" onClick={handleQuitGame}>
@@ -966,6 +966,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           </div>
 
           {/* Draw Type Selection */}
+          <div style={{ marginTop: '2rem' }}>
           <div className="setting-group">
             <label className="setting-label">
               {translations.drawType?.[currentLanguage] || 'Draw Type'}
@@ -983,6 +984,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
               </option>
             </select>
           </div>
+          </div>
         </div>
 
         {/* Game Rules */}
@@ -993,14 +995,19 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           <div className="rules-description">
             <p>{translations.gameplayRules?.[currentLanguage] || 'Players take turns listening to songs and guessing the artist, title, and year. Each player gets one song per turn, and points are awarded based on correct answers.'}</p>
             
-            <p><strong>{translations.gameModes?.[currentLanguage] || 'Game Modes'}:</strong></p>
-            <ul>
-              <li><strong>{translations.pointsMode?.[currentLanguage] || 'Points'}:</strong> {translations.pointsModeRules?.[currentLanguage] || 'First player to reach the target score wins.'}</li>
-              <li><strong>{translations.timeBasedMode?.[currentLanguage] || 'Time Based'}:</strong> {translations.timeBasedRules?.[currentLanguage] || 'Game plays for the set duration and completes the current round when time expires.'}</li>
-              <li><strong>{translations.roundsMode?.[currentLanguage] || 'Rounds'}:</strong> {translations.roundsModeRules?.[currentLanguage] || 'Game ends after the specified number of rounds. Winner determined by draw type.'}</li>
-            </ul>
+            <p><strong>{translations.gameMode?.[currentLanguage] || 'Game Mode'}:</strong></p>
+            <p>
+              {settings.gameMode === 'points' && (translations.pointsModeRules?.[currentLanguage] || 'First player to reach the target score wins.')}
+              {settings.gameMode === 'time-based' && (translations.timeBasedRules?.[currentLanguage] || 'Game plays for the set duration and completes the current round when time expires.')}
+              {settings.gameMode === 'rounds' && (translations.roundsModeRules?.[currentLanguage] || 'Game ends after the specified number of rounds. Winner determined by draw type.')}
+            </p>
             
-            <p><strong>{translations.winningConditions?.[currentLanguage] || 'Winning & Ties'}:</strong> {translations.tieRules?.[currentLanguage] || 'Games always complete full rounds before declaring winners. In case of ties, the draw type setting determines the outcome - either multiple winners are declared, or tied players enter Sudden Death mode for additional rounds until there is a single winner.'}</p>
+            <p><strong>{translations.winningConditions?.[currentLanguage] || 'Winning & Ties'}:</strong></p>
+            <p>
+              Games always complete full rounds before declaring winners. In case of ties:
+              {settings.drawType === 'multiple-winners' && ' all players with the highest score are declared winners.'}
+              {settings.drawType === 'sudden-death' && ' tied players enter Sudden Death mode for additional rounds until there is a single winner.'}
+            </p>
             
             <p><strong>{translations.skipSystem?.[currentLanguage] || 'Skip System'}:</strong> {translations.skipRules?.[currentLanguage] || 'Players can skip songs they don\'t know, but this may cost points and is limited per player.'}</p>
           </div>

@@ -57,7 +57,6 @@
   padding: var(--spacing-3) var(--spacing-6);
   font-size: var(--font-size-sm);
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.1em;
   animation: pulse-sudden-death 2s infinite;
   box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
