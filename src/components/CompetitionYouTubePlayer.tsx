@@ -263,9 +263,16 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
     console.log('CompetitionYouTubePlayer - Turn Complete:', scoreDetails);
     console.log('Guessed states:', { guessedArtist, guessedTitle, guessedYear });
     console.log('Point values:', { artistPoints, titlePoints, yearPoints, bonusPoints });
+    console.log('Calculated total:', getTotalScore());
     
     // Pass the detailed score breakdown to the parent component
-    onTurnComplete?.(scoreDetails);
+    if (onTurnComplete) {
+      onTurnComplete(scoreDetails);
+    } else {
+      console.error('onTurnComplete callback not provided!');
+      // Fallback to just going back
+      onScanAnother();
+    }
   };
   return (
     <>
@@ -417,6 +424,12 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
                 <span>SKIP</span>
               </button>
             </>
+          )}
+          
+          {showReveal && (
+            <button className="turn-complete-button" onClick={handleTurnComplete}>
+              <span>TURN COMPLETE</span>
+            </button>
           )}
         </div>
 

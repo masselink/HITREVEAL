@@ -236,11 +236,12 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     bonusPoints: number;
     totalPoints: number;
   }) => {
-    // Award points to current player based on their selections
     const currentPlayer = players[gameState.currentPlayerIndex];
     
     console.log('Turn Complete - Score Details:', scoreDetails);
     console.log('Current Player:', currentPlayer);
+    console.log('Current Player Index:', gameState.currentPlayerIndex);
+    console.log('Players before update:', players);
     
     // Update the player's score
     setPlayers(prev => {
@@ -260,7 +261,10 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       return updatedPlayers;
     });
     
-    handleBackToDashboard();
+    // Small delay to ensure state updates before going back
+    setTimeout(() => {
+      handleBackToDashboard();
+    }, 100);
   };
   const handleQuitGame = () => {
     setShowQuitConfirmation(true);
