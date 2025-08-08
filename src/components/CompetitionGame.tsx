@@ -236,17 +236,17 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     bonusPoints: number;
     totalPoints: number;
   }) => {
-    const currentPlayer = players[gameState.currentPlayerIndex];
+    const currentPlayerId = gameState.currentPlayerIndex;
     
     console.log('Turn Complete - Score Details:', scoreDetails);
-    console.log('Current Player:', currentPlayer);
-    console.log('Current Player Index:', gameState.currentPlayerIndex);
+    console.log('Current Player ID:', currentPlayerId);
+    console.log('Current Player Index:', currentPlayerId);
     console.log('Players before update:', players);
     
     // Update the player's score
     setPlayers(prev => {
-      const updatedPlayers = prev.map(player => 
-        player.id === currentPlayer.id 
+      const updatedPlayers = prev.map((player, index) => 
+        index === currentPlayerId
           ? {
               ...player,
               score: player.score + scoreDetails.totalPoints,
