@@ -451,6 +451,13 @@ body::before {
   border: 1px solid #fecaca;
 }
 
+/* Game Session Title Button */
+.game-session-title-button {
+  opacity: 0.9;
+  cursor: default;
+  margin: 0 auto;
+}
+
 /* Responsive footer layout */
 @media (max-width: 768px) {
   .footer-content {
