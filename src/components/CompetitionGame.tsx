@@ -207,7 +207,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setGameState(prev => ({
       ...prev,
       usedSongs: new Set([...prev.usedSongs, originalIndex]),
-      songsPlayed: prev.songsPlayed + 1
     }));
   };
 
@@ -215,14 +214,19 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setShowPlayerPage(false);
     setCurrentSong(null);
     
-    // Move to next player and increment round if all players have played
+    // Move to next player
     const nextPlayerIndex = (gameState.currentPlayerIndex + 1) % settings.numberOfPlayers;
-    const shouldIncrementRound = nextPlayerIndex === 0; // Back to first player means new round
+    
+    // Calculate if we should increment the round
+    // A round completes when we've cycled through all players once from the starting player
+    const totalTurnsPlayed = gameState.songsPlayed + 1; // +1 because we're about to complete this turn
+    const shouldIncrementRound = totalTurnsPlayed % settings.numberOfPlayers === 0;
     
     setGameState(prev => ({
       ...prev,
       currentPlayerIndex: nextPlayerIndex,
-      currentRound: shouldIncrementRound ? prev.currentRound + 1 : prev.currentRound
+      currentRound: shouldIncrementRound ? prev.currentRound + 1 : prev.currentRound,
+      songsPlayed: totalTurnsPlayed
     }));
   };
 
