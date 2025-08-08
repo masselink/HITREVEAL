@@ -25,15 +25,12 @@ interface GameSettings {
   bonusPoints: number;
   skipsPerPlayer: number;
   skipCost: number;
-  drawType: 'highest-score' | 'multiple-winners' | 'sudden-death';
-  drawType: 'highest-score' | 'multiple-winners';
 }
 
 interface GameStats {
   totalRounds: number;
   totalSongs: number;
   gameDuration: number;
-  wasSuddenDeath: boolean;
 }
 
 interface CompetitionWinnerPageProps {
