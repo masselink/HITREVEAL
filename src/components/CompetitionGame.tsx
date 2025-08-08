@@ -730,8 +730,8 @@ export const translations: Translations = {
   },
   noMoreTurns: {
     en: 'No More Turns Possible',
-    nl: 'Geen beurten meer mogelijk',
-    de: 'Keine weiteren Züge möglich',
-    fr: 'Plus de tours possibles'
+    nl: 'Geen Beurten Meer Mogelijk',
+    de: 'Keine Weiteren Züge Möglich',
+    fr: 'Plus de Tours Possibles'
   }
 };
