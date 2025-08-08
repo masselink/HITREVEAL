@@ -996,26 +996,21 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         {/* Game Rules */}
         <div className="rules-section">
           <h3 className="rules-title">
-            {translations.gameRules?.[currentLanguage] || 'Game Rules'}
+            Game Rules
           </h3>
           <div className="rules-description">
-            <p>{translations.gameplayRules?.[currentLanguage] || 'Players take turns listening to songs and guessing the artist, title, and year. Each player gets one song per turn, and points are awarded based on correct answers.'}</p>
+            <p><strong>Gameplay:</strong> Players take turns listening to songs and guessing the artist, title, and year. Each player gets one song per turn, and points are awarded based on correct answers.</p>
             
-            <p><strong>{translations.gameMode?.[currentLanguage] || 'Game Mode'}:</strong></p>
-            <p>
-              {settings.gameMode === 'points' && (translations.pointsModeRules?.[currentLanguage] || 'First player to reach the target score wins.')}
-              {settings.gameMode === 'time-based' && (translations.timeBasedRules?.[currentLanguage] || 'Game plays for the set duration and completes the current round when time expires.')}
-              {settings.gameMode === 'rounds' && (translations.roundsModeRules?.[currentLanguage] || 'Game ends after the specified number of rounds. Winner determined by draw type.')}
-            </p>
+            <p><strong>Game Mode:</strong></p>
+            <ul>
+              <li><strong>Points:</strong> First player to reach the target score wins.</li>
+              <li><strong>Time Based:</strong> Game plays for the set duration and completes the current round when time expires.</li>
+              <li><strong>Rounds:</strong> Game ends after the specified number of rounds.</li>
+            </ul>
             
-            <p><strong>{translations.winningConditions?.[currentLanguage] || 'Winning & Ties'}:</strong></p>
-            <p>
-              Games always complete full rounds before declaring winners. In case of ties:
-              {settings.drawType === 'multiple-winners' && ' all players with the highest score are declared winners.'}
-              {settings.drawType === 'sudden-death' && ' tied players enter Sudden Death mode for additional rounds until there is a single winner.'}
-            </p>
+            <p><strong>Winning & Ties:</strong> The player with the highest score wins. In case of ties, all tied players are declared winners.</p>
             
-            <p><strong>{translations.skipSystem?.[currentLanguage] || 'Skip System'}:</strong> {translations.skipRules?.[currentLanguage] || 'Players can skip songs they don\'t know, but this may cost points and is limited per player.'}</p>
+            <p><strong>Skip System:</strong> Players can skip songs they don't know, but this may cost points and is limited per player.</p>
           </div>
         </div>
 
