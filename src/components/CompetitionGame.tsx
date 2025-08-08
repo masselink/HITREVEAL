@@ -562,30 +562,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           </h2>
         </div>
 
-        {/* Game Rules Section */}
-        <div className="rules-section">
-          <h3 className="rules-title">{getTranslation('gameRules', currentLanguage)}</h3>
-          <div className="rules-description">
-            <p><strong>{getTranslation('gameplay', currentLanguage)}:</strong> {getTranslation('gameplayDescription', currentLanguage)}</p>
-            
-            <p><strong>{getTranslation('selectedMode', currentLanguage)}:</strong> 
-              {settings.gameMode === 'points' && (
-                <span> {getTranslation('pointsModeDescription', currentLanguage)} {settings.targetScore} {getTranslation('points', currentLanguage)} {getTranslation('wins', currentLanguage)}.</span>
-              )}
-              {settings.gameMode === 'time-based' && (
-                <span> {getTranslation('timeBasedDescription', currentLanguage)} {settings.gameDuration} {getTranslation('minutes', currentLanguage)} {getTranslation('andCompletesRound', currentLanguage)}.</span>
-              )}
-              {settings.gameMode === 'rounds' && (
-                <span> {getTranslation('roundsModeDescription', currentLanguage)} {settings.maximumRounds} {getTranslation('rounds', currentLanguage)}.</span>
-              )}
-            </p>
-            
-            <p><strong>{getTranslation('winningTies', currentLanguage)}:</strong> {getTranslation('winningDescription', currentLanguage)}</p>
-            
-            <p><strong>{getTranslation('skipSystem', currentLanguage)}:</strong> {getTranslation('skipDescription', currentLanguage)} {getTranslation('eachPlayerHas', currentLanguage)} {settings.skipsPerPlayer} {getTranslation('skips', currentLanguage)}{settings.skipCost > 0 && <span>, {getTranslation('costing', currentLanguage)} {settings.skipCost} {getTranslation('points', currentLanguage)} {getTranslation('each', currentLanguage)}</span>}.</p>
-          </div>
-        </div>
-
         {/* Game Mode Selection */}
         <div className="settings-section">
           <h3 className="section-title">{getTranslation('gameMode', currentLanguage)}</h3>
@@ -665,6 +641,30 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 <p className="mode-rules">{getTranslation('roundsModeRules', currentLanguage)}</p>
               </div>
             )}
+          </div>
+        </div>
+
+        {/* Game Rules Section */}
+        <div className="rules-section">
+          <h3 className="rules-title">{getTranslation('gameRules', currentLanguage)}</h3>
+          <div className="rules-description">
+            <p><strong>{getTranslation('gameplay', currentLanguage)}:</strong> {getTranslation('gameplayDescription', currentLanguage)}</p>
+            
+            <p><strong>{getTranslation('selectedMode', currentLanguage)}:</strong> 
+              {settings.gameMode === 'points' && (
+                <span> {getTranslation('pointsModeDescription', currentLanguage)} {settings.targetScore} {getTranslation('points', currentLanguage)} {getTranslation('wins', currentLanguage)}.</span>
+              )}
+              {settings.gameMode === 'time-based' && (
+                <span> {getTranslation('timeBasedDescription', currentLanguage)} {settings.gameDuration} {getTranslation('minutes', currentLanguage)} {getTranslation('andCompletesRound', currentLanguage)}.</span>
+              )}
+              {settings.gameMode === 'rounds' && (
+                <span> {getTranslation('roundsModeDescription', currentLanguage)} {settings.maximumRounds} {getTranslation('rounds', currentLanguage)}.</span>
+              )}
+            </p>
+            
+            <p><strong>{getTranslation('winningTies', currentLanguage)}:</strong> {getTranslation('winningDescription', currentLanguage)}</p>
+            
+            <p><strong>{getTranslation('skipSystem', currentLanguage)}:</strong> {getTranslation('skipDescription', currentLanguage)} {getTranslation('eachPlayerHas', currentLanguage)} {settings.skipsPerPlayer} {getTranslation('skips', currentLanguage)}{settings.skipCost > 0 && <span>, {getTranslation('costing', currentLanguage)} {settings.skipCost} {getTranslation('points', currentLanguage)} {getTranslation('each', currentLanguage)}</span>}.</p>
           </div>
         </div>
 
