@@ -593,7 +593,7 @@
 .game-session-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin-bottom: var(--spacing-8);
 }
 
@@ -639,8 +639,7 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
-  background-color: transparent;
-  min-height: auto;
+  background-color: #000;
 }
 
 .scanner-video {
@@ -700,18 +699,13 @@
 }
 
 .scanner-placeholder {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
+  max-width: 500px;
+  margin: 0 auto;
   border: 2px dashed var(--color-border);
   border-radius: var(--border-radius);
   padding: var(--spacing-8);
   text-align: center;
   background-color: #f8fafc;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .scanner-placeholder-content {
@@ -1239,7 +1233,6 @@
   .scanner-container {
     max-width: 100%;
     height: 350px;
-    background-color: transparent;
   }
   
   .scanner-video {
@@ -1249,10 +1242,5 @@
   .scanner-frame {
     width: 200px;
     height: 200px;
-  }
-  
-  .scanner-placeholder {
-    min-height: 250px;
-    padding: var(--spacing-6);
   }
 }

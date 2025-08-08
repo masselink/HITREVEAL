@@ -110,12 +110,6 @@ export const translations: Translations = {
     de: 'Fordere deine Freunde heraus',
     fr: 'Défiez vos amis'
   },
-  competitionSubtitle2: {
-    en: '(or play alone)',
-    nl: '(of speel alleen)',
-    de: '(oder alleine spielen)',
-    fr: '(ou jouer seul)'
-  },
   back: {
     en: 'Back',
     nl: 'Terug',
@@ -169,14 +163,6 @@ export const translations: Translations = {
     nl: 'Start Spel',
     de: 'Spiel starten',
     fr: 'Commencer le jeu'
-  },
-  
-  // Competition Game
-  noMoreTurns: {
-    en: 'No More Turns Available',
-    nl: 'Geen Beurten Meer Beschikbaar',
-    de: 'Keine Züge Mehr Verfügbar',
-    fr: 'Plus de Tours Disponibles'
   },
   
   // Game Session
