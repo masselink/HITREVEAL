@@ -171,6 +171,9 @@ export const en = {
   // Additional missing translations
   skip: 'SKIP',
   
+  // Point breakdown
+  pointBreakdown: 'Point Breakdown',
+  
   // Dropdown options
   point: 'point',
   minute: 'minute',

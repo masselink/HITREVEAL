@@ -171,6 +171,9 @@ export const nl = {
   // Additional missing translations
   skip: 'OVERSLAAN',
   
+  // Point breakdown
+  pointBreakdown: 'Punten Verdeling',
+  
   // Dropdown options
   point: 'punt',
   minute: 'minuut',

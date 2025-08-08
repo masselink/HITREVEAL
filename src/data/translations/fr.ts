@@ -171,6 +171,9 @@ export const fr = {
   // Additional missing translations
   skip: 'PASSER',
   
+  // Point breakdown
+  pointBreakdown: 'Répartition des Points',
+  
   // Dropdown options
   point: 'point',
   minute: 'minute',

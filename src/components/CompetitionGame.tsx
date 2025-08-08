@@ -543,7 +543,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   <span className="info-value">{currentPlayer.score} {getTranslation('points', currentLanguage)}</span>
                 </div>
                 <div className="game-info-row">
-                  <span className="info-label">Point Breakdown:</span>
+                  <span className="info-label">{getTranslation('pointBreakdown', currentLanguage)}:</span>
                   <span className="info-value">
                     <span className="score-part artist">{getTranslation('artistPoints', currentLanguage)}: {currentPlayer.artistPoints}</span>
                     <span className="score-part title">{getTranslation('titlePoints', currentLanguage)}: {currentPlayer.titlePoints}</span>
@@ -552,7 +552,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   </span>
                 </div>
                 <div className="game-info-row">
-                  <span className="info-label">Skips:</span>
+                  <span className="info-label">{getTranslation('skips', currentLanguage)}:</span>
                   <span className="info-value">{playerSkips[currentPlayer.id] || 0} {getTranslation('left', currentLanguage)}</span>
                 </div>
               </div>

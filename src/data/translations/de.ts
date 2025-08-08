@@ -171,6 +171,9 @@ export const de = {
   // Additional missing translations
   skip: 'ÜBERSPRINGEN',
   
+  // Point breakdown
+  pointBreakdown: 'Punkte Aufschlüsselung',
+  
   // Dropdown options
   point: 'Punkt',
   minute: 'Minute',
