@@ -105,10 +105,10 @@ export const translations: Translations = {
     fr: 'Jeu de Compétition'
   },
   competitionSubtitle: {
-    en: 'Challenge your friends',
-    nl: 'Daag je vrienden uit',
-    de: 'Fordere deine Freunde heraus',
-    fr: 'Défiez vos amis'
+    en: 'Challenge your friends\n(or play alone)',
+    nl: 'Daag je vrienden uit\n(of speel alleen)',
+    de: 'Fordere deine Freunde heraus\n(oder spiele allein)',
+    fr: 'Défiez vos amis\n(ou jouez seul)'
   },
   back: {
     en: 'Back',
