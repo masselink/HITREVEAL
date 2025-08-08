@@ -766,10 +766,10 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   className={`leaderboard-row ${player.id === currentPlayer?.id ? 'current-player' : ''}`}
                 >
                   <div className="player-rank">
-                    {index === 0 ? (
+                    {player.score === leaderboard[0].score ? (
                       <Crown size={20} className="crown-icon" />
                     ) : (
-                      <span className="rank-number">#{index + 1}</span>
+                      <span className="rank-number">#{leaderboard.findIndex(p => p.score < player.score) + 1 || leaderboard.length}</span>
                     )}
                   </div>
                   <div className="player-details">
