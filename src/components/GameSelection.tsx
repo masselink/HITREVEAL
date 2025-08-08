@@ -149,7 +149,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
           const processedData = validData.map(row => ({
             ...row,
             github_link: row.github_link && !row.github_link.startsWith('http') 
-              ? `https://raw.githubusercontent.com/masselink/HITREVEAL-Songs/main/${row.github_link}`
+              ? `https://raw.githubusercontent.com/masselink/HITREVEAL-Songs/refs/heads/main/${row.github_link}`
               : row.github_link
           }));
           
@@ -197,7 +197,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
           const processedData = validData.map(row => ({
             ...row,
             github_link: row.github_link && !row.github_link.startsWith('http') 
-              ? `https://raw.githubusercontent.com/masselink/HITREVEAL-Songs/main/${row.github_link}`
+              ? `https://raw.githubusercontent.com/masselink/HITREVEAL-Songs/refs/heads/main/${row.github_link}`
               : row.github_link
           }));
           
