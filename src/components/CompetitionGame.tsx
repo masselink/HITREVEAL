@@ -403,9 +403,9 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           <div className="game-session-container">
             {/* Header */}
             <div className="game-session-header">
-              <button className="primary-button game-session-title-button" disabled>
+              <h2 className="current-player-turn-title">
                 {getCurrentPlayer()?.name}'s Turn
-              </button>
+              </h2>
             </div>
 
             {/* Competition YouTube Player */}
