@@ -531,6 +531,20 @@
   text-decoration: line-through;
 }
 
+/* Current Player Turn Title */
+.current-player-turn-title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-accent);
+  text-align: center;
+  margin: 0;
+  padding: var(--spacing-4) var(--spacing-6);
+  background-color: var(--color-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow);
+}
+
 /* Competition YouTube Player Styles */
 .song-title.clickable,
 .song-artist.clickable,
