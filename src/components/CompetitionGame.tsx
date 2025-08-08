@@ -283,7 +283,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       checkWinConditions();
     }
   }, [gamePhase, showPlayerInterface, currentRound, players, gameHasStarted, usedSongs.size]);
-  }, [showPlayerInterface, gamePhase, currentRound, players]);
 
   const checkWinConditions = () => {
     // Only check when we're in dashboard mode
