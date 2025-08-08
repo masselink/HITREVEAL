@@ -18,6 +18,7 @@ interface CompetitionYouTubePlayerProps {
   yearPoints?: number;
   bonusPoints?: number;
   skipCost?: number;
+  skipCost?: number;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
@@ -34,6 +35,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   titlePoints = 2,
   yearPoints = 1,
   bonusPoints = 2,
+  skipCost = 0,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
