@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Play, Pause, RotateCcw, Square, Eye, QrCode, List, X, Music, Check } from 'lucide-react';
+import { Play, Pause, RotateCcw, Square, Eye, QrCode, List, X, Music, Check, ArrowLeft } from 'lucide-react';
 import { Language, Song } from '../types';
 import { translations } from '../data/translations';
 
