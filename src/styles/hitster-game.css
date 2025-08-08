@@ -639,7 +639,7 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
-  background-color: #000;
+  background-color: transparent;
 }
 
 .scanner-video {
@@ -706,6 +706,10 @@
   padding: var(--spacing-8);
   text-align: center;
   background-color: #f8fafc;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .scanner-placeholder-content {
@@ -1233,6 +1237,7 @@
   .scanner-container {
     max-width: 100%;
     height: 350px;
+    background-color: transparent;
   }
   
   .scanner-video {
@@ -1242,5 +1247,10 @@
   .scanner-frame {
     width: 200px;
     height: 200px;
+  }
+  
+  .scanner-placeholder {
+    min-height: 250px;
+    padding: var(--spacing-6);
   }
 }
