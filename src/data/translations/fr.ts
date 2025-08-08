@@ -169,5 +169,8 @@ export const fr = {
   bonusPoints: 'B',
   
   // Additional missing translations
-  skip: 'PASSER'
+  skip: 'PASSER',
+  
+  // Validation
+  validationWarning: 'Veuillez corriger les problèmes suivants'
 };

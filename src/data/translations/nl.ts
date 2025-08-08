@@ -169,5 +169,8 @@ export const nl = {
   bonusPoints: 'B',
   
   // Additional missing translations
-  skip: 'OVERSLAAN'
+  skip: 'OVERSLAAN',
+  
+  // Validation
+  validationWarning: 'Los de volgende problemen op'
 };

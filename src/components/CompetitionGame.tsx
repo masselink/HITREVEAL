@@ -952,14 +952,14 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 <label className="setting-label">
                   {translations.maximumRounds?.[currentLanguage] || 'Maximum Rounds'}
                 </label>
-                <select
+              <span>{getTranslation('startCompetition', currentLanguage)}</span>
                   className="points-dropdown"
                   value={settings.maximumRounds}
                   onChange={(e) => handleSettingChange('maximumRounds', parseInt(e.target.value))}
                 >
-                  {[2, 5, 10, 15, 20, 25, 30].map(rounds => (
+                {getTranslation('validationWarning', currentLanguage)}:
                     <option key={rounds} value={rounds}>{rounds} {translations.rounds?.[currentLanguage] || 'rounds'}</option>
-                  ))}
+                  {playerNames.some(name => !name.trim()) && <li>{getTranslation('allPlayerNameRequired', currentLanguage)}</li>}
                 </select>
               </div>
             )}
