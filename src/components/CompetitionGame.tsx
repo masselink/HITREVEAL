@@ -493,6 +493,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
 
           {/* YouTube Player */}
           {/* GO Button to Start Turn */}
+          {/* GO Button Section */}
           <div className="go-button-section">
             <button 
               className="player-go-button"
