@@ -144,8 +144,17 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             row.hitstercode.trim() !== '' &&
             (row.hitster === 'true' || row.hitster === '1' || row.hitster === true)
           );
-          setSongLists(validData);
-          setFilteredSongLists(validData);
+          
+          // Ensure github_link is a complete URL
+          const processedData = validData.map(row => ({
+            ...row,
+            github_link: row.github_link && !row.github_link.startsWith('http') 
+              ? `https://raw.githubusercontent.com/masselink/HITREVEAL-Songs/refs/heads/main/${row.github_link}`
+              : row.github_link
+          }));
+          
+          setSongLists(processedData);
+          setFilteredSongLists(processedData);
           setSongListsLoaded(true);
           setLoading(false);
         },
@@ -183,10 +192,19 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             row.name.trim() !== '' && 
             (row.competition === 'true' || row.competition === '1' || row.competition === true || row.competition === 1)
           );
+          
+          // Ensure github_link is a complete URL
+          const processedData = validData.map(row => ({
+            ...row,
+            github_link: row.github_link && !row.github_link.startsWith('http') 
+              ? `https://raw.githubusercontent.com/masselink/HITREVEAL-Songs/refs/heads/main/${row.github_link}`
+              : row.github_link
+          }));
+          
           console.log('Competition song lists loaded:', validData.length, 'lists');
           console.log('Competition lists:', validData.map(list => ({ name: list.name, competition: list.competition })));
-          setSongLists(validData);
-          setFilteredSongLists(validData);
+          setSongLists(processedData);
+          setFilteredSongLists(processedData);
           setCompetitionSongListsLoaded(true);
           setLoading(false);
         },
