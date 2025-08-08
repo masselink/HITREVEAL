@@ -118,13 +118,21 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
           </h2>
           
           <div className="winner-names">
-            {winners.map((winner, index) => (
-              <div key={winner.id} className="winner-card">
+            {winners.length > 1 ? (
+              <div className="winner-card">
                 <Trophy size={24} />
-                <span className="winner-name">{winner.name}</span>
-                <span className="winner-score">{winner.score} {translations.points[currentLanguage]}</span>
+                <span className="winner-name">{winners.length}</span>
+                <span className="winner-score">{winners[0].score} {translations.points[currentLanguage]}</span>
               </div>
-            ))}
+            ) : (
+              winners.map((winner, index) => (
+                <div key={winner.id} className="winner-card">
+                  <Trophy size={24} />
+                  <span className="winner-name">{winner.name}</span>
+                  <span className="winner-score">{winner.score} {translations.points[currentLanguage]}</span>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -184,7 +192,7 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
                 className={`score-row ${winners.some(w => w.id === player.id) ? 'winner-row' : ''}`}
               >
                 <div className="player-rank">
-                  {index === 0 ? (
+                  {winners.some(w => w.id === player.id) ? (
                     <Crown size={20} className="crown-icon" />
                   ) : (
                     <span className="rank-number">#{index + 1}</span>
