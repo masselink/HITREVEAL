@@ -497,8 +497,16 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             </div>
           </div>
 
-          {/* YouTube Player */}
-          {/* GO Button to Start Turn */}
+          {/* GO Button */}
+          <div className="go-button-section">
+            <button 
+              className="secondary-button secondary-blue"
+              onClick={() => setShowPlayerInterface(true)}
+            >
+              {getTranslation('go', currentLanguage)}!
+            </button>
+          </div>
+
           {/* Leaderboard */}
           <div className="leaderboard-section">
             <h3 className="leaderboard-title">{getTranslation('leaderboard', currentLanguage)}</h3>
@@ -591,6 +599,12 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       <div className="competition-settings">
         {/* Header */}
         <div className="game-selection-header">
+          <button className="back-button" onClick={onBack}>
+            <ArrowLeft size={20} />
+            <span>{getTranslation('back', currentLanguage)}</span>
+          </button>
+          <h2 className="game-selection-title">
+            {getTranslation('competitionMode', currentLanguage)}
           </h2>
         </div>
 
