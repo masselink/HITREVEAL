@@ -543,12 +543,12 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   <span className="info-value">{currentPlayer.score} {getTranslation('points', currentLanguage)}</span>
                 </div>
                 <div className="game-info-row">
-                  <span className="info-label">{getTranslation('pointsSystem', currentLanguage)}:</span>
+                  <span className="info-label">Point Breakdown:</span>
                   <span className="info-value">
-                    <span className="score-part artist">{getTranslation('artistPoints', currentLanguage)}: {settings.artistPoints}</span>
-                    <span className="score-part title">{getTranslation('titlePoints', currentLanguage)}: {settings.titlePoints}</span>
-                    <span className="score-part year">{getTranslation('yearPoints', currentLanguage)}: {settings.yearPoints}</span>
-                    <span className="score-part bonus">{getTranslation('bonusPoints', currentLanguage)}: {settings.bonusPoints}</span>
+                    <span className="score-part artist">{getTranslation('artistPoints', currentLanguage)}: {currentPlayer.artistPoints}</span>
+                    <span className="score-part title">{getTranslation('titlePoints', currentLanguage)}: {currentPlayer.titlePoints}</span>
+                    <span className="score-part year">{getTranslation('yearPoints', currentLanguage)}: {currentPlayer.yearPoints}</span>
+                    <span className="score-part bonus">{getTranslation('bonusPoints', currentLanguage)}: {currentPlayer.bonusPoints}</span>
                   </span>
                 </div>
                 <div className="game-info-row">
