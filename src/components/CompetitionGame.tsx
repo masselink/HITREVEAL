@@ -843,7 +843,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 </div>
               </div>
             </div>
-          )}
+          </div>
         )}
 
         {/* No More Songs Modal */}
@@ -871,7 +871,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 </div>
               </div>
             </div>
-          )}
+          </div>
         )}
       </div>
     );
