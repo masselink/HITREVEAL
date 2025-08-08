@@ -133,6 +133,9 @@ export const CompetitionGameSession: React.FC<CompetitionGameSessionProps> = ({
       <div className="game-session-container">
         <div className="game-session-header">
           <button className="back-button" onClick={onBack}>
+            <ArrowLeft size={20} />
+            <span>{translations.back[currentLanguage]}</span>
+          </button>
         </div>
 
         <div className="qr-scanner-section">
