@@ -223,9 +223,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     }));
 
     // Check win conditions after score update
-    setTimeout(() => {
-      checkWinConditions();
-    }, 200);
     // Move to next player
     nextTurn();
   };
@@ -275,6 +272,10 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setCurrentPlayerIndex(nextPlayerIndex);
     
     selectRandomSong();
+    checkWinConditions();
+  };
+
+  const checkWinConditions = () => {
     console.log('👥 Current players:', players);
     console.log('🎯 Target score:', settings.targetScore);
     console.log('🔄 Current round:', currentRound);
