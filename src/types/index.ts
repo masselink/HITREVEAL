@@ -50,6 +50,7 @@ export interface GameSession {
 
 export interface CompetitionSettings {
   numberOfPlayers: number;
+  playerNames: string[];
   gameMode: 'points' | 'time-based' | 'rounds';
   targetScore: number;
   gameDuration: number;
@@ -60,5 +61,4 @@ export interface CompetitionSettings {
   bonusPoints: number;
   skipsPerPlayer: number;
   skipCost: number;
-  drawType: 'highest-score' | 'multiple-winners';
 }
