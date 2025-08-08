@@ -20,6 +20,7 @@ interface CompetitionYouTubePlayerProps {
   skipCost?: number;
   skipsPerPlayer?: number;
   currentPlayerSkipsRemaining?: number;
+  songListName?: string;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
@@ -39,6 +40,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   skipCost = 3,
   skipsPerPlayer = 2,
   currentPlayerSkipsRemaining = 0,
+  songListName = 'Unknown Songlist',
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
@@ -394,7 +396,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               <div className="error-reporting-section">
                 <p className="error-reporting-text">
                   <a 
-                    href={`mailto:hitreveal-song-error@collectingvibes.com?subject=Song%20Error%20Report%20-%20${encodeURIComponent(currentSong.title)}%20by%20${encodeURIComponent(currentSong.artist)}${currentSong.year ? `%20(${encodeURIComponent(currentSong.year)})` : ''}%20from%20songlist`}
+                    href={`mailto:hitreveal-song-error@collectingvibes.com?subject=Song%20Error%20Report%20-%20${encodeURIComponent(currentSong.title)}%20by%20${encodeURIComponent(currentSong.artist)}${currentSong.year ? `%20(${encodeURIComponent(currentSong.year)})` : ''}%20from%20${encodeURIComponent(songListName)}`}
                     className="error-reporting-link"
                   >
                     {getTranslation('reportPlaylistProblems', currentLanguage)}

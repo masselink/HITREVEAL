@@ -164,6 +164,7 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
             onScanAnother={handleScanAnother}
             onSongListView={handleSongListView}
             songListViewCount={songListViewCount}
+            songListName={songList.name}
           />
         </div>
 

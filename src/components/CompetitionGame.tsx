@@ -480,6 +480,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             skipCost={settings.skipCost}
             skipsPerPlayer={settings.skipsPerPlayer}
             currentPlayerSkipsRemaining={playerSkips[currentPlayer.id] || 0}
+            songListName={songList.name}
           />
         </div>
       </div>
