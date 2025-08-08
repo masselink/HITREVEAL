@@ -964,6 +964,25 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
               </div>
             )}
           </div>
+
+          {/* Draw Type Selection */}
+          <div className="setting-group">
+            <label className="setting-label">
+              {translations.drawType?.[currentLanguage] || 'Draw Type'}
+            </label>
+            <select
+              className="points-dropdown"
+              value={settings.drawType}
+              onChange={(e) => setSettings(prev => ({ ...prev, drawType: e.target.value as 'multiple-winners' | 'sudden-death' }))}
+            >
+              <option value="multiple-winners">
+                {translations.multipleWinners?.[currentLanguage] || 'Multiple Winners'}
+              </option>
+              <option value="sudden-death">
+                {translations.suddenDeath?.[currentLanguage] || 'Sudden Death'}
+              </option>
+            </select>
+          </div>
         </div>
 
         {/* Game Rules */}
