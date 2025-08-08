@@ -171,6 +171,11 @@ export const nl = {
   // Additional missing translations
   skip: 'OVERSLAAN',
   
+  // Dropdown options
+  point: 'punt',
+  minute: 'minuut',
+  skipOption: 'skip',
+  
   // Validation
   validationWarning: 'Los de volgende problemen op'
 };

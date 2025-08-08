@@ -171,6 +171,11 @@ export const en = {
   // Additional missing translations
   skip: 'SKIP',
   
+  // Dropdown options
+  point: 'point',
+  minute: 'minute',
+  skipOption: 'skip',
+  
   // Validation
   validationWarning: 'Please fix the following issues'
 };
