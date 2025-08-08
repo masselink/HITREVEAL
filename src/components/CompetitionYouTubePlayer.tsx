@@ -449,9 +449,6 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               </button>
             </>
           )}
-          
-          {showReveal && (
-          )}
         </div>
 
         {/* Hidden YouTube Player */}
