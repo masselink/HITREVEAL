@@ -703,5 +703,107 @@ export const translations: Translations = {
     nl: 'Klassement',
     de: 'Bestenliste',
     fr: 'Classement'
+  },
+  gameRules: {
+    en: 'Game Rules',
+    nl: 'Spelregels',
+    de: 'Spielregeln',
+    fr: 'Règles du Jeu'
+  },
+  gameplay: {
+    en: 'Gameplay',
+    nl: 'Gameplay',
+    de: 'Spielablauf',
+    fr: 'Gameplay'
+  },
+  gameplayDescription: {
+    en: 'Players take turns listening to songs and guessing the artist, title, and year. Each player gets one song per turn, and points are awarded based on correct answers.',
+    nl: 'Spelers luisteren om de beurt naar liedjes en raden de artiest, titel en jaar. Elke speler krijgt één liedje per beurt, en punten worden toegekend op basis van juiste antwoorden.',
+    de: 'Die Spieler hören abwechselnd Lieder und raten Künstler, Titel und Jahr. Jeder Spieler bekommt ein Lied pro Runde, und Punkte werden basierend auf richtigen Antworten vergeben.',
+    fr: 'Les joueurs écoutent à tour de rôle des chansons et devinent l\'artiste, le titre et l\'année. Chaque joueur a une chanson par tour, et les points sont attribués selon les bonnes réponses.'
+  },
+  selectedMode: {
+    en: 'Selected Mode',
+    nl: 'Geselecteerde Modus',
+    de: 'Ausgewählter Modus',
+    fr: 'Mode Sélectionné'
+  },
+  pointsModeDescription: {
+    en: 'First player to reach',
+    nl: 'Eerste speler die',
+    de: 'Erster Spieler der',
+    fr: 'Premier joueur à atteindre'
+  },
+  wins: {
+    en: 'wins',
+    nl: 'bereikt wint',
+    de: 'erreicht gewinnt',
+    fr: 'gagne'
+  },
+  timeBasedDescription: {
+    en: 'Game plays for',
+    nl: 'Spel speelt voor',
+    de: 'Spiel läuft für',
+    fr: 'Le jeu se joue pendant'
+  },
+  andCompletesRound: {
+    en: 'and completes the current round when time expires',
+    nl: 'en voltooit de huidige ronde wanneer de tijd afloopt',
+    de: 'und beendet die aktuelle Runde wenn die Zeit abläuft',
+    fr: 'et termine le tour en cours à l\'expiration du temps'
+  },
+  roundsModeDescription: {
+    en: 'Game ends after',
+    nl: 'Spel eindigt na',
+    de: 'Spiel endet nach',
+    fr: 'Le jeu se termine après'
+  },
+  winningTies: {
+    en: 'Winning & Ties',
+    nl: 'Winnen & Gelijkspel',
+    de: 'Gewinnen & Unentschieden',
+    fr: 'Victoire & Égalités'
+  },
+  winningDescription: {
+    en: 'The player with the highest score wins. In case of ties, all tied players are declared winners.',
+    nl: 'De speler met de hoogste score wint. Bij gelijkspel worden alle gelijkstaande spelers tot winnaar uitgeroepen.',
+    de: 'Der Spieler mit der höchsten Punktzahl gewinnt. Bei Unentschieden werden alle gleichstehenden Spieler zu Gewinnern erklärt.',
+    fr: 'Le joueur avec le score le plus élevé gagne. En cas d\'égalité, tous les joueurs à égalité sont déclarés gagnants.'
+  },
+  skipSystem: {
+    en: 'Skip System',
+    nl: 'Skip Systeem',
+    de: 'Skip System',
+    fr: 'Système de Skip'
+  },
+  skipDescription: {
+    en: 'Players can skip songs they don\'t know, but this may cost points and is limited per player.',
+    nl: 'Spelers kunnen liedjes overslaan die ze niet kennen, maar dit kan punten kosten en is beperkt per speler.',
+    de: 'Spieler können Lieder überspringen, die sie nicht kennen, aber das kann Punkte kosten und ist pro Spieler begrenzt.',
+    fr: 'Les joueurs peuvent passer des chansons qu\'ils ne connaissent pas, mais cela peut coûter des points et est limité par joueur.'
+  },
+  eachPlayerHas: {
+    en: 'Each player has',
+    nl: 'Elke speler heeft',
+    de: 'Jeder Spieler hat',
+    fr: 'Chaque joueur a'
+  },
+  skips: {
+    en: 'skips',
+    nl: 'skips',
+    de: 'Skips',
+    fr: 'skips'
+  },
+  costing: {
+    en: 'costing',
+    nl: 'kostend',
+    de: 'kostend',
+    fr: 'coûtant'
+  },
+  each: {
+    en: 'each',
+    nl: 'elk',
+    de: 'jeweils',
+    fr: 'chacun'
   }
 };

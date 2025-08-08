@@ -976,22 +976,36 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         {/* Game Rules */}
         <div className="rules-section">
           <h3 className="rules-title">
-            Game Rules
+            {translations.gameRules?.[currentLanguage] || 'Game Rules'}
           </h3>
-          <div className="rules-description">
-            <p><strong>Gameplay:</strong> Players take turns listening to songs and guessing the artist, title, and year. Each player gets one song per turn, and points are awarded based on correct answers.</p>
-            
-            <p><strong>Game Mode:</strong></p>
-            <ul>
-              <li><strong>Points:</strong> First player to reach the target score wins.</li>
-              <li><strong>Time Based:</strong> Game plays for the set duration and completes the current round when time expires.</li>
-              <li><strong>Rounds:</strong> Game ends after the specified number of rounds.</li>
-            </ul>
-            
-            <p><strong>Winning & Ties:</strong> The player with the highest score wins. In case of ties, all tied players are declared winners.</p>
-            
-            <p><strong>Skip System:</strong> Players can skip songs they don't know, but this may cost points and is limited per player.</p>
-          </div>
+          <p className="rules-description">
+            <strong>{translations.gameplay?.[currentLanguage] || 'Gameplay'}:</strong> {translations.gameplayDescription?.[currentLanguage] || 'Players take turns listening to songs and guessing the artist, title, and year. Each player gets one song per turn, and points are awarded based on correct answers.'}
+            <br /><br />
+            <strong>{translations.selectedMode?.[currentLanguage] || 'Selected Mode'}:</strong> {' '}
+            {settings.gameMode === 'points' && (
+              <>
+                <strong>{translations.pointsMode?.[currentLanguage] || 'Points'}</strong> - {translations.pointsModeDescription?.[currentLanguage] || 'First player to reach'} {settings.targetScore} {translations.points?.[currentLanguage] || 'points'} {translations.wins?.[currentLanguage] || 'wins'}.
+              </>
+            )}
+            {settings.gameMode === 'time-based' && (
+              <>
+                <strong>{translations.timeBasedMode?.[currentLanguage] || 'Time Based'}</strong> - {translations.timeBasedDescription?.[currentLanguage] || 'Game plays for'} {settings.gameDuration} {translations.minutes?.[currentLanguage] || 'minutes'} {translations.andCompletesRound?.[currentLanguage] || 'and completes the current round when time expires'}.
+              </>
+            )}
+            {settings.gameMode === 'rounds' && (
+              <>
+                <strong>{translations.roundsMode?.[currentLanguage] || 'Rounds'}</strong> - {translations.roundsModeDescription?.[currentLanguage] || 'Game ends after'} {settings.maximumRounds} {translations.rounds?.[currentLanguage] || 'rounds'}.
+              </>
+            )}
+            <br /><br />
+            <strong>{translations.winningTies?.[currentLanguage] || 'Winning & Ties'}:</strong> {translations.winningDescription?.[currentLanguage] || 'The player with the highest score wins. In case of ties, all tied players are declared winners.'}
+            {settings.skipsPerPlayer > 0 && (
+              <>
+                <br /><br />
+                <strong>{translations.skipSystem?.[currentLanguage] || 'Skip System'}:</strong> {translations.skipDescription?.[currentLanguage] || 'Players can skip songs they don\'t know, but this may cost points and is limited per player.'} {translations.eachPlayerHas?.[currentLanguage] || 'Each player has'} {settings.skipsPerPlayer} {translations.skips?.[currentLanguage] || 'skips'}{settings.skipCost > 0 && ` ${translations.costing?.[currentLanguage] || 'costing'} ${settings.skipCost} ${translations.points?.[currentLanguage] || 'points'} ${translations.each?.[currentLanguage] || 'each'}`}.
+              </>
+            )}
+          </p>
         </div>
 
         {/* Number of Players */}
