@@ -154,9 +154,6 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
               <ArrowLeft size={20} />
               <span>{getTranslation('back', currentLanguage)}</span>
             </button>
-            <button className="primary-button game-session-title-button" disabled>
-              {songList.name}
-            </button>
           </div>
 
           {/* YouTube Player */}
