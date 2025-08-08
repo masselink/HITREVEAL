@@ -356,6 +356,19 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
                 <div className="total-label">Total Score</div>
                 <div className="total-points">{getTotalScore()} points</div>
               </div>
+              
+              {/* Turn Complete Button - moved here */}
+              <button 
+                className="turn-complete-button" 
+                onClick={() => {
+                  console.log('🎯 TURN COMPLETE BUTTON CLICKED IN PLAYER!');
+                  handleTurnComplete();
+                }}
+                type="button"
+              >
+                <ArrowLeft size={16} />
+                <span>TURN COMPLETE</span>
+              </button>
             </div>
           </div>
         )}
@@ -438,17 +451,6 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
           )}
           
           {showReveal && (
-            <button 
-              className="turn-complete-button" 
-              onClick={() => {
-                console.log('🎯 TURN COMPLETE BUTTON CLICKED IN PLAYER!');
-                handleTurnComplete();
-              }}
-              type="button"
-            >
-              <ArrowLeft size={16} />
-              <span>TURN COMPLETE</span>
-            </button>
           )}
         </div>
 
