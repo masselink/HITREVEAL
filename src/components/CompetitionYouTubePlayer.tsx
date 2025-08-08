@@ -18,6 +18,7 @@ interface CompetitionYouTubePlayerProps {
   yearPoints?: number;
   bonusPoints?: number;
   skipCost?: number;
+  skipsRemaining?: number;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
@@ -35,6 +36,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   yearPoints = 1,
   bonusPoints = 2,
   skipCost = 0,
+  skipsRemaining = 0,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
@@ -435,7 +437,12 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               <Eye size={16} />
               <span>HITREVEAL</span>
             </button>
-            <button className="scan-another-button skip-with-cost" onClick={handleSkip}>
+            <button 
+              className="scan-another-button skip-with-cost" 
+              onClick={handleSkip}
+              disabled={skipsRemaining <= 0}
+            >
+              <span className="skip-count">{skipsRemaining}</span>
               <span>SKIP</span>
               <span className="skip-cost">-{skipCost || 0}</span>
             </button>
