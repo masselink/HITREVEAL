@@ -185,6 +185,15 @@
   transform: translateY(0);
 }
 
+/* GO Button Section */
+.go-button-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-8) 0;
+  margin: var(--spacing-6) 0;
+}
+
 .player-score {
   text-align: right;
   flex-shrink: 0;

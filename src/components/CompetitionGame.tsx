@@ -53,6 +53,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   const [gameStartTime, setGameStartTime] = useState<Date | null>(null);
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
   const [playerSkips, setPlayerSkips] = useState<{ [playerId: number]: number }>({});
+  const [showPlayerInterface, setShowPlayerInterface] = useState(false);
 
   const [settings, setSettings] = useState<CompetitionSettings>({
     numberOfPlayers: 2,
@@ -318,6 +319,10 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setShowQuitConfirmation(false);
   };
 
+  const handleBackToDashboard = () => {
+    setShowPlayerInterface(false);
+  };
+
   // Loading state
   if (!songsLoaded && !loadingError) {
     return (
@@ -377,6 +382,50 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         onPlayAgain={handlePlayAgain}
         onBackToMenu={handleBackToMenu}
       />
+    );
+  }
+
+  // Player Interface
+  if (gamePhase === 'playing' && showPlayerInterface && currentSong) {
+    const currentPlayer = players[currentPlayerIndex];
+    
+    return (
+      <div className="game-session">
+        <div className="game-session-container">
+          {/* Header */}
+          <div className="game-session-header">
+            <button className="back-button" onClick={handleBackToDashboard}>
+              <ArrowLeft size={20} />
+              <span>{getTranslation('back', currentLanguage)}</span>
+            </button>
+          </div>
+
+          {/* YouTube Player */}
+          <CompetitionYouTubePlayer
+            currentLanguage={currentLanguage}
+            currentSong={currentSong}
+            allSongs={songs}
+            onScanAnother={() => {
+              handleTurnComplete({ artist: false, title: false, year: false, artistPoints: 0, titlePoints: 0, yearPoints: 0, bonusPoints: 0, totalPoints: 0 });
+              setShowPlayerInterface(false);
+            }}
+            onSongListView={() => {}}
+            songListViewCount={0}
+            onTurnComplete={(scores) => {
+              handleTurnComplete(scores);
+              setShowPlayerInterface(false);
+            }}
+            onSkip={handleSkip}
+            artistPoints={settings.artistPoints}
+            titlePoints={settings.titlePoints}
+            yearPoints={settings.yearPoints}
+            bonusPoints={settings.bonusPoints}
+            skipCost={settings.skipCost}
+            skipsPerPlayer={settings.skipsPerPlayer}
+            currentPlayerSkipsRemaining={playerSkips[currentPlayer.id] || 0}
+          />
+        </div>
+      </div>
     );
   }
 
