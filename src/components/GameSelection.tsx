@@ -67,7 +67,6 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         fr: 'Défiez vos amis ou jouez en solo...'
       },
       status: 'available' as const
-    }
     },
     {
       id: 'hitster-youtube',
