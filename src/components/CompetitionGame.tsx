@@ -303,7 +303,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
               </div>
             )}
             <div className="status-item">
-              <span>{translations.songsUsed?.[currentLanguage] || 'Songs'}: {gameState.songsUsed}/{gameState.totalSongs}</span>
+              <span>{translations.songsUsed?.[currentLanguage] || 'Songs Used'}: {gameState.songsUsed}/{gameState.totalSongs}</span>
             </div>
           </div>
           
