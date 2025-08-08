@@ -18,7 +18,6 @@ interface CompetitionSettings {
   bonusPoints: number;
   skipsPerPlayer: number;
   skipCost: number;
-  drawType: 'highest-score' | 'multiple-winners' | 'sudden-death';
 }
 
 interface Player {
@@ -39,8 +38,6 @@ interface GameState {
   usedSongs: Set<number>;
   gameStartTime: number;
   isGameActive: boolean;
-  isSuddenDeath: boolean;
-  suddenDeathPlayers: number[];
   gameEnded: boolean;
   winners: Player[];
 }
@@ -64,16 +61,15 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   const [settings, setSettings] = useState<CompetitionSettings>({
     numberOfPlayers: 2,
     gameMode: 'points',
-    targetScore: 100,
-    gameDuration: 30,
-    maximumRounds: 10,
+    targetScore: 50,
+    gameDuration: 20,
+    maximumRounds: 5,
     artistPoints: 1,
     titlePoints: 2,
     yearPoints: 1,
     bonusPoints: 2,
-    skipsPerPlayer: 3,
-    skipCost: 5,
-    drawType: 'sudden-death'
+    skipsPerPlayer: 2,
+    skipCost: 3
   });
   const [gameStarted, setGameStarted] = useState(false);
   const [players, setPlayers] = useState<Player[]>([]);
@@ -84,8 +80,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     usedSongs: new Set(),
     gameStartTime: 0,
     isGameActive: false,
-    isSuddenDeath: false,
-    suddenDeathPlayers: [],
     gameEnded: false,
     winners: []
   });
