@@ -272,14 +272,11 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             <ArrowLeft size={20} />
             <span>{translations.back[currentLanguage]}</span>
           </button>
-          <h1 className="competition-title">
-            {translations.competitionGame[currentLanguage]}
-            {gameState.isSuddenDeath && (
-              <span className="sudden-death-indicator">
-                - {translations.suddenDeath?.[currentLanguage] || 'SUDDEN DEATH'}
-              </span>
-            )}
-          </h1>
+          {!gameState.isSuddenDeath && (
+            <h1 className="competition-title">
+              {translations.competitionGame[currentLanguage]}
+            </h1>
+          )}
         </div>
 
         <div className="competition-content">
