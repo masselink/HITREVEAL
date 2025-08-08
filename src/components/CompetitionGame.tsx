@@ -268,8 +268,18 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     
     if (nextPlayerIndex === 0) {
       // Completed a full round
+      setCurrentRound(prev => prev + 1);
+    }
+    
+    setCurrentPlayerIndex(nextPlayerIndex);
+    selectRandomSong();
+  };
+
+  // Check win conditions after each turn
+  useEffect(() => {
     if (gamePhase === 'playing' && !showPlayerInterface) {
       checkWinConditions();
+    }
     selectRandomSong();
   }, [showPlayerInterface, gamePhase, currentRound, players]);
 
