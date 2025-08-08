@@ -201,7 +201,7 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
                     )}
                   </div>
                   <div className="player-details">
-                    <div className="player-name">{player.name}</div>
+                    <div className="player-name">{player.name || `Player ${player.id + 1}`}</div>
                     <div className="score-breakdown">
                       {player.artistPoints > 0 && (
                         <span className="score-part artist">A: {player.artistPoints}</span>
