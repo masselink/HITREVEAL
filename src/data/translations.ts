@@ -512,6 +512,30 @@ export const translations: Translations = {
     de: 'Alle Spielernamen sind erforderlich',
     fr: 'Tous les noms de joueurs sont requis'
   },
+  drawType: {
+    en: 'Draw Type',
+    nl: 'Gelijkspel Type',
+    de: 'Unentschieden Typ',
+    fr: 'Type d\'Égalité'
+  },
+  highestScoreWins: {
+    en: 'Highest Score Wins',
+    nl: 'Hoogste Score Wint',
+    de: 'Höchste Punktzahl Gewinnt',
+    fr: 'Score le Plus Élevé Gagne'
+  },
+  multipleWinners: {
+    en: 'Multiple Winners',
+    nl: 'Meerdere Winnaars',
+    de: 'Mehrere Gewinner',
+    fr: 'Plusieurs Gagnants'
+  },
+  suddenDeath: {
+    en: 'Sudden Death',
+    nl: 'Sudden Death',
+    de: 'Sudden Death',
+    fr: 'Sudden Death'
+  },
   gameRules: {
     en: 'Game Rules',
     nl: 'Spelregels',

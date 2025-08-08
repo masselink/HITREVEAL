@@ -4,6 +4,8 @@ import { Language, SongList, Song } from '../types';
 import { CompetitionYouTubePlayer } from './CompetitionYouTubePlayer';
 import Papa from 'papaparse';
 
+import { CompetitionWinnerPage } from './CompetitionWinnerPage';
+
 interface CompetitionSettings {
   numberOfPlayers: number;
   gameMode: 'points' | 'time-based' | 'rounds';
@@ -16,6 +18,7 @@ interface CompetitionSettings {
   bonusPoints: number;
   skipsPerPlayer: number;
   skipCost: number;
+  drawType: 'highest-score' | 'multiple-winners' | 'sudden-death';
 }
 
 interface Player {
@@ -36,6 +39,10 @@ interface GameState {
   usedSongs: Set<number>;
   gameStartTime: number;
   isGameActive: boolean;
+  isSuddenDeath: boolean;
+  suddenDeathPlayers: number[];
+  gameEnded: boolean;
+  winners: Player[];
 }
 
 interface CompetitionGameProps {
@@ -65,7 +72,8 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     yearPoints: 1,
     bonusPoints: 2,
     skipsPerPlayer: 3,
-    skipCost: 5
+    skipCost: 5,
+    drawType: 'sudden-death'
   });
   const [gameStarted, setGameStarted] = useState(false);
   const [players, setPlayers] = useState<Player[]>([]);
@@ -80,6 +88,8 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [showPlayerPage, setShowPlayerPage] = useState(false);
+  const [showWinnerPage, setShowWinnerPage] = useState(false);
+  const [showNoSongsModal, setShowNoSongsModal] = useState(false);
 
   // Load songs and check year data
   useEffect(() => {
@@ -213,7 +223,11 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         currentPlayerIndex: randomStartingPlayer,
         usedSongs: new Set(),
         gameStartTime: Date.now(),
-        isGameActive: true
+        isGameActive: true,
+        isSuddenDeath: false,
+        suddenDeathPlayers: [],
+        gameEnded: false,
+        winners: []
       });
       setGameStarted(true);
     }
@@ -221,10 +235,21 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
 
   const handlePlayerGo = () => {
     // Select a random song that hasn't been used
-    const availableSongs = songs.filter((_, index) => !gameState.usedSongs.has(index));
+    let availableSongs = songs.filter((_, index) => !gameState.usedSongs.has(index));
     
     if (availableSongs.length === 0) {
-      console.log('No more songs available!');
+      // No more songs available - check if we're in sudden death
+      if (gameState.isSuddenDeath) {
+        // Declare all tied players as winners
+        const tiedPlayers = players.filter(p => gameState.suddenDeathPlayers.includes(p.id));
+        setGameState(prev => ({
+          ...prev,
+          gameEnded: true,
+          winners: tiedPlayers,
+          isGameActive: false
+        }));
+        setShowNoSongsModal(true);
+      }
       return;
     }
     
@@ -248,13 +273,104 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setShowPlayerPage(false);
     setCurrentSong(null);
     
-    // Move to next player
-    const nextPlayerIndex = (gameState.currentPlayerIndex + 1) % settings.numberOfPlayers;
+    // Check for winners before moving to next player
+    checkForWinners();
+  };
+
+  const checkForWinners = () => {
+    const totalTurnsPlayed = gameState.songsPlayed + 1;
+    const shouldIncrementRound = totalTurnsPlayed % (gameState.isSuddenDeath ? gameState.suddenDeathPlayers.length : settings.numberOfPlayers) === 0;
     
-    // Calculate if we should increment the round
-    // A round completes when we've cycled through all players once from the starting player
-    const totalTurnsPlayed = gameState.songsPlayed + 1; // +1 because we're about to complete this turn
-    const shouldIncrementRound = totalTurnsPlayed % settings.numberOfPlayers === 0;
+    // Check win conditions based on game mode
+    let hasWinner = false;
+    let winners: Player[] = [];
+    
+    if (settings.gameMode === 'points') {
+      // Check if any player reached target score
+      const playersAtTarget = players.filter(p => p.score >= settings.targetScore);
+      if (playersAtTarget.length > 0) {
+        hasWinner = true;
+        const maxScore = Math.max(...playersAtTarget.map(p => p.score));
+        winners = playersAtTarget.filter(p => p.score === maxScore);
+      }
+    } else if (settings.gameMode === 'time-based') {
+      // Check if time is up and round is complete
+      const elapsed = Math.floor((Date.now() - gameState.gameStartTime) / 1000 / 60);
+      if (elapsed >= settings.gameDuration && shouldIncrementRound) {
+        hasWinner = true;
+        const maxScore = Math.max(...players.map(p => p.score));
+        winners = players.filter(p => p.score === maxScore);
+      }
+    } else if (settings.gameMode === 'rounds') {
+      // Check if maximum rounds reached and round is complete
+      const nextRound = shouldIncrementRound ? gameState.currentRound + 1 : gameState.currentRound;
+      if (nextRound > settings.maximumRounds) {
+        hasWinner = true;
+        const maxScore = Math.max(...players.map(p => p.score));
+        winners = players.filter(p => p.score === maxScore);
+      }
+    }
+    
+    if (hasWinner) {
+      if (winners.length === 1) {
+        // Single winner
+        setGameState(prev => ({
+          ...prev,
+          gameEnded: true,
+          winners: winners,
+          isGameActive: false
+        }));
+        setShowWinnerPage(true);
+      } else if (winners.length > 1) {
+        // Multiple winners - check draw type
+        if (settings.drawType === 'multiple-winners') {
+          // Accept multiple winners
+          setGameState(prev => ({
+            ...prev,
+            gameEnded: true,
+            winners: winners,
+            isGameActive: false
+          }));
+          setShowWinnerPage(true);
+        } else if (settings.drawType === 'sudden-death') {
+          // Start sudden death mode
+          if (!gameState.isSuddenDeath) {
+            setGameState(prev => ({
+              ...prev,
+              isSuddenDeath: true,
+              suddenDeathPlayers: winners.map(p => p.id),
+              currentPlayerIndex: winners[0].id
+            }));
+          }
+          moveToNextPlayer();
+        } else {
+          // Highest score wins (default)
+          setGameState(prev => ({
+            ...prev,
+            gameEnded: true,
+            winners: winners,
+            isGameActive: false
+          }));
+          setShowWinnerPage(true);
+        }
+      } else {
+        moveToNextPlayer();
+      }
+    } else {
+      moveToNextPlayer();
+    }
+  };
+
+  const moveToNextPlayer = () => {
+    const totalTurnsPlayed = gameState.songsPlayed + 1;
+    const playersInGame = gameState.isSuddenDeath ? gameState.suddenDeathPlayers : Array.from({length: settings.numberOfPlayers}, (_, i) => i);
+    
+    // Find current player index in the active players array
+    const currentIndexInGame = playersInGame.indexOf(gameState.currentPlayerIndex);
+    const nextIndexInGame = (currentIndexInGame + 1) % playersInGame.length;
+    const nextPlayerIndex = playersInGame[nextIndexInGame];
+    
+    const shouldIncrementRound = totalTurnsPlayed % playersInGame.length === 0;
     
     setGameState(prev => ({
       ...prev,
@@ -336,7 +452,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const getCurrentPlayer = () => {
-    return players[gameState.currentPlayerIndex];
+    return players.find(p => p.id === gameState.currentPlayerIndex);
   };
 
   const getLeaderboard = () => {
@@ -347,6 +463,10 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     back: { en: 'Back', es: 'Atrás', fr: 'Retour' },
     loadingSongs: { en: 'Loading songs...', es: 'Cargando canciones...', fr: 'Chargement des chansons...' },
     quitGame: { en: 'Quit Game', es: 'Salir del juego', fr: 'Quitter le jeu' },
+    suddenDeath: { en: 'SUDDEN DEATH', es: 'MUERTE SÚBITA', fr: 'MORT SUBITE' },
+    noMoreSongs: { en: 'No More Songs Available', es: 'No hay más canciones disponibles', fr: 'Plus de chansons disponibles' },
+    noMoreSongsMessage: { en: 'There are no more songs left to continue the game. All tied players are declared winners!', es: 'No quedan más canciones para continuar el juego. ¡Todos los jugadores empatados son declarados ganadores!', fr: 'Il n\'y a plus de chansons pour continuer le jeu. Tous les joueurs à égalité sont déclarés gagnants!' },
+    viewResults: { en: 'View Results', es: 'Ver Resultados', fr: 'Voir les Résultats' },
     minutes: { en: 'minutes', es: 'minutos', fr: 'minutes' },
     round: { en: 'Round', es: 'Ronda', fr: 'Manche' },
     songsTotal: { en: 'songs', es: 'canciones', fr: 'chansons' },
@@ -425,6 +545,42 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           </div>
         </div>
       </div>
+    );
+  }
+
+  // Show Winner Page
+  if (showWinnerPage) {
+    return (
+      <CompetitionWinnerPage
+        currentLanguage={currentLanguage}
+        winners={gameState.winners}
+        allPlayers={players}
+        gameSettings={settings}
+        gameStats={{
+          totalRounds: gameState.currentRound,
+          totalSongs: gameState.songsPlayed,
+          gameDuration: Math.floor((Date.now() - gameState.gameStartTime) / 1000 / 60),
+          wasSuddenDeath: gameState.isSuddenDeath
+        }}
+        onPlayAgain={() => {
+          // Reset game state
+          setGameStarted(false);
+          setShowWinnerPage(false);
+          setGameState({
+            currentRound: 1,
+            songsPlayed: 0,
+            currentPlayerIndex: 0,
+            usedSongs: new Set(),
+            gameStartTime: 0,
+            isGameActive: false,
+            isSuddenDeath: false,
+            suddenDeathPlayers: [],
+            gameEnded: false,
+            winners: []
+          });
+        }}
+        onBackToMenu={onBack}
+      />
     );
   }
 
@@ -511,6 +667,11 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
         <div className="competition-dashboard">
           {/* Header */}
           <div className="game-session-header">
+            {gameState.isSuddenDeath && (
+              <button className="sudden-death-indicator">
+                <span>{translations.suddenDeath?.[currentLanguage] || 'SUDDEN DEATH'}</span>
+              </button>
+            )}
             <button className="primary-button quit-game-button" onClick={handleQuitGame}>
               <X size={20} />
               <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
@@ -670,6 +831,34 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   <button className="confirm-quit-button" onClick={confirmQuit}>
                     <X size={16} />
                     <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* No More Songs Modal */}
+        {showNoSongsModal && (
+          <div className="preview-overlay">
+            <div className="quit-confirmation-modal">
+              <div className="quit-modal-header">
+                <h3 className="quit-modal-title">
+                  {translations.noMoreSongs?.[currentLanguage] || 'No More Songs Available'}
+                </h3>
+              </div>
+              
+              <div className="quit-modal-content">
+                <p className="quit-warning-text">
+                  {translations.noMoreSongsMessage?.[currentLanguage] || 'There are no more songs left to continue the game. All tied players are declared winners!'}
+                </p>
+                
+                <div className="quit-modal-buttons">
+                  <button className="confirm-quit-button" onClick={() => {
+                    setShowNoSongsModal(false);
+                    setShowWinnerPage(true);
+                  }}>
+                    <span>{translations.viewResults?.[currentLanguage] || 'View Results'}</span>
                   </button>
                 </div>
               </div>
