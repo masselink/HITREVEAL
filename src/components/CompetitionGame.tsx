@@ -532,7 +532,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           {/* Current Player */}
           <div className="current-player-section">
             <div className="current-player-card">
-              <div className="player-indicator">
+              <div className="player-main-info">
                 <div className="player-avatar">
                   {currentPlayer?.name.charAt(0).toUpperCase()}
                 </div>
@@ -541,15 +541,22 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   <p className="player-status">
                     {translations.yourTurn?.[currentLanguage] || 'Your Turn'}
                   </p>
+                  <div className="player-stats">
+                    <span className="stat-item">
+                      <span className="stat-value">{currentPlayer?.score ?? 0}</span>
+                      <span className="stat-label">{translations.points?.[currentLanguage] || 'points'}</span>
+                    </span>
+                    <span className="stat-divider">•</span>
+                    <span className="stat-item">
+                      <span className="stat-value">{Math.max(0, settings.skipsPerPlayer - (currentPlayer?.skipsUsed ?? 0))}</span>
+                      <span className="stat-label">skips left</span>
+                    </span>
+                  </div>
                 </div>
               </div>
               <button className="player-go-button" onClick={handlePlayerGo}>
-                GO
+                <span className="go-text">GO</span>
               </button>
-              <div className="player-score">
-                <span className="score-value">{currentPlayer?.score ?? 0}</span>
-                <span className="score-label">{translations.points?.[currentLanguage] || 'points'}</span>
-              </div>
             </div>
           </div>
 
