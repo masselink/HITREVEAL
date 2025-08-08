@@ -1040,7 +1040,7 @@
 
 /* Sudden Death Styles */
 .sudden-death-banner {
-  background: linear-gradient(135deg, #dc2626, #ef4444);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
   color: white;
   padding: var(--spacing-4);
   border-radius: var(--border-radius-lg);
