@@ -461,17 +461,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   if (gamePhase === 'playing' && currentSong) {
     const currentPlayer = players[currentPlayerIndex];
     
-    // Check win conditions when returning to dashboard
-    React.useEffect(() => {
-      if (!showPlayerInterface) {
-        // Small delay to ensure state updates are complete
-        const timer = setTimeout(() => {
-          checkWinConditions();
-        }, 100);
-        return () => clearTimeout(timer);
-      }
-    }, [showPlayerInterface, players, currentRound]);
-    
     return (
       <div className="game-session">
         <div className="game-session-container">
