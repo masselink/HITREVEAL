@@ -181,8 +181,10 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
           const validData = data.filter(row => 
             row.name && 
             row.name.trim() !== '' && 
-            (row.competition === 'true' || row.competition === '1' || row.competition === true)
+            (row.competition === 'true' || row.competition === '1' || row.competition === true || row.competition === 1)
           );
+          console.log('Competition song lists loaded:', validData.length, 'lists');
+          console.log('Competition lists:', validData.map(list => ({ name: list.name, competition: list.competition })));
           setSongLists(validData);
           setFilteredSongLists(validData);
           setCompetitionSongListsLoaded(true);
