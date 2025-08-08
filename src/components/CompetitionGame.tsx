@@ -813,7 +813,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 value={settings.bonusPoints}
                 onChange={(e) => setSettings(prev => ({ ...prev, bonusPoints: parseInt(e.target.value) }))}
                 className="points-dropdown"
-                disabled={!songs.some(song => song.year)}
               >
                 {[0, 1, 2, 3, 4, 5].map(points => (
                   <option key={points} value={points}>
@@ -821,9 +820,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   </option>
                 ))}
               </select>
-              {!songs.some(song => song.year) && (
-                <p className="setting-warning">{getTranslation('bonusRequiresYear', currentLanguage)}</p>
-              )}
             </div>
           </div>
         </div>

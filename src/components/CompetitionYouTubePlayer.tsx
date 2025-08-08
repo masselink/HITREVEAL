@@ -241,7 +241,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
     if (guessedYear) total += yearPoints;
     
     // Bonus if all are correct (only if year data exists)
-    if (guessedArtist && guessedTitle && guessedYear && currentSong.year) {
+    if (guessedArtist && guessedTitle && (guessedYear || !currentSong.year)) {
       total += bonusPoints;
     }
     
@@ -350,6 +350,15 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               
               {bonusPoints > 0 && currentSong.year && (
                 <div className={`bonus-item ${guessedArtist && guessedTitle && guessedYear ? 'active' : ''}`}>
+                  <div className="bonus-content">
+                    <div className="bonus-label">{getTranslation('bonusAllCorrect', currentLanguage)}</div>
+                    <div className="bonus-points">+{bonusPoints}</div>
+                  </div>
+                </div>
+              )}
+              
+              {bonusPoints > 0 && !currentSong.year && (
+                <div className={`bonus-item ${guessedArtist && guessedTitle ? 'active' : ''}`}>
                   <div className="bonus-content">
                     <div className="bonus-label">{getTranslation('bonusAllCorrect', currentLanguage)}</div>
                     <div className="bonus-points">+{bonusPoints}</div>
