@@ -181,8 +181,6 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
           const validData = data.filter(row => 
             row.name && 
             row.name.trim() !== '' && 
-            row.hitstercode && 
-            row.hitstercode.trim() !== '' &&
             (row.competition === 'true' || row.competition === '1' || row.competition === true)
           );
           setSongLists(validData);
