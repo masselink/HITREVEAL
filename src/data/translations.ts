@@ -397,10 +397,10 @@ export const translations: Translations = {
     fr: 'Arrêter le scan'
   },
   songFoundReveal: {
-    en: 'Song Found! Do you need a reveal?',
-    nl: 'Nummer gevonden! Heb je een onthulling nodig?',
-    de: 'Lied gefunden! Brauchst du eine Enthüllung?',
-    fr: 'Chanson trouvée ! Avez-vous besoin d\'une révélation ?'
+    en: 'Song Found! Playing...',
+    nl: 'Nummer gevonden! Speelt...',
+    de: 'Lied gefunden! Spielt...',
+    fr: 'Chanson trouvée ! Lecture...'
   },
   
   // Competition Game Settings
