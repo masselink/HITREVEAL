@@ -18,6 +18,7 @@ interface CompetitionYouTubePlayerProps {
   yearPoints?: number;
   bonusPoints?: number;
   skipCost?: number;
+  skipsRemaining?: number;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
@@ -35,6 +36,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   yearPoints = 1,
   bonusPoints = 2,
   skipCost = 0,
+  skipsRemaining = 0,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
@@ -245,8 +247,10 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   };
 
   const handleSkip = () => {
-    onSkip?.();
-    onScanAnother();
+    if (onSkip && skipsRemaining > 0) {
+      onSkip();
+      // Don't call onScanAnother here - the parent will handle loading a new song
+    }
   };
 
   const handleTurnComplete = () => {
@@ -435,10 +439,12 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               <Eye size={16} />
               <span>HITREVEAL</span>
             </button>
-            <button className="scan-another-button skip-with-cost" onClick={handleSkip}>
-              <span>SKIP</span>
-              <span className="skip-cost">-{skipCost || 0}</span>
-            </button>
+            {onSkip && skipsRemaining > 0 && (
+              <button className="scan-another-button skip-with-cost" onClick={handleSkip}>
+                <span>SKIP ({skipsRemaining})</span>
+                <span className="skip-cost">-{skipCost || 0}</span>
+              </button>
+            )}
           </>
         )}
       </div>
