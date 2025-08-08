@@ -1040,6 +1040,19 @@
   z-index: 1000;
 }
 
+.skip-with-cost:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(--color-text-light) !important;
+  border-color: var(--color-text-light) !important;
+  color: var(--color-secondary) !important;
+}
+
+.skip-with-cost:disabled .skip-cost {
+  background: var(--color-text-light);
+  border-color: var(--color-secondary);
+}
+
 .confetti-piece {
   position: absolute;
   width: 10px;

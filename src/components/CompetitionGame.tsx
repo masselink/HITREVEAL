@@ -613,6 +613,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 yearPoints={settings.yearPoints}
                 bonusPoints={settings.bonusPoints}
                 skipCost={settings.skipCost}
+                currentPlayerScore={players[gameState.currentPlayerIndex].score}
                 onGuess={(guessType, isCorrect) => {
                   console.log(`Player guessed ${guessType}: ${isCorrect ? 'correct' : 'incorrect'}`);
                 }}

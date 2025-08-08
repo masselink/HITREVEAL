@@ -19,6 +19,7 @@ interface CompetitionYouTubePlayerProps {
   bonusPoints?: number;
   skipCost?: number;
   skipsRemaining?: number;
+  currentPlayerScore?: number;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
