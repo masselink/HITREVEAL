@@ -288,168 +288,143 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   };
   return (
     <>
-      {/* Reveal Section Header */}
-      <div className="reveal-section-header">
-        <h3 className="reveal-section-title">
-          <Music size={24} />
-          {getTranslation('songFoundReveal', currentLanguage)}
-        </h3>
-      </div>
+      <div className="simple-player-section">
+        {/* Reveal Section Header */}
+        <div className="reveal-section-header">
+          <h3 className="reveal-section-title">
+            <Music size={24} />
+            {getTranslation('songFoundReveal', currentLanguage)}
+          </h3>
+        </div>
 
-      {/* Song Info (only show when revealed) */}
-      {showReveal && (
-        <div className="revealed-song-info">
-          <div className="hitreveal-header">
-            <h3>{getTranslation('hitrevealHeader', currentLanguage)}</h3>
-          </div>
-          <div className="competition-scoring-section">
-            <div 
-              className={`scoring-item ${guessedTitle ? 'selected' : ''}`}
-              onClick={() => handleToggleGuess('title')}
-            >
-              <div className="scoring-checkbox">
-              </div>
-              
-              <div className="scoring-content">
-                <div className="scoring-label">{getTranslation('title', currentLanguage)}</div>
-                <div className="scoring-value">{currentSong.title}</div>
-              </div>
-              
-              <div className="scoring-points">+{titlePoints}</div>
+        {/* Song Info (only show when revealed) */}
+        {showReveal && (
+          <div className="revealed-song-info">
+            <div className="hitreveal-header">
+              <h3>{getTranslation('hitrevealHeader', currentLanguage)}</h3>
             </div>
-            
-            <div 
-              className={`scoring-item ${guessedArtist ? 'selected' : ''}`}
-              onClick={() => handleToggleGuess('artist')}
-            >
-              <div className="scoring-checkbox">
-              </div>
-              <div className="scoring-content">
-                <div className="scoring-label">{getTranslation('artist', currentLanguage)}</div>
-                <div className="scoring-value">{currentSong.artist}</div>
-              </div>
-              <div className="scoring-points">+{artistPoints}</div>
-            </div>
-            
-            {currentSong.year && (
+            <div className="competition-scoring-section">
               <div 
-                className={`scoring-item ${guessedYear ? 'selected' : ''}`}
-                onClick={() => handleToggleGuess('year')}
+                className={`scoring-item ${guessedTitle ? 'selected' : ''}`}
+                onClick={() => handleToggleGuess('title')}
+              >
+                <div className="scoring-checkbox">
+                </div>
+                
+                <div className="scoring-content">
+                  <div className="scoring-label">{getTranslation('title', currentLanguage)}</div>
+                  <div className="scoring-value">{currentSong.title}</div>
+                </div>
+                
+                <div className="scoring-points">+{titlePoints}</div>
+              </div>
+              
+              <div 
+                className={`scoring-item ${guessedArtist ? 'selected' : ''}`}
+                onClick={() => handleToggleGuess('artist')}
               >
                 <div className="scoring-checkbox">
                 </div>
                 <div className="scoring-content">
-                  <div className="scoring-label">{getTranslation('year', currentLanguage)}</div>
-                  <div className="scoring-value">{currentSong.year}</div>
+                  <div className="scoring-label">{getTranslation('artist', currentLanguage)}</div>
+                  <div className="scoring-value">{currentSong.artist}</div>
                 </div>
-                <div className="scoring-points">+{yearPoints}</div>
+                <div className="scoring-points">+{artistPoints}</div>
               </div>
-            )}
-            
-            {bonusPoints > 0 && currentSong.year && (
-              <div className={`bonus-item ${guessedArtist && guessedTitle && guessedYear ? 'active' : ''}`}>
-                <div className="bonus-content">
-                  <div className="bonus-label">{getTranslation('bonusAllCorrect', currentLanguage)}</div>
-                  <div className="bonus-points">+{bonusPoints}</div>
+              
+              {currentSong.year && (
+                <div 
+                  className={`scoring-item ${guessedYear ? 'selected' : ''}`}
+                  onClick={() => handleToggleGuess('year')}
+                >
+                  <div className="scoring-checkbox">
+                  </div>
+                  <div className="scoring-content">
+                    <div className="scoring-label">{getTranslation('year', currentLanguage)}</div>
+                    <div className="scoring-value">{currentSong.year}</div>
+                  </div>
+                  <div className="scoring-points">+{yearPoints}</div>
                 </div>
+              )}
+              
+              {bonusPoints > 0 && currentSong.year && (
+                <div className={`bonus-item ${guessedArtist && guessedTitle && guessedYear ? 'active' : ''}`}>
+                  <div className="bonus-content">
+                    <div className="bonus-label">{getTranslation('bonusAllCorrect', currentLanguage)}</div>
+                    <div className="bonus-points">+{bonusPoints}</div>
+                  </div>
+                </div>
+              )}
+              
+              <div className="total-score">
+                <div className="total-label">{getTranslation('targetScore', currentLanguage)}</div>
+                <div className="total-points">{getTotalScore()} points</div>
               </div>
-            )}
-            
-            <div className="total-score">
-              <div className="total-label">{getTranslation('targetScore', currentLanguage)}</div>
-              <div className="total-points">{getTotalScore()} points</div>
+              
+              {/* Turn Complete Button - moved here */}
+              <button 
+                className="turn-complete-button" 
+                onClick={() => {
+                  console.log('🎯 TURN COMPLETE BUTTON CLICKED IN PLAYER!');
+                  handleTurnComplete();
+                }}
+                type="button"
+              >
+                <ArrowLeft size={16} />
+                <span>{getTranslation('turnComplete', currentLanguage)}</span>
+              </button>
             </div>
-            
-            {/* Turn Complete Button - moved here */}
-            <button 
-              className="turn-complete-button" 
-              onClick={() => {
-                console.log('🎯 TURN COMPLETE BUTTON CLICKED IN PLAYER!');
-                handleTurnComplete();
-              }}
-              type="button"
-            >
-              <ArrowLeft size={16} />
-              <span>{getTranslation('turnComplete', currentLanguage)}</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-        {/* Song Info (legacy - keeping for non-competition modes) */}
-        {showReveal && false && (
-          <div className="revealed-song-info">
-            <div className="song-title">
-              {currentSong.title}
-            </div>
-            <div className="song-artist">
-              {currentSong.artist}
-            </div>
-            {currentSong.year && (
-              <div className="song-year">
-                {currentSong.year}
-              </div>
-            )}
           </div>
         )}
 
-      {/* Legacy song info display - hidden for competition */}
-      {false && showReveal && (
-        <div className="revealed-song-info">
-          <div className="song-title">
-            {currentSong.title}
+        {/* YouTube Video Player (visible when revealed) */}
+        {showVideo && (
+          <div className="youtube-video-container">
+            <div id="competition-visible-youtube-player"></div>
           </div>
-          <div className="song-artist">
-            {currentSong.artist}
-          </div>
-          {currentSong.year && (
-            <div className="song-year">
-              {currentSong.year}
-            </div>
+        )}
+
+        {/* Simple Controls */}
+        <div className="simple-controls">
+          <button 
+            className="control-button start-pause-button" 
+            onClick={togglePlayPause}
+            disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
+          >
+            {isPlaying ? <Square size={16} /> : <Play size={16} />}
+            <span>{isPlaying ? getTranslation('stop', currentLanguage) : getTranslation('start', currentLanguage)}</span>
+          </button>
+          
+          <button 
+            className="control-button restart-button secondary-blue" 
+            onClick={restartMusic}
+            disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
+          >
+            <RotateCcw size={16} />
+            <span>{getTranslation('restart', currentLanguage)}</span>
+          </button>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="action-buttons">
+          {!showReveal && (
+            <>
+              <button className="primary-button" onClick={handleReveal}>
+                <Eye size={16} />
+               <span>HITREVEAL</span>
+              </button>
+              <button 
+                className="scan-another-button skip-with-cost" 
+                onClick={handleSkip}
+                disabled={currentPlayerSkipsRemaining <= 0}
+              >
+                <span className="skip-count">{currentPlayerSkipsRemaining}</span>
+               <span>{getTranslation('skip', currentLanguage)}</span>
+                <span className="skip-cost">-{skipCost || 0}</span>
+              </button>
+            </>
           )}
         </div>
-      )}
-
-      {/* Simple Controls */}
-      <div className="simple-controls">
-        <button 
-          className="control-button start-pause-button" 
-          onClick={togglePlayPause}
-          disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
-        >
-          {isPlaying ? <Square size={16} /> : <Play size={16} />}
-          <span>{isPlaying ? getTranslation('stop', currentLanguage) : getTranslation('start', currentLanguage)}</span>
-        </button>
-        
-        <button 
-          className="control-button restart-button secondary-blue" 
-          onClick={restartMusic}
-          disabled={showVideo ? !isVisiblePlayerReady : !isPlayerReady}
-        >
-          <RotateCcw size={16} />
-          <span>{getTranslation('restart', currentLanguage)}</span>
-        </button>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="action-buttons">
-        {!showReveal && (
-          <>
-            <button className="primary-button" onClick={handleReveal}>
-              <Eye size={16} />
-             <span>HITREVEAL</span>
-            </button>
-            <button 
-              className="scan-another-button skip-with-cost" 
-              onClick={handleSkip}
-              disabled={currentPlayerSkipsRemaining <= 0}
-            >
-              <span className="skip-count">{currentPlayerSkipsRemaining}</span>
-             <span>{getTranslation('skip', currentLanguage)}</span>
-              <span className="skip-cost">-{skipCost || 0}</span>
-            </button>
-          </>
-        )}
       </div>
 
       {/* Hidden YouTube Player */}
