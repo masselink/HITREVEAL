@@ -501,6 +501,24 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             </button>
           </div>
 
+          {/* Game Indicators */}
+          <div className="game-indicators-section">
+            <div className="game-indicator-card">
+              <div className="indicator-item">
+                <span className="indicator-label">{getTranslation('gameMode', currentLanguage)}:</span>
+                <span className="indicator-value">
+                  {settings.gameMode === 'points' && `${getTranslation('pointsMode', currentLanguage)} (${settings.targetScore})`}
+                  {settings.gameMode === 'time-based' && `${getTranslation('timeBasedMode', currentLanguage)} (${settings.gameDuration}m)`}
+                  {settings.gameMode === 'rounds' && `${getTranslation('roundsMode', currentLanguage)} (${settings.maximumRounds})`}
+                </span>
+              </div>
+              <div className="indicator-item">
+                <span className="indicator-label">{getTranslation('songsPlayed', currentLanguage)}:</span>
+                <span className="indicator-value">{usedSongs.size} / {songs.length}</span>
+              </div>
+            </div>
+          </div>
+
           {/* Competition Player Section */}
           <div className="simple-player-section">
             {/* Current Player Header */}
