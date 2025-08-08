@@ -193,6 +193,8 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   const handleTurnComplete = (scores: any) => {
     console.log('🎯 TURN COMPLETE RECEIVED IN COMPETITION GAME!');
     console.log('📊 Scores received:', scores);
+    console.log('🎮 Current game settings:', settings);
+    console.log('👥 Current players before update:', players);
     
     if (!currentSong) {
       console.error('❌ No current song available');
@@ -214,15 +216,11 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           score: player.score + (scores.totalPoints || 0)
         };
         console.log('🔄 Updated player:', updatedPlayer);
+        console.log('🎯 New score vs target:', updatedPlayer.score, 'vs', settings.targetScore);
         return updatedPlayer;
       }
       return player;
     }));
-
-    // Check win conditions
-    setTimeout(() => {
-      checkWinConditions();
-    }, 100);
 
     // Move to next player
     nextTurn();
@@ -271,16 +269,34 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     }
     
     setCurrentPlayerIndex(nextPlayerIndex);
+    
+    // Check win conditions after state updates
+    setTimeout(() => {
+      checkWinConditions();
+    }, 200);
+    
     selectRandomSong();
   };
 
   const checkWinConditions = () => {
+    console.log('🏁 Checking win conditions...');
+    console.log('🎮 Game mode:', settings.gameMode);
+    console.log('👥 Current players:', players);
+    console.log('🎯 Target score:', settings.targetScore);
+    console.log('🔄 Current round:', currentRound);
+    console.log('🎵 Max rounds:', settings.maximumRounds);
+    
     const maxScore = Math.max(...players.map(p => p.score));
+    console.log('📊 Max score found:', maxScore);
     
     if (settings.gameMode === 'points' && maxScore >= settings.targetScore) {
+      console.log('🏆 Points win condition met!');
       endGame();
     } else if (settings.gameMode === 'rounds' && currentRound > settings.maximumRounds) {
+      console.log('🏆 Rounds win condition met!');
       endGame();
+    } else {
+      console.log('⏳ No win condition met, continuing game...');
     }
   };
 
