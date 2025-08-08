@@ -597,6 +597,10 @@
   margin-bottom: var(--spacing-8);
 }
 
+.game-session-header .quit-game-button {
+  margin: 0 auto;
+}
+
 .game-session-title-button {
   opacity: 0.9;
   cursor: default;
