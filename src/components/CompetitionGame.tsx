@@ -498,7 +498,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
               className="player-go-button"
               onClick={() => setShowPlayerInterface(true)}
             >
-              {getTranslation('go', currentLanguage)}
+              {getTranslation('go', currentLanguage)}!
             </button>
           </div>
 
