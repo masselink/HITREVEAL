@@ -54,6 +54,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
   const [playerSkips, setPlayerSkips] = useState<{ [playerId: number]: number }>({});
   const [showPlayerInterface, setShowPlayerInterface] = useState(false);
+  const [gameHasStarted, setGameHasStarted] = useState(false);
 
   const [settings, setSettings] = useState<CompetitionSettings>({
     numberOfPlayers: 2,
@@ -173,6 +174,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     
     setGamePhase('playing');
     setGameStartTime(new Date());
+    setGameHasStarted(true);
     selectRandomSong();
   };
 
@@ -277,10 +279,10 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
 
   // Check win conditions after each turn
   useEffect(() => {
-    if (gamePhase === 'playing' && !showPlayerInterface) {
+    if (gamePhase === 'playing' && !showPlayerInterface && gameHasStarted && usedSongs.size > 0) {
       checkWinConditions();
     }
-    selectRandomSong();
+  }, [gamePhase, showPlayerInterface, currentRound, players, gameHasStarted, usedSongs.size]);
   }, [showPlayerInterface, gamePhase, currentRound, players]);
 
   const checkWinConditions = () => {
@@ -339,6 +341,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setCurrentSong(null);
     setUsedSongs(new Set());
     setGameStartTime(null);
+    setGameHasStarted(false);
     
     // Reset player scores
     setPlayers(prev => prev.map(player => ({
