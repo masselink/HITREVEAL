@@ -899,6 +899,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       </div>
     );
   }
+  }
 
   // Settings View (existing code)
   return (
