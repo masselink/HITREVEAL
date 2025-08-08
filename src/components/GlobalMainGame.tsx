@@ -2,16 +2,16 @@ import React from 'react';
 import { Play } from 'lucide-react';
 import { Language, SongList } from '../types';
 import { translations } from '../data/translations';
-import { GameSelection } from './GameSelection';
+import { GlobalGameSelection } from './GlobalGameSelection';
 
-interface MainGameProps {
+interface GlobalMainGameProps {
   currentLanguage: Language;
   showGameSelection: boolean;
   onShowGameSelection: (show: boolean) => void;
   onStartGame: (gameType: string, songList?: SongList) => void;
 }
 
-export const MainGame: React.FC<MainGameProps> = ({ 
+export const GlobalMainGame: React.FC<GlobalMainGameProps> = ({ 
   currentLanguage, 
   showGameSelection, 
   onShowGameSelection,
@@ -28,7 +28,7 @@ export const MainGame: React.FC<MainGameProps> = ({
 
   if (showGameSelection) {
     return (
-      <GameSelection
+      <GlobalGameSelection
         currentLanguage={currentLanguage}
         onBack={handleBackToMain}
         onStartGame={onStartGame}

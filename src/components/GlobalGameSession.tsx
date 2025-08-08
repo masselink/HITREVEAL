@@ -1,16 +1,16 @@
 import React from 'react';
 import { Language, SongList } from '../types';
-import { HitsterGame } from './HitsterGame';
+import { HitsterGameSession } from './HitsterGameSession';
 import { CompetitionGame } from './CompetitionGame';
 
-interface GameSessionProps {
+interface GlobalGameSessionProps {
   currentLanguage: Language;
   songList: SongList;
   onBack: () => void;
   gameType?: string;
 }
 
-export const GameSession: React.FC<GameSessionProps> = ({
+export const GlobalGameSession: React.FC<GlobalGameSessionProps> = ({
   currentLanguage,
   songList,
   onBack,
@@ -18,7 +18,7 @@ export const GameSession: React.FC<GameSessionProps> = ({
 }) => {
   if (gameType === 'hitster-youtube') {
     return (
-      <HitsterGame
+      <HitsterGameSession
         currentLanguage={currentLanguage}
         songList={songList}
         onBack={onBack}
