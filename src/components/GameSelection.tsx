@@ -379,6 +379,10 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   };
 
   const extractIdFromUrl = (url: string) => {
+    // Check if url is valid before calling match
+    if (!url || typeof url !== 'string') {
+      return '';
+    }
     // Extract ID from hitster_url and remove leading zeros
     const match = url.match(/(\d+)$/);
     if (match) {
