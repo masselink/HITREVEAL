@@ -133,6 +133,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
       
       Papa.parse(csvText, {
         header: true,
+        delimiter: ';',
         complete: (results) => {
           const data = results.data as SongList[];
           // Filter out empty rows and rows without hitstercode
@@ -173,6 +174,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
       
       Papa.parse(csvText, {
         header: true,
+        delimiter: ';',
         complete: (results) => {
           const data = results.data as SongList[];
           // Filter out empty rows and rows without hitstercode
@@ -290,6 +292,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
       
       Papa.parse(csvText, {
         header: true,
+        delimiter: ';',
         complete: (results) => {
           const data = results.data as any[];
           const validData = data.filter(row => 
@@ -338,6 +341,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
       
       Papa.parse(csvText, {
         header: true,
+        delimiter: ';',
         complete: (results) => {
           const data = results.data as any[];
           const validData = data.filter(row => 
