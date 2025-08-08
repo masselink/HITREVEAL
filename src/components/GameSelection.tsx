@@ -53,22 +53,6 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
 
   const gameTypes = [
     {
-      id: 'hitster-youtube',
-      name: {
-        en: 'Play Hitster',
-        nl: 'Speel Hitster',
-        de: 'Hitster spielen',
-        fr: 'Jouer à Hitster'
-      },
-      subtitle: {
-        en: 'with YouTube Music',
-        nl: 'met YouTube Music',
-        de: 'mit YouTube Music',
-        fr: 'avec YouTube Music'
-      },
-      status: 'available' as const
-    },
-    {
       id: 'game-type-2',
       name: {
         en: 'Competition Game',
@@ -81,6 +65,23 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         nl: 'Daag je vrienden uit of speel solo...',
         de: 'Fordere deine Freunde heraus oder spiele solo...',
         fr: 'Défiez vos amis ou jouez en solo...'
+      },
+      status: 'available' as const
+    }
+    },
+    {
+      id: 'hitster-youtube',
+      name: {
+        en: 'Play Hitster',
+        nl: 'Speel Hitster',
+        de: 'Hitster spielen',
+        fr: 'Jouer à Hitster'
+      },
+      subtitle: {
+        en: 'with YouTube Music',
+        nl: 'met YouTube Music',
+        de: 'mit YouTube Music',
+        fr: 'avec YouTube Music'
       },
       status: 'available' as const
     }
