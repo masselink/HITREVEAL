@@ -255,6 +255,20 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             <span>{getTranslation('scanAnother', currentLanguage)}</span>
           </button>
         </div>
+        
+        {/* Error Reporting Link */}
+        {showReveal && (
+          <div className="error-reporting-section">
+            <p className="error-reporting-text">
+              <a 
+                href={`mailto:hitreveal-song-error@collectingvibes.com?subject=Song%20Error%20Report%20-%20${encodeURIComponent(currentSong.title)}%20by%20${encodeURIComponent(currentSong.artist)}`}
+                className="error-reporting-link"
+              >
+                {getTranslation('reportPlaylistProblems', currentLanguage)}
+              </a>
+            </p>
+          </div>
+        )}
 
 
         {/* Hidden YouTube Player */}

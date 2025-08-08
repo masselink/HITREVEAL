@@ -177,5 +177,8 @@ export const fr = {
   skipOption: 'skip',
   
   // Validation
-  validationWarning: 'Veuillez corriger les problèmes suivants'
+  validationWarning: 'Veuillez corriger les problèmes suivants',
+  
+  // Error reporting
+  reportPlaylistProblems: 'Veuillez signaler tout problème avec la playlist.'
 };

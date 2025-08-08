@@ -177,5 +177,8 @@ export const nl = {
   skipOption: 'skip',
   
   // Validation
-  validationWarning: 'Los de volgende problemen op'
+  validationWarning: 'Los de volgende problemen op',
+  
+  // Error reporting
+  reportPlaylistProblems: 'Meld eventuele problemen met de afspeellijst.'
 };

@@ -608,6 +608,32 @@
   transform: translateY(0);
 }
 
+/* Error Reporting Section */
+.error-reporting-section {
+  margin-top: var(--spacing-4);
+  text-align: center;
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.error-reporting-text {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+}
+
+.error-reporting-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.error-reporting-link:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
 /* Used Song Styling */
 .song-row.used-song {
   opacity: 0.5;
