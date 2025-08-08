@@ -209,9 +209,6 @@ export const HitsterGame: React.FC<HitsterGameProps> = ({
             <X size={20} />
             <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
           </button>
-          <button className="primary-button game-session-title-button" disabled>
-            {songList.name}
-          </button>
         </div>
 
         {/* QR Scanner Section */}

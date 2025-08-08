@@ -593,7 +593,7 @@
 .game-session-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: var(--spacing-8);
 }
 
