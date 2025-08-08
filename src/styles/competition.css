@@ -35,6 +35,39 @@
   margin: 0;
 }
 
+/* Competition Game Info Styles */
+.competition-game-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.game-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.game-info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-value {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
 /* Competition Dashboard Styles */
 .competition-dashboard {
   max-width: 1000px;

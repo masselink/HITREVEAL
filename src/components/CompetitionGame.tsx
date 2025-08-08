@@ -435,70 +435,152 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     
     return (
       <div className="game-session">
-        <div className="competition-dashboard">
+        <div className="game-session-container">
           {/* Header */}
           <div className="game-session-header">
-            <button 
-              className="secondary-button secondary-blue"
-              onClick={() => setShowPlayerInterface(true)}
-            >
-              {getTranslation('go', currentLanguage)}!
-            </button>
             <button className="primary-button quit-game-button" onClick={handleQuitGame}>
               <X size={20} />
               <span>{getTranslation('quitGame', currentLanguage)}</span>
             </button>
           </div>
 
-          {/* Game Status */}
-          <div className="game-status-section">
-            <div className="status-cards">
-              <div className="status-card">
-                <Users size={24} className="status-icon" />
-                <div className="status-content">
-                  <div className="status-title">{getTranslation('round', currentLanguage)} {currentRound}</div>
-                  <div className="status-subtitle">
-                    {usedSongs.size} {getTranslation('played', currentLanguage)} • {songs.length - usedSongs.size} {getTranslation('left', currentLanguage)}
-                  </div>
+          {/* Competition Player Section */}
+          <div className="simple-player-section">
+            {/* Current Player Header */}
+            <div className="reveal-section-header">
+              <h3 className="reveal-section-title">
+                <Users size={24} />
+                {currentPlayer.name || `${getTranslation('playerName', currentLanguage)} ${currentPlayer.id + 1}`} - {getTranslation('yourTurn', currentLanguage)}
+              </h3>
+            </div>
+
+            {/* Game Info */}
+            <div className="revealed-song-info">
+              <div className="competition-game-info">
+                <div className="game-info-row">
+                  <span className="info-label">{getTranslation('round', currentLanguage)}:</span>
+                  <span className="info-value">{currentRound}</span>
                 </div>
+                <div className="game-info-row">
+                  <span className="info-label">{getTranslation('score', currentLanguage)}:</span>
+                  <span className="info-value">{currentPlayer.score} {getTranslation('points', currentLanguage)}</span>
+                </div>
+                <div className="game-info-row">
+                  <span className="info-label">Skips:</span>
+                  <span className="info-value">{playerSkips[currentPlayer.id] || 0} {getTranslation('left', currentLanguage)}</span>
+                </div>
+                <div className="game-info-row">
+                  <span className="info-label">{getTranslation('songsPlayed', currentLanguage)}:</span>
+                  <span className="info-value">{usedSongs.size} / {songs.length}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="action-buttons">
+              <button 
+                className="primary-button"
+                onClick={() => setShowPlayerInterface(true)}
+              >
+                <Play size={16} />
+                <span>{getTranslation('go', currentLanguage)}!</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Leaderboard Section */}
+          <div className="simple-player-section">
+            <div className="reveal-section-header">
+              <h3 className="reveal-section-title">
+                <Trophy size={24} />
+                {getTranslation('leaderboard', currentLanguage)}
+              </h3>
+            </div>
+
+            <div className="revealed-song-info">
+              <div className="leaderboard">
+                {[...players]
+                  .sort((a, b) => b.score - a.score)
+                  .map((player, index) => {
+                    const isCurrentPlayer = player.id === currentPlayer.id;
+                    const isWinning = index === 0 && player.score > 0;
+                    
+                    return (
+                      <div 
+                        key={player.id} 
+                        className={`leaderboard-row ${isCurrentPlayer ? 'current-player' : ''}`}
+                      >
+                        <div className="player-rank">
+                          {isWinning ? (
+                            <Crown size={20} className="crown-icon" />
+                          ) : (
+                            <span className="rank-number">#{index + 1}</span>
+                          )}
+                        </div>
+                        <div className="player-details">
+                          <div className="player-name">
+                            {player.name || `${getTranslation('playerName', currentLanguage)} ${player.id + 1}`}
+                          </div>
+                          <div className="score-breakdown">
+                            {player.artistPoints > 0 && (
+                              <span className="score-part artist">{getTranslation('artistPoints', currentLanguage)}: {player.artistPoints}</span>
+                            )}
+                            {player.titlePoints > 0 && (
+                              <span className="score-part title">{getTranslation('titlePoints', currentLanguage)}: {player.titlePoints}</span>
+                            )}
+                            {player.yearPoints > 0 && (
+                              <span className="score-part year">{getTranslation('yearPoints', currentLanguage)}: {player.yearPoints}</span>
+                            )}
+                            {player.bonusPoints > 0 && (
+                              <span className="score-part bonus">{getTranslation('bonusPoints', currentLanguage)}: {player.bonusPoints}</span>
+                            )}
+                            {player.artistPoints === 0 && player.titlePoints === 0 && player.yearPoints === 0 && player.bonusPoints === 0 && (
+                              <span className="score-part no-points">{getTranslation('noPointsYet', currentLanguage)}</span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="player-total-score">
+                          {player.score}
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quit Confirmation Modal */}
+        {showQuitConfirmation && (
+          <div className="preview-overlay">
+            <div className="quit-confirmation-modal">
+              <div className="quit-modal-header">
+                <h3 className="quit-modal-title">
+                  {getTranslation('quitGameConfirmTitle', currentLanguage)}
+                </h3>
               </div>
               
-              <div className="status-card">
-                <Music size={24} className="status-icon" />
-                <div className="status-content">
-                  <div className="status-title">{songs.length} {getTranslation('total', currentLanguage)}</div>
-                  <div className="status-subtitle">{songList.name}</div>
+              <div className="quit-modal-content">
+                <p className="quit-warning-text">
+                  {getTranslation('quitGameWarning', currentLanguage)}
+                </p>
+                
+                <div className="quit-modal-buttons">
+                  <button className="cancel-quit-button" onClick={cancelQuit}>
+                    <span>{getTranslation('cancel', currentLanguage)}</span>
+                  </button>
+                  <button className="confirm-quit-button" onClick={confirmQuit}>
+                    <X size={16} />
+                    <span>{getTranslation('quitGame', currentLanguage)}</span>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* Current Player */}
-          <div className="current-player-section">
-            <div className="current-player-card">
-              <div className="player-indicator">
-                <div className="player-avatar">
-                  {(currentPlayer.name || `${getTranslation('playerName', currentLanguage)} ${currentPlayer.id + 1}`).charAt(0).toUpperCase()}
-                </div>
-                <div className="player-info">
-                  <h3 className="player-name">
-                    {currentPlayer.name || `${getTranslation('playerName', currentLanguage)} ${currentPlayer.id + 1}`}
-                  </h3>
-                  <p className="player-status">{getTranslation('yourTurn', currentLanguage)}</p>
-                  <p className="player-skips">
-                    {playerSkips[currentPlayer.id] || 0} skips {getTranslation('left', currentLanguage)}
-                  </p>
-                </div>
-              </div>
-              <div className="player-score">
-                <span className="score-value">{currentPlayer.score}</span>
-                <span className="score-label">{getTranslation('score', currentLanguage)}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* GO Button */}
-          <div className="go-button-section">
+        )}
+      </div>
+    );
+  }
             <button 
               className="secondary-button secondary-blue"
               onClick={() => setShowPlayerInterface(true)}
