@@ -275,11 +275,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setCurrentPlayerIndex(nextPlayerIndex);
     
     selectRandomSong();
-  };
-
-  const checkWinConditions = () => {
-    console.log('🏁 Checking win conditions...');
-    console.log('🎮 Game mode:', settings.gameMode);
     console.log('👥 Current players:', players);
     console.log('🎯 Target score:', settings.targetScore);
     console.log('🔄 Current round:', currentRound);
