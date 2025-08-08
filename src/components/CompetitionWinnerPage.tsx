@@ -183,21 +183,20 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
             {translations.finalScores[currentLanguage]}
           </h3>
           
-          <div className="scores-list">
+          <div className="leaderboard">
             {sortedPlayers.map((player, index) => {
-              // Show crown for all players with the highest score (all winners)
               const isWinner = actualWinners.some(w => w.id === player.id);
               
               return (
                 <div 
                   key={player.id} 
-                  className={`score-row ${isWinner ? 'winner-row' : ''}`}
+                  className={`leaderboard-row ${isWinner ? 'winner-row' : ''}`}
                 >
                   <div className="player-rank">
                     {isWinner ? (
                       <Crown size={20} className="crown-icon" />
                     ) : (
-                      <span className="rank-number">#{index + 1}</span>
+                      <span className="rank-number">#{sortedPlayers.findIndex(p => p.score < player.score) + 1 || sortedPlayers.length}</span>
                     )}
                   </div>
                   <div className="player-details">
@@ -214,6 +213,9 @@ export const CompetitionWinnerPage: React.FC<CompetitionWinnerPageProps> = ({
                       )}
                       {player.bonusPoints > 0 && (
                         <span className="score-part bonus">B: {player.bonusPoints}</span>
+                      )}
+                      {player.artistPoints === 0 && player.titlePoints === 0 && player.yearPoints === 0 && player.bonusPoints === 0 && (
+                        <span className="score-part no-points">No points yet</span>
                       )}
                     </div>
                   </div>
