@@ -294,7 +294,6 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         complete: (results) => {
           const data = results.data as any[];
           const validData = data.filter(row => 
-            row.hitster_url && 
             row.youtube_url && 
             row.title && 
             row.artist
@@ -343,7 +342,6 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
         complete: (results) => {
           const data = results.data as any[];
           const validData = data.filter(row => 
-            row.hitster_url && 
             row.youtube_url && 
             row.title && 
             row.artist
