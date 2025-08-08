@@ -18,8 +18,6 @@ interface CompetitionYouTubePlayerProps {
   yearPoints?: number;
   bonusPoints?: number;
   skipCost?: number;
-  skipsRemaining?: number;
-  currentPlayerScore?: number;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
@@ -37,7 +35,6 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   yearPoints = 1,
   bonusPoints = 2,
   skipCost = 0,
-  skipsRemaining = 0,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
@@ -248,10 +245,8 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   };
 
   const handleSkip = () => {
-    if (onSkip && skipsRemaining > 0) {
-      onSkip();
-      // Don't call onScanAnother here - the parent will handle loading a new song
-    }
+    onSkip?.();
+    onScanAnother();
   };
 
   const handleTurnComplete = () => {
@@ -435,21 +430,16 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
       {/* Action Buttons */}
       <div className="action-buttons">
         {!showReveal && (
-          <button className="primary-button" onClick={handleReveal}>
-            <Eye size={16} />
-            <span>HITREVEAL</span>
-          </button>
-        )}
-        
-        {onSkip && (
-          <button 
-            className="scan-another-button skip-with-cost" 
-            onClick={handleSkip}
-            disabled={skipsRemaining === 0}
-          >
-            <span>{skipsRemaining} SKIP{skipsRemaining !== 1 ? 'S' : ''}</span>
-            <span className="skip-cost">-{skipCost || 0}</span>
-          </button>
+          <>
+            <button className="primary-button" onClick={handleReveal}>
+              <Eye size={16} />
+              <span>HITREVEAL</span>
+            </button>
+            <button className="scan-another-button skip-with-cost" onClick={handleSkip}>
+              <span>SKIP</span>
+              <span className="skip-cost">-{skipCost || 0}</span>
+            </button>
+          </>
         )}
       </div>
 
