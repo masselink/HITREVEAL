@@ -5,7 +5,6 @@ import { GameSession } from './components/GameSession';
 import { Footer } from './components/Footer';
 import { useLanguage } from './hooks/useLanguage';
 import { SongList } from './types';
-import './styles/App.css';
 
 function App() {
   const { currentLanguage, changeLanguage } = useLanguage();
@@ -20,6 +19,8 @@ function App() {
   const handleStartGame = (gameType: string, songList?: SongList) => {
     if (songList) {
       setGameSession(songList);
+      // Store the game type for the session
+      setGameSession(prev => prev ? { ...prev, gameType } : null);
     }
   };
 
@@ -40,6 +41,7 @@ function App() {
           currentLanguage={currentLanguage}
           songList={gameSession}
           onBack={handleBackFromGame}
+          gameType={(gameSession as any).gameType}
         />
       ) : (
         <MainGame 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Language } from '../types';
-import { translations } from '../data/translations';
+import { getTranslation } from '../data/translations';
 
 interface FooterProps {
   currentLanguage: Language;
@@ -13,25 +13,25 @@ export const Footer: React.FC<FooterProps> = ({ currentLanguage }) => {
         <div className="footer-content">
           {/* Left side - Warning */}
           <div className="footer-left">
-            <p className="footer-disclaimer">{translations.footerDisclaimer[currentLanguage]}</p>
+            <p className="footer-disclaimer">{getTranslation('footerDisclaimer', currentLanguage)}</p>
           </div>
           
           {/* Right side - Donation */}
           <div className="footer-right">
-            <p className="footer-disclaimer2">{translations.footerDisclaimer2[currentLanguage]}</p>
-            <p className="footer-donation-text">{translations.footerDonationText[currentLanguage]}</p>
+            <p className="footer-disclaimer2">{getTranslation('footerDisclaimer2', currentLanguage)}</p>
+            <p className="footer-donation-text">{getTranslation('footerDonationText', currentLanguage)}</p>
             <button
               onClick={() => window.open('https://www.paypal.com/donate/?hosted_button_id=X3K6KFPJHVHDN', '_blank')}
               className="donate-button"
             >
-              {translations.donateButton[currentLanguage]}
+              {getTranslation('donateButton', currentLanguage)}
             </button>
           </div>
         </div>
         
         {/* Copyright */}
         <div className="footer-copyright">
-          <p>{translations.footerCopyright[currentLanguage]}</p>
+          <p>{getTranslation('footerCopyright', currentLanguage)}</p>
         </div>
       </div>
     </footer>

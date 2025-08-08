@@ -1,7 +1,7 @@
 import React from 'react';
 import { Play } from 'lucide-react';
 import { Language, SongList } from '../types';
-import { translations } from '../data/translations';
+import { getTranslation } from '../data/translations';
 import { GameSelection } from './GameSelection';
 
 interface MainGameProps {
@@ -42,13 +42,13 @@ export const MainGame: React.FC<MainGameProps> = ({
         {/* Welcome Section */}
         <section className="welcome-section">
           <h2 className="welcome-title">
-            {translations.welcomeTitle[currentLanguage]}
+            {getTranslation('welcomeTitle', currentLanguage)}
           </h2>
           <p className="welcome-subtitle">
-            {translations.welcomeSubtitle[currentLanguage]}
+            {getTranslation('welcomeSubtitle', currentLanguage)}
           </p>
           <p className="game-description">
-            {translations.gameDescription[currentLanguage]}
+            {getTranslation('gameDescription', currentLanguage)}
           </p>
         </section>
 
@@ -57,10 +57,10 @@ export const MainGame: React.FC<MainGameProps> = ({
           <button 
             className="primary-button"
             onClick={handleStartGame}
-            aria-label={translations.startGame[currentLanguage]}
+            aria-label={getTranslation('startGame', currentLanguage)}
           >
             <Play size={20} />
-            <span>{translations.startGame[currentLanguage]}</span>
+            <span>{getTranslation('startGame', currentLanguage)}</span>
           </button>
         </section>
       </div>

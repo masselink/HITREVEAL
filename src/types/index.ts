@@ -5,14 +5,6 @@ export interface GameState {
   gameMode: 'waiting' | 'playing' | 'paused';
 }
 
-export interface Translations {
-  [key: string]: {
-    en: string;
-    nl: string;
-    de: string;
-  };
-}
-
 export interface GameMode {
   id: string;
   name: string;
@@ -22,9 +14,13 @@ export interface GameMode {
 export interface SongList {
   name: string;
   country: string;
+  competition: string | boolean | number;
+  hitster: string | boolean | number;
+  spotify: string;
+  youtube: string;
   hitstercode: string;
   github_link: string;
-  description: string;
+  description?: string;
 }
 
 export interface Song {
@@ -41,4 +37,19 @@ export interface GameSession {
   songs: Song[];
   currentSong?: Song;
   isPlaying: boolean;
+  gameType?: string;
+}
+
+export interface CompetitionSettings {
+  numberOfPlayers: number;
+  gameMode: 'points' | 'time-based' | 'rounds';
+  targetScore: number;
+  gameDuration: number;
+  maximumRounds: number;
+  artistPoints: number;
+  titlePoints: number;
+  yearPoints: number;
+  bonusPoints: number;
+  skipsPerPlayer: number;
+  skipCost: number;
 }
