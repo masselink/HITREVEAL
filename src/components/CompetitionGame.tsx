@@ -152,13 +152,8 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const canStartGame = () => {
-    if (!playerNames.every(name => name.trim() !== '')) {
-      return false;
-    }
-    
-    // Check if there are enough songs for the selected game mode
-    const requiredSongs = getRequiredSongs();
-    return songs.length >= requiredSongs;
+    const validationErrors = getValidationMessage();
+    return validationErrors.length === 0;
   };
 
   const getRequiredSongs = () => {
@@ -172,20 +167,26 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const getValidationMessage = () => {
+    const validationErrors: string[] = [];
+    
+    // Check player names
     if (!playerNames.every(name => name.trim() !== '')) {
-      return translations.allPlayerNameRequired?.[currentLanguage] || 'All player names are required';
+      validationErrors.push(translations.allPlayerNameRequired?.[currentLanguage] || 'All player names are required');
     }
     
+    // Check song requirements
     const requiredSongs = getRequiredSongs();
     if (songs.length < requiredSongs) {
+      let songValidationMessage = '';
       if (settings.gameMode === 'rounds') {
-        return `Not enough songs for ${settings.maximumRounds} rounds. Need ${requiredSongs} songs, have ${songs.length}.`;
+        songValidationMessage = `Not enough songs available for ${settings.maximumRounds} rounds with ${settings.numberOfPlayers} players. Each player needs 1 song per round, so you need ${requiredSongs} songs total. Currently available: ${songs.length} songs.`;
       } else {
-        return `Not enough songs for at least 1 round. Need ${requiredSongs} songs, have ${songs.length}.`;
+        songValidationMessage = `Not enough songs available for all ${settings.numberOfPlayers} players to have at least 1 turn. You need ${requiredSongs} songs minimum. Currently available: ${songs.length} songs.`;
       }
+      validationErrors.push(songValidationMessage);
     }
     
-    return '';
+    return validationErrors;
   };
 
   const handleStartGame = () => {
@@ -970,9 +971,15 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             <span>{translations.startCompetition?.[currentLanguage] || 'Start Competition'}</span>
           </button>
           
-          {!canStartGame() && (
+          {!canStartGame() && getValidationMessage().length > 0 && (
             <div className="validation-warning">
-              {getValidationMessage()}
+              <div className="validation-title">Please fix the following issues:</div>
+              {getValidationMessage().map((error, index) => (
+                <div key={index} className="validation-item">
+                  <span className="validation-bullet">•</span>
+                  <span className="validation-text">{error}</span>
+                </div>
+              ))}
             </div>
           )}
         </div>
