@@ -1163,12 +1163,6 @@
   gap: var(--spacing-3);
 }
 
-.stat-card.sudden-death-stat {
-  background: linear-gradient(135deg, #dc2626, #b91c1c);
-  color: white;
-  border-color: #dc2626;
-}
-
 .stat-content {
   text-align: left;
 }
