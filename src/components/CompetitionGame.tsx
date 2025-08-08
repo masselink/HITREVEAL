@@ -152,7 +152,40 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   };
 
   const canStartGame = () => {
-    return playerNames.every(name => name.trim() !== '');
+    if (!playerNames.every(name => name.trim() !== '')) {
+      return false;
+    }
+    
+    // Check if there are enough songs for the selected game mode
+    const requiredSongs = getRequiredSongs();
+    return songs.length >= requiredSongs;
+  };
+
+  const getRequiredSongs = () => {
+    if (settings.gameMode === 'rounds') {
+      // For rounds mode, need enough songs for all rounds
+      return settings.maximumRounds * settings.numberOfPlayers;
+    } else {
+      // For points and time-based modes, need at least one full round
+      return settings.numberOfPlayers;
+    }
+  };
+
+  const getValidationMessage = () => {
+    if (!playerNames.every(name => name.trim() !== '')) {
+      return translations.allPlayerNameRequired?.[currentLanguage] || 'All player names are required';
+    }
+    
+    const requiredSongs = getRequiredSongs();
+    if (songs.length < requiredSongs) {
+      if (settings.gameMode === 'rounds') {
+        return `Not enough songs for ${settings.maximumRounds} rounds. Need ${requiredSongs} songs, have ${songs.length}.`;
+      } else {
+        return `Not enough songs for at least 1 round. Need ${requiredSongs} songs, have ${songs.length}.`;
+      }
+    }
+    
+    return '';
   };
 
   const handleStartGame = () => {
@@ -939,7 +972,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           
           {!canStartGame() && (
             <div className="validation-warning">
-              {translations.allPlayerNameRequired?.[currentLanguage] || 'All player names are required'}
+              {getValidationMessage()}
             </div>
           )}
         </div>
