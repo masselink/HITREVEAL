@@ -14,8 +14,8 @@ export interface GameMode {
 export interface SongList {
   name: string;
   country: string;
-  competition: string | boolean;
-  hitster: string | boolean;
+  competition: string | boolean | number;
+  hitster: string | boolean | number;
   spotify: string;
   youtube: string;
   hitstercode: string;

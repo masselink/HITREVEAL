@@ -140,7 +140,8 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             row.name && 
             row.name.trim() !== '' && 
             row.hitstercode && 
-            row.hitstercode.trim() !== ''
+            row.hitstercode.trim() !== '' &&
+            (row.hitster === 'true' || row.hitster === '1' || row.hitster === true)
           );
           setSongLists(validData);
           setFilteredSongLists(validData);
@@ -179,7 +180,8 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             row.name && 
             row.name.trim() !== '' && 
             row.hitstercode && 
-            row.hitstercode.trim() !== ''
+            row.hitstercode.trim() !== '' &&
+            (row.competition === 'true' || row.competition === '1' || row.competition === true)
           );
           setSongLists(validData);
           setFilteredSongLists(validData);
