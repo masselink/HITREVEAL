@@ -3,7 +3,7 @@ import { Play, Pause, RotateCcw, Square, Eye, QrCode, List, X, Music } from 'luc
 import { Language, Song } from '../types';
 import { translations } from '../data/translations';
 
-interface HitsterYouTubePlayerProps {
+interface YouTubePlayerProps {
   currentLanguage: Language;
   currentSong: Song;
   allSongs: Song[];
@@ -12,7 +12,7 @@ interface HitsterYouTubePlayerProps {
   songListViewCount: number;
 }
 
-export const HitsterYouTubePlayer: React.FC<HitsterYouTubePlayerProps> = ({
+export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   currentLanguage,
   currentSong,
   allSongs,

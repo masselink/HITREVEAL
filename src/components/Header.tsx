@@ -1,13 +1,13 @@
 import React from 'react';
 import { Language } from '../types';
 
-interface GlobalHeaderProps {
+interface HeaderProps {
   currentLanguage: Language;
   onLanguageChange: (language: Language) => void;
   onLogoClick: () => void;
 }
 
-export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
+export const Header: React.FC<HeaderProps> = ({
   currentLanguage,
   onLanguageChange,
   onLogoClick

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, X } from 'lucide-react';
 import { Language, SongList, Song } from '../types';
 import { translations } from '../data/translations';
-import { GlobalQRScanner } from './GlobalQRScanner';
-import { HitsterYouTubePlayer } from './HitsterYouTubePlayer';
+import { QRScanner } from './QRScanner';
+import { YouTubePlayer } from './YouTubePlayer';
 import Papa from 'papaparse';
 
-interface HitsterGameSessionProps {
+interface HitsterGameProps {
   currentLanguage: Language;
   songList: SongList;
   onBack: () => void;
 }
 
-export const HitsterGameSession: React.FC<HitsterGameSessionProps> = ({
+export const HitsterGame: React.FC<HitsterGameProps> = ({
   currentLanguage,
   songList,
   onBack
@@ -160,7 +160,7 @@ export const HitsterGameSession: React.FC<HitsterGameSessionProps> = ({
           </div>
 
           {/* YouTube Player */}
-          <HitsterYouTubePlayer
+          <YouTubePlayer
             currentLanguage={currentLanguage}
             currentSong={currentSong}
             allSongs={songs}
@@ -219,7 +219,7 @@ export const HitsterGameSession: React.FC<HitsterGameSessionProps> = ({
 
         {/* QR Scanner Section */}
         <div className="qr-scanner-section">
-          <GlobalQRScanner
+          <QRScanner
             currentLanguage={currentLanguage}
             songs={songs}
             onSongFound={handleSongFound}

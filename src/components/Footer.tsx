@@ -2,11 +2,11 @@ import React from 'react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
 
-interface GlobalFooterProps {
+interface FooterProps {
   currentLanguage: Language;
 }
 
-export const GlobalFooter: React.FC<GlobalFooterProps> = ({ currentLanguage }) => {
+export const Footer: React.FC<FooterProps> = ({ currentLanguage }) => {
   return (
     <footer className="footer">
       <div className="footer-container">

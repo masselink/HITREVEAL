@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ArrowLeft, X } from 'lucide-react';
 import { Language, Song, CompetitionSettings } from '../../types';
 import { translations } from '../../data/translations';
-import { GlobalQRScanner } from '../GlobalQRScanner';
+import { QRScanner } from '../QRScanner';
 import { CompetitionYouTubePlayer } from '../CompetitionYouTubePlayer';
 
 interface Player {
@@ -142,7 +142,7 @@ export const CompetitionGameSession: React.FC<CompetitionGameSessionProps> = ({
         </div>
 
         <div className="qr-scanner-section">
-          <GlobalQRScanner
+          <QRScanner
             currentLanguage={currentLanguage}
             songs={availableSongs}
             onSongFound={handleSongFound}

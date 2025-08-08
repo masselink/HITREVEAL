@@ -1,8 +1,8 @@
 import React from 'react';
-import { GlobalHeader } from './components/GlobalHeader';
-import { GlobalMainGame } from './components/GlobalMainGame';
-import { GlobalGameSession } from './components/GlobalGameSession';
-import { GlobalFooter } from './components/GlobalFooter';
+import { Header } from './components/Header';
+import { MainGame } from './components/MainGame';
+import { GameSession } from './components/GameSession';
+import { Footer } from './components/Footer';
 import { useLanguage } from './hooks/useLanguage';
 import { SongList } from './types';
 
@@ -30,21 +30,21 @@ function App() {
 
   return (
     <div className="app">
-      <GlobalHeader 
+      <Header 
         currentLanguage={currentLanguage}
         onLanguageChange={changeLanguage}
         onLogoClick={handleLogoClick}
       />
       
       {gameSession ? (
-        <GlobalGameSession
+        <GameSession
           currentLanguage={currentLanguage}
           songList={gameSession}
           onBack={handleBackFromGame}
           gameType={(gameSession as any).gameType}
         />
       ) : (
-        <GlobalMainGame 
+        <MainGame 
           currentLanguage={currentLanguage}
           showGameSelection={showGameSelection}
           onShowGameSelection={setShowGameSelection}
@@ -52,7 +52,7 @@ function App() {
         />
       )}
       
-      <GlobalFooter currentLanguage={currentLanguage} />
+      <Footer currentLanguage={currentLanguage} />
     </div>
   );
 }

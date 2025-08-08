@@ -4,13 +4,13 @@ import { Language, SongList } from '../types';
 import { translations } from '../data/translations';
 import Papa from 'papaparse';
 
-interface GlobalGameSelectionProps {
+interface GameSelectionProps {
   currentLanguage: Language;
   onBack: () => void;
   onStartGame: (gameType: string, songList?: SongList) => void;
 }
 
-export const GlobalGameSelection: React.FC<GlobalGameSelectionProps> = ({
+export const GameSelection: React.FC<GameSelectionProps> = ({
   currentLanguage,
   onBack,
   onStartGame
