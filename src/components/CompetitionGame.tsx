@@ -481,9 +481,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
               <X size={20} />
               <span>{translations.quitGame?.[currentLanguage] || 'Quit Game'}</span>
             </button>
-            <button className="primary-button game-session-title-button" disabled>
-              {songList.name}
-            </button>
           </div>
 
           {/* Game Status */}
