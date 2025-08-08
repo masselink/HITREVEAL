@@ -618,6 +618,42 @@
   box-shadow: var(--shadow);
 }
 
+.reveal-section-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--color-accent);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-3);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: var(--color-secondary);
+  padding: var(--spacing-4) var(--spacing-6);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  transition: var(--transition);
+  cursor: default;
+  min-height: 60px;
+}
+
+.reveal-section-title:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(242, 92, 126, 0.3);
+}
+
+.reveal-section-title svg {
+  color: var(--color-secondary);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.revealed-song-info {
+
 .settings-section {
   background-color: var(--color-secondary);
   border: 2px solid var(--color-border);
