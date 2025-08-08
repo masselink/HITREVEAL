@@ -99,7 +99,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
           complete: (results) => {
             const data = results.data as Song[];
             const validData = data.filter(row => 
-              row.hitster_url && 
               row.youtube_url && 
               row.title && 
               row.artist
