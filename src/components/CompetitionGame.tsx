@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Papa from 'papaparse';
 import { Language, SongList } from '../types';
 import { translations } from '../data/translations';
 
@@ -13,17 +14,56 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   songList,
   onBack
 }) => {
+  const [songs, setSongs] = useState<any[]>([]);
+  const [isLoadingSongs, setIsLoadingSongs] = useState(true);
   const [showNoMoreTurnsWarning, setShowNoMoreTurnsWarning] = useState(false);
 
   useEffect(() => {
+    // Load songs from the song list
+    const loadSongs = async () => {
+      if (!songList.github_link) {
+        setIsLoadingSongs(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(songList.github_link);
+        const csvText = await response.text();
+        
+        Papa.parse(csvText, {
+          header: true,
+          complete: (results) => {
+            const validSongs = results.data.filter((song: any) => 
+              song.artist && song.title && song.hitster_url
+            );
+            setSongs(validSongs);
+            setIsLoadingSongs(false);
+          },
+          error: (error) => {
+            console.error('Error parsing CSV:', error);
+            setIsLoadingSongs(false);
+          }
+        });
+      } catch (error) {
+        console.error('Error loading songs:', error);
+        setIsLoadingSongs(false);
+      }
+    };
+
+    loadSongs();
+  }, [songList]);
+
+  useEffect(() => {
     // Check if there are no more turns possible when entering the dashboard
+    if (isLoadingSongs) return;
+    
     const playersCount = 2; // Default minimum players
-    const songsLeft = songList.songs?.length || 0;
+    const songsLeft = songs.length;
     
     if (songsLeft < playersCount) {
       setShowNoMoreTurnsWarning(true);
     }
-  }, [songList]);
+  }, [songs, isLoadingSongs]);
 
   const handleNoMoreTurnsOkay = () => {
     setShowNoMoreTurnsWarning(false);

@@ -171,6 +171,14 @@ export const translations: Translations = {
     fr: 'Commencer le jeu'
   },
   
+  // Competition Game
+  noMoreTurns: {
+    en: 'No More Turns Available',
+    nl: 'Geen Beurten Meer Beschikbaar',
+    de: 'Keine Züge Mehr Verfügbar',
+    fr: 'Plus de Tours Disponibles'
+  },
+  
   // Game Session
   scanQrCode: {
     en: 'Scan QR Code',
