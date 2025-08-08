@@ -619,8 +619,9 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 }}
                 onSkip={() => {
                   console.log('Player skipped the song');
-               skipsRemaining={gameSettings.skipsPerPlayer - currentPlayer.skipsUsed}
+                  handleSkip();
                 }}
+                skipsRemaining={gameSettings.skipsPerPlayer - currentPlayer.skipsUsed}
               />
             </div>
           </div>
