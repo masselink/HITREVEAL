@@ -340,7 +340,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     setCurrentSong(null);
     setUsedSongs(new Set());
     setGameStartTime(null);
-    setGameHasStarted(false);
     
     // Reset player scores
     setPlayers(prev => prev.map(player => ({
