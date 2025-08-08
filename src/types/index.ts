@@ -51,6 +51,5 @@ export interface CompetitionSettings {
   yearPoints: number;
   bonusPoints: number;
   skipsPerPlayer: number;
-  skipsRemaining: number;
   skipCost: number;
 }

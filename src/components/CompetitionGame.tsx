@@ -86,6 +86,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
   const [showQuitConfirmation, setShowQuitConfirmation] = useState(false);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [showPlayerPage, setShowPlayerPage] = useState(false);
+  const [playerSkips, setPlayerSkips] = useState<{ [playerId: number]: number }>({});
   const [showWinnerPage, setShowWinnerPage] = useState(false);
   const [showNoSongsModal, setShowNoSongsModal] = useState(false);
 
@@ -215,6 +216,13 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       }));
       
       setPlayers(initialPlayers);
+      
+      // Initialize skip counts for all players
+      const initialSkips: { [playerId: number]: number } = {};
+      for (let i = 0; i < settings.numberOfPlayers; i++) {
+        initialSkips[i] = settings.skipsPerPlayer;
+      }
+      setPlayerSkips(initialSkips);
       setGameState({
         currentRound: 1,
         songsPlayed: 0,
@@ -459,10 +467,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     return [...players].sort((a, b) => b.score - a.score);
   };
 
-  const getTranslation = (key: string, language: Language) => {
-    return translations[key]?.[language] || key;
-  };
-
   const translations = {
     back: { en: 'Back', es: 'Atrás', fr: 'Retour' },
     loadingSongs: { en: 'Loading songs...', es: 'Cargando canciones...', fr: 'Chargement des chansons...' },
@@ -598,7 +602,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             {/* Header */}
             <div className="game-session-header">
               <button className="primary-button game-session-title-button" disabled>
-                {getTranslation('roundsMode', currentLanguage)}
+                {getCurrentPlayer()?.name}'s Turn
               </button>
             </div>
 
@@ -839,7 +843,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          )}
         )}
 
         {/* No More Songs Modal */}
@@ -867,7 +871,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          )}
         )}
       </div>
     );
@@ -899,19 +903,19 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
               className={`mode-button ${settings.gameMode === 'points' ? 'active' : ''}`}
               onClick={() => handleGameModeChange('points')}
             >
-              {getTranslation('pointsMode', currentLanguage)}
+              {translations.pointsMode?.[currentLanguage] || 'Points'}
             </button>
             <button
               className={`mode-button ${settings.gameMode === 'time-based' ? 'active' : ''}`}
               onClick={() => handleGameModeChange('time-based')}
             >
-              {getTranslation('timeBasedMode', currentLanguage)}
+              {translations.timeBasedMode?.[currentLanguage] || 'Time Based'}
             </button>
             <button
               className={`mode-button ${settings.gameMode === 'rounds' ? 'active' : ''}`}
               onClick={() => handleGameModeChange('rounds')}
             >
-              {getTranslation('roundsMode', currentLanguage)}
+              {translations.roundsMode?.[currentLanguage] || 'Rounds'}
             </button>
           </div>
 
@@ -961,7 +965,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
                   value={settings.maximumRounds}
                   onChange={(e) => handleSettingChange('maximumRounds', parseInt(e.target.value))}
                 >
-                  {[2, 5, 10, 15, 20, 25, 30].map(rounds => (
+                  {[3, 5, 7, 10, 15, 20].map(rounds => (
                     <option key={rounds} value={rounds}>{rounds} {translations.rounds?.[currentLanguage] || 'rounds'}</option>
                   ))}
                 </select>
