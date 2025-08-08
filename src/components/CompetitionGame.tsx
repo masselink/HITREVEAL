@@ -591,12 +591,6 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       <div className="competition-settings">
         {/* Header */}
         <div className="game-selection-header">
-          <button className="back-button" onClick={onBack}>
-            <ArrowLeft size={20} />
-            <span>{getTranslation('back', currentLanguage)}</span>
-          </button>
-          <h2 className="settings-title">
-            {getTranslation('gameSettings', currentLanguage)}
           </h2>
         </div>
 
