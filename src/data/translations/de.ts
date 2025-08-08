@@ -138,5 +138,36 @@ export const de = {
   eachPlayerHas: 'Jeder Spieler hat',
   skips: 'Skips',
   costing: 'kostend',
-  each: 'jeweils'
+  each: 'jeweils',
+  
+  // Competition Game specific
+  hitrevealHeader: 'HITREVEAL! Wie hast du abgeschnitten?',
+  turnComplete: 'ZUG BEENDET',
+  
+  // Winner page
+  congratulations: 'Herzlichen Glückwunsch!',
+  winner: 'Gewinner',
+  winners: 'Gewinner',
+  gameStats: 'Spielstatistiken',
+  finalScores: 'Endpunktzahlen',
+  totalRounds: 'Gesamtrunden',
+  songsPlayed: 'Gespielte Lieder',
+  gameDuration: 'Spieldauer',
+  playAgain: 'Nochmal Spielen',
+  backToMenu: 'Zurück zum Menü',
+  
+  // Competition dashboard
+  currentPlayer: 'Aktueller Spieler',
+  go: 'LOS',
+  score: 'Punkte',
+  noPointsYet: 'Noch keine Punkte',
+  
+  // Scoring breakdown
+  artistPoints: 'K',
+  titlePoints: 'T',
+  yearPoints: 'J',
+  bonusPoints: 'B',
+  
+  // Additional missing translations
+  skip: 'ÜBERSPRINGEN'
 };

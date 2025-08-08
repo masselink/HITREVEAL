@@ -138,5 +138,36 @@ export const en = {
   eachPlayerHas: 'Each player has',
   skips: 'skips',
   costing: 'costing',
-  each: 'each'
+  each: 'each',
+  
+  // Competition Game specific
+  hitrevealHeader: 'HITREVEAL! How did you do?',
+  turnComplete: 'TURN COMPLETE',
+  
+  // Winner page
+  congratulations: 'Congratulations!',
+  winner: 'Winner',
+  winners: 'Winners',
+  gameStats: 'Game Statistics',
+  finalScores: 'Final Scores',
+  totalRounds: 'Total Rounds',
+  songsPlayed: 'Songs Played',
+  gameDuration: 'Game Duration',
+  playAgain: 'Play Again',
+  backToMenu: 'Back to Menu',
+  
+  // Competition dashboard
+  currentPlayer: 'Current Player',
+  go: 'GO',
+  score: 'Score',
+  noPointsYet: 'No points yet',
+  
+  // Scoring breakdown
+  artistPoints: 'A',
+  titlePoints: 'T', 
+  yearPoints: 'Y',
+  bonusPoints: 'B',
+  
+  // Additional missing translations
+  skip: 'SKIP'
 };

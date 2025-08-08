@@ -300,7 +300,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
       {showReveal && (
         <div className="revealed-song-info">
           <div className="hitreveal-header">
-            <h3>HITREVEAL! How did you do?</h3>
+            <h3>{getTranslation('hitrevealHeader', currentLanguage)}</h3>
           </div>
           <div className="competition-scoring-section">
             <div 
@@ -311,7 +311,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               </div>
               
               <div className="scoring-content">
-                <div className="scoring-label">Title</div>
+                <div className="scoring-label">{getTranslation('title', currentLanguage)}</div>
                 <div className="scoring-value">{currentSong.title}</div>
               </div>
               
@@ -325,7 +325,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               <div className="scoring-checkbox">
               </div>
               <div className="scoring-content">
-                <div className="scoring-label">Artist</div>
+                <div className="scoring-label">{getTranslation('artist', currentLanguage)}</div>
                 <div className="scoring-value">{currentSong.artist}</div>
               </div>
               <div className="scoring-points">+{artistPoints}</div>
@@ -339,7 +339,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
                 <div className="scoring-checkbox">
                 </div>
                 <div className="scoring-content">
-                  <div className="scoring-label">Year</div>
+                  <div className="scoring-label">{getTranslation('year', currentLanguage)}</div>
                   <div className="scoring-value">{currentSong.year}</div>
                 </div>
                 <div className="scoring-points">+{yearPoints}</div>
@@ -349,14 +349,14 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
             {bonusPoints > 0 && currentSong.year && (
               <div className={`bonus-item ${guessedArtist && guessedTitle && guessedYear ? 'active' : ''}`}>
                 <div className="bonus-content">
-                  <div className="bonus-label">Bonus (All Correct)</div>
+                  <div className="bonus-label">{getTranslation('bonusAllCorrect', currentLanguage)}</div>
                   <div className="bonus-points">+{bonusPoints}</div>
                 </div>
               </div>
             )}
             
             <div className="total-score">
-              <div className="total-label">Total Score</div>
+              <div className="total-label">{getTranslation('targetScore', currentLanguage)}</div>
               <div className="total-points">{getTotalScore()} points</div>
             </div>
             
@@ -370,7 +370,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               type="button"
             >
               <ArrowLeft size={16} />
-              <span>TURN COMPLETE</span>
+              <span>{getTranslation('turnComplete', currentLanguage)}</span>
             </button>
           </div>
         </div>
@@ -437,7 +437,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
           <>
             <button className="primary-button" onClick={handleReveal}>
               <Eye size={16} />
-              <span>HITREVEAL</span>
+             <span>HITREVEAL</span>
             </button>
             <button 
               className="scan-another-button skip-with-cost" 
@@ -445,7 +445,7 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               disabled={currentPlayerSkipsRemaining <= 0}
             >
               <span className="skip-count">{currentPlayerSkipsRemaining}</span>
-              <span>SKIP</span>
+             <span>{getTranslation('skip', currentLanguage)}</span>
               <span className="skip-cost">-{skipCost || 0}</span>
             </button>
           </>

@@ -138,5 +138,36 @@ export const nl = {
   eachPlayerHas: 'Elke speler heeft',
   skips: 'skips',
   costing: 'kostend',
-  each: 'elk'
+  each: 'elk',
+  
+  // Competition Game specific
+  hitrevealHeader: 'HITREVEAL! Hoe deed je het?',
+  turnComplete: 'BEURT VOLTOOID',
+  
+  // Winner page
+  congratulations: 'Gefeliciteerd!',
+  winner: 'Winnaar',
+  winners: 'Winnaars',
+  gameStats: 'Spelstatistieken',
+  finalScores: 'Eindscores',
+  totalRounds: 'Totaal Rondes',
+  songsPlayed: 'Liedjes Gespeeld',
+  gameDuration: 'Spelduur',
+  playAgain: 'Opnieuw Spelen',
+  backToMenu: 'Terug naar Menu',
+  
+  // Competition dashboard
+  currentPlayer: 'Huidige Speler',
+  go: 'GA',
+  score: 'Score',
+  noPointsYet: 'Nog geen punten',
+  
+  // Scoring breakdown
+  artistPoints: 'A',
+  titlePoints: 'T',
+  yearPoints: 'J',
+  bonusPoints: 'B',
+  
+  // Additional missing translations
+  skip: 'OVERSLAAN'
 };
