@@ -463,7 +463,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     back: { en: 'Back', es: 'Atrás', fr: 'Retour' },
     loadingSongs: { en: 'Loading songs...', es: 'Cargando canciones...', fr: 'Chargement des chansons...' },
     quitGame: { en: 'Quit Game', es: 'Salir del juego', fr: 'Quitter le jeu' },
-    suddenDeath: { en: 'SUDDEN DEATH', es: 'MUERTE SÚBITA', fr: 'MORT SUBITE' },
+    suddenDeath: { en: 'Sudden death', es: 'MUERTE SÚBITA', fr: 'MORT SUBITE' },
     noMoreSongs: { en: 'No More Songs Available', es: 'No hay más canciones disponibles', fr: 'Plus de chansons disponibles' },
     noMoreSongsMessage: { en: 'There are no more songs left to continue the game. All tied players are declared winners!', es: 'No quedan más canciones para continuar el juego. ¡Todos los jugadores empatados son declarados ganadores!', fr: 'Il n\'y a plus de chansons pour continuer le jeu. Tous les joueurs à égalité sont déclarés gagnants!' },
     viewResults: { en: 'View Results', es: 'Ver Resultados', fr: 'Voir les Résultats' },
