@@ -668,7 +668,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             <span>{getTranslation('back', currentLanguage)}</span>
           </button>
           <h2 className="game-selection-title">
-            {getTranslation('competitionMode', currentLanguage)}
+            {getTranslation('gameSettings', currentLanguage)}
           </h2>
         </div>
 
