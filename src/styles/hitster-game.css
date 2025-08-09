@@ -277,6 +277,12 @@
   flex-shrink: 0;
 }
 
+.dropdown-flag-svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
 .selected-description {
   background-color: #f8fafc;
   border-radius: var(--border-radius);
