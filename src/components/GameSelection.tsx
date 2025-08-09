@@ -42,7 +42,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     setSongLists([]);
     setFilteredSongLists([]);
     setSelectedSongList('');
-    setSelectedCountryFilter('all');
+    setSelectedCountryFilter('none');
     setLoading(true);
     setError(null);
     setShowHitsterOptions(false);
@@ -234,8 +234,9 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     setDropdownOpen(false); // Close dropdown
     
     if (country === 'none') {
-      setFilteredSongLists(songLists); // Show all songlists
-    } else if (country === 'all') {
+      // Show all songlists (no filtering)
+      setFilteredSongLists(songLists);
+    } else if (country === 'global') {
       // Show only songlists where country is empty, undefined, or whitespace
       const filtered = songLists.filter(list => !list.country || list.country.trim() === '');
       setFilteredSongLists(filtered);
@@ -512,8 +513,8 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                   </svg>
                 </button>
                 <button
-                  className={`filter-button ${selectedCountryFilter === 'all' ? 'active' : ''}`}
-                  onClick={() => handleCountryFilter('all')}
+                  className={`filter-button ${selectedCountryFilter === 'global' ? 'active' : ''}`}
+                  onClick={() => handleCountryFilter('global')}
                   type="button"
                 >
                   <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" className="filter-flag-svg" role="img" aria-hidden="true">
