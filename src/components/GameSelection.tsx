@@ -233,7 +233,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     setSelectedSongList(''); // Reset selection when filter changes
     setDropdownOpen(false); // Close dropdown
     
-    if (country === 'all') {
+    if (country === 'all' || country === 'none') {
       setFilteredSongLists(songLists);
     } else {
       const filtered = songLists.filter(list => list.country.toLowerCase() === country);
@@ -495,6 +495,18 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
             <div className="country-filter">
               <div className="filter-buttons">
                 <button
+                  className={`filter-button ${selectedCountryFilter === 'none' ? 'active' : ''}`}
+                  onClick={() => handleCountryFilter('none')}
+                  type="button"
+                >
+                  <svg width="20" height="20" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" className="filter-flag-svg" role="img" aria-hidden="true">
+                    <path fill="currentColor" d="M34,6.4C34,5.6,33.3,5,32.5,5H10.3l2,2H32v0.6l-9.6,9.6l1.4,1.4L33.4,9C33.8,8.6,34,8.1,34,7.6V6.5C34,6.5,34,6.4,34,6.4z" className="clr-i-outline clr-i-outline-path-1"></path>
+                    <path fill="currentColor" d="M2.7,3l2,2h-1C2.9,4.9,2.1,5.5,2,6.3v1.1c0,0.5,0.2,1,0.6,1.4L14,20.2v10.3l1.9,0.8V19.4L4,7.5V7h2.7L20,20.3v12.9l2,0.8
+		c0,0,0,0,0-0.1V22.3l10.1,10.1l1.4-1.4L4.1,1.6L2.7,3z" className="clr-i-outline clr-i-outline-path-2"></path>
+                    <rect x="0" y="0" width="36" height="36" fillOpacity="0"/>
+                  </svg>
+                </button>
+                <button
                   className={`filter-button ${selectedCountryFilter === 'all' ? 'active' : ''}`}
                   onClick={() => handleCountryFilter('all')}
                   type="button"
@@ -505,7 +517,6 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
                       <path fill="#f25c84" d="m15.4,7c-2.308,0 -4.2,1.886 -4.2,4.188c0,0.892 0.285,1.721 0.767,2.402l2.921,5.049c0.409,0.534 0.681,0.433 1.021,-0.028l3.221,-5.482c0.065,-0.118 0.116,-0.243 0.161,-0.371a4.133,4.133 0 0 0 0.309,-1.57c0,-2.302 -1.891,-4.188 -4.2,-4.188zm0,1.962c1.243,0 2.232,0.986 2.232,2.226c0,1.24 -0.989,2.225 -2.232,2.225c-1.243,0 -2.232,-0.986 -2.232,-2.225c0,-1.24 0.989,-2.226 2.232,-2.226z"/>
                     </g>
                   </svg>
-                  <span>All</span>
                 </button>
                 {getUniqueCountries().map((country) => {
                   const flagImage = getFlagImage(country);
