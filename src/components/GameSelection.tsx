@@ -18,7 +18,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   const [songLists, setSongLists] = useState<SongList[]>([]);
   const [filteredSongLists, setFilteredSongLists] = useState<SongList[]>([]);
   const [selectedSongList, setSelectedSongList] = useState<string>('');
-  const [selectedCountryFilter, setSelectedCountryFilter] = useState<string>('all');
+  const [selectedCountryFilter, setSelectedCountryFilter] = useState<string>('none');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -233,7 +233,11 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     setSelectedSongList(''); // Reset selection when filter changes
     setDropdownOpen(false); // Close dropdown
     
-    if (country === 'all' || country === 'none') {
+    if (country === 'none') {
+      // Show only songlists where country is empty or undefined
+      const filtered = songLists.filter(list => !list.country || list.country.trim() === '');
+      setFilteredSongLists(filtered);
+    } else if (country === 'all') {
       setFilteredSongLists(songLists);
     } else {
       const filtered = songLists.filter(list => list.country.toLowerCase() === country);
