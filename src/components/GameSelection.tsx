@@ -234,12 +234,13 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
     setDropdownOpen(false); // Close dropdown
     
     if (country === 'none') {
-      setFilteredSongLists(songLists);
+      setFilteredSongLists(songLists); // Show all songlists
     } else if (country === 'all') {
-      // Show only songlists where country is empty or undefined
+      // Show only songlists where country is empty, undefined, or whitespace
       const filtered = songLists.filter(list => !list.country || list.country.trim() === '');
       setFilteredSongLists(filtered);
     } else {
+      // Show songlists for specific country
       const filtered = songLists.filter(list => list.country.toLowerCase() === country);
       setFilteredSongLists(filtered);
     }
