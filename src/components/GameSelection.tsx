@@ -229,6 +229,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
 
   // Filter song lists by country
   const handleCountryFilter = (country: string) => {
+    window.scrollTo(0, 0);
     setSelectedCountryFilter(country);
     setSelectedSongList(''); // Reset selection when filter changes
     setDropdownOpen(false); // Close dropdown
@@ -274,6 +275,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   };
 
   const handleDropdownSelect = (songListName: string) => {
+    window.scrollTo(0, 0);
     setSelectedSongList(songListName);
     setDropdownOpen(false);
   };
@@ -283,6 +285,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
       return; // Do nothing for coming soon games
     }
     
+    window.scrollTo(0, 0);
     setSelectedGameType(gameType.id);
     
     // Game type specific initialization
@@ -304,6 +307,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   const handleShowPreview = async () => {
     if (!selectedList) return;
     
+    window.scrollTo(0, 0);
     setShowPreview(true);
     setPreviewLoading(true);
     setPreviewError(null);
@@ -343,6 +347,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   };
 
   const closePreview = () => {
+    window.scrollTo(0, 0);
     setShowPreview(false);
     setPreviewSongs([]);
     setPreviewError(null);
@@ -352,6 +357,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   const handleShowCompetitionPreview = async () => {
     if (!selectedList) return;
     
+    window.scrollTo(0, 0);
     setShowCompetitionPreview(true);
     setCompetitionPreviewLoading(true);
     setCompetitionPreviewError(null);
@@ -400,6 +406,7 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   };
 
   const closeCompetitionPreview = () => {
+    window.scrollTo(0, 0);
     setShowCompetitionPreview(false);
     setCompetitionPreviewSongs([]);
     setCompetitionPreviewError(null);
