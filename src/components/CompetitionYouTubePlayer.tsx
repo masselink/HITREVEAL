@@ -120,15 +120,16 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
       const videoId = extractVideoId(currentSong.youtube_url);
       if (videoId) {
         hiddenPlayerRef.current.loadVideoById(videoId);
-        // On mobile, autoplay might be blocked, so we don't set isPlaying to true immediately
-        // Let the user manually start playback
-        try {
-          hiddenPlayerRef.current.playVideo();
-          setIsPlaying(true);
-        } catch (error) {
-          console.log('Autoplay blocked on mobile, user interaction required');
-          setIsPlaying(false);
-        }
+        // Wait a moment for the video to load, then start playing
+        setTimeout(() => {
+          try {
+            hiddenPlayerRef.current.playVideo();
+            setIsPlaying(true);
+          } catch (error) {
+            console.log('Autoplay blocked, user interaction required');
+            setIsPlaying(false);
+          }
+        }, 500);
       }
     }
   }, [currentSong, isPlayerReady]);
