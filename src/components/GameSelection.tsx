@@ -275,7 +275,6 @@ export const GameSelection: React.FC<GameSelectionProps> = ({
   };
 
   const handleDropdownSelect = (songListName: string) => {
-    window.scrollTo(0, 0);
     setSelectedSongList(songListName);
     setDropdownOpen(false);
   };
