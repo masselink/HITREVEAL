@@ -263,6 +263,12 @@ export const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             <QrCode size={16} />
             <span>{getTranslation('scanAnother', currentLanguage)}</span>
           </button>
+          {showReveal && (
+            <button className="scan-another-button" onClick={onScanAnother}>
+              <X size={16} />
+              <span>{getTranslation('freeSkip', currentLanguage)}</span>
+            </button>
+          )}
         </div>
         
         {/* Error Reporting Link */}

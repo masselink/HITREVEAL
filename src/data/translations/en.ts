@@ -184,4 +184,7 @@ export const en = {
   
   // Error reporting
   reportPlaylistProblems: 'Please report any problems with the playlist.'
+  
+  // Free skip
+  freeSkip: 'Free Skip',
 };

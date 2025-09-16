@@ -394,6 +394,20 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
                 <span>{getTranslation('turnComplete', currentLanguage)}</span>
               </button>
               
+              {/* Free Skip Button */}
+              <button 
+                className="scan-another-button" 
+                onClick={() => {
+                  console.log('🆓 FREE SKIP BUTTON CLICKED!');
+                  // Call onScanAnother which will select a new song without penalty
+                  onScanAnother();
+                }}
+                type="button"
+              >
+                <X size={16} />
+                <span>{getTranslation('freeSkip', currentLanguage)}</span>
+              </button>
+              
               {/* Error Reporting Link */}
               <div className="error-reporting-section">
                 <p className="error-reporting-text">

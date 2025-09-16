@@ -184,4 +184,7 @@ export const de = {
   
   // Error reporting
   reportPlaylistProblems: 'Bitte melden Sie Probleme mit der Wiedergabeliste.'
+  
+  // Free skip
+  freeSkip: 'Kostenloser Skip',
 };

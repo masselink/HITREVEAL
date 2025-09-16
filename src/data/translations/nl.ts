@@ -184,4 +184,7 @@ export const nl = {
   
   // Error reporting
   reportPlaylistProblems: 'Meld eventuele problemen met de afspeellijst.'
+  
+  // Free skip
+  freeSkip: 'Gratis Skip',
 };
