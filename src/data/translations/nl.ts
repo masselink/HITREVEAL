@@ -183,7 +183,7 @@ export const nl = {
   validationWarning: 'Los de volgende problemen op',
   
   // Error reporting
-  reportPlaylistProblems: 'Meld eventuele problemen met de afspeellijst.'
+  reportPlaylistProblems: 'Meld eventuele problemen met de afspeellijst.',
   
   // Free skip
   freeSkip: 'Gratis Skip',

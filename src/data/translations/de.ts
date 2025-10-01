@@ -183,7 +183,7 @@ export const de = {
   validationWarning: 'Bitte beheben Sie die folgenden Probleme',
   
   // Error reporting
-  reportPlaylistProblems: 'Bitte melden Sie Probleme mit der Wiedergabeliste.'
+  reportPlaylistProblems: 'Bitte melden Sie Probleme mit der Wiedergabeliste.',
   
   // Free skip
   freeSkip: 'Kostenloser Skip',

@@ -183,7 +183,7 @@ export const fr = {
   validationWarning: 'Veuillez corriger les problèmes suivants',
   
   // Error reporting
-  reportPlaylistProblems: 'Veuillez signaler tout problème avec la playlist.'
+  reportPlaylistProblems: 'Veuillez signaler tout problème avec la playlist.',
   
   // Free skip
   freeSkip: 'Skip Gratuit',
