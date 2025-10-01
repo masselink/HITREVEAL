@@ -394,30 +394,40 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
                 <span>{getTranslation('turnComplete', currentLanguage)}</span>
               </button>
               
-              {/* Free Skip Button */}
-              <button 
-                className="scan-another-button" 
-                onClick={() => {
-                  console.log('🆓 FREE SKIP BUTTON CLICKED!');
-                  // Call onScanAnother which will select a new song without penalty
-                  onScanAnother();
-                }}
-                type="button"
-              >
-                <X size={16} />
-                <span>{getTranslation('freeSkip', currentLanguage)}</span>
-              </button>
-              
               {/* Error Reporting Link */}
               <div className="error-reporting-section">
-                <p className="error-reporting-text">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <button 
+                    className="scan-another-button" 
+                    onClick={() => {
+                      console.log('🆓 FREE SKIP BUTTON CLICKED!');
+                      // Select a new song for the same player without penalty
+                      if (currentSong) {
+                        // Mark current song as used but don't advance player
+                        const availableSongs = allSongs.filter(song => song.youtube_url !== currentSong.youtube_url);
+                        if (availableSongs.length > 0) {
+                          const randomIndex = Math.floor(Math.random() * availableSongs.length);
+                          const newSong = availableSongs[randomIndex];
+                          // This will trigger a re-render with the new song for the same player
+                          window.location.reload(); // Simple approach to get a new song
+                        }
+                      }
+                    }}
+                    type="button"
+                    style={{ fontSize: '12px', padding: '6px 12px' }}
+                  >
+                    <X size={14} />
+                    <span>{getTranslation('freeSkip', currentLanguage)}</span>
+                  </button>
+                  
                   <a 
                     href={`mailto:hitreveal-song-error@collectingvibes.com?subject=Song%20Error%20Report%20-%20${encodeURIComponent(currentSong.title)}%20by%20${encodeURIComponent(currentSong.artist)}${currentSong.year ? `%20(${encodeURIComponent(currentSong.year)})` : ''}%20from%20${encodeURIComponent(songListName)}`}
                     className="error-reporting-link"
+                    style={{ fontSize: '12px' }}
                   >
                     {getTranslation('reportPlaylistProblems', currentLanguage)}
                   </a>
-                </p>
+                </div>
               </div>
             </div>
           </div>

@@ -463,10 +463,7 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             currentLanguage={currentLanguage}
             currentSong={currentSong}
             allSongs={songs}
-            onScanAnother={() => {
-              handleTurnComplete({ artist: false, title: false, year: false, artistPoints: 0, titlePoints: 0, yearPoints: 0, bonusPoints: 0, totalPoints: 0 });
-              setShowPlayerInterface(false);
-            }}
+            onScanAnother={handleFreeSkip}
             onSongListView={() => {}}
             songListViewCount={0}
             onTurnComplete={(scores) => {
