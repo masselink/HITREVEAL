@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Play, Pause, RotateCcw, Square, Eye, QrCode, List, X, Music, Check, ArrowLeft } from 'lucide-react';
+import { Play, Pause, RotateCcw, Square, Eye, QrCode, List, X, Music, Check, ArrowLeft, Users } from 'lucide-react';
 import { Language, Song } from '../types';
 import { getTranslation } from '../data/translations';
 
@@ -21,6 +21,8 @@ interface CompetitionYouTubePlayerProps {
   skipsPerPlayer?: number;
   currentPlayerSkipsRemaining?: number;
   songListName?: string;
+  currentPlayerName?: string;
+  currentPlayerId?: number;
 }
 
 export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> = ({
@@ -41,6 +43,8 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   skipsPerPlayer = 2,
   currentPlayerSkipsRemaining = 0,
   songListName = 'Unknown Songlist',
+  currentPlayerName,
+  currentPlayerId = 0,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
@@ -300,6 +304,14 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   return (
     <>
       <div className="simple-player-section">
+        {/* Current Player Header */}
+        <div className="reveal-section-header">
+          <h3 className="reveal-section-title">
+            <Users size={24} />
+            {currentPlayerName || `${getTranslation('playerName', currentLanguage)} ${currentPlayerId + 1}`}
+          </h3>
+        </div>
+
         {/* Reveal Section Header */}
         <div className="reveal-section-header">
           <h3 className="reveal-section-title">

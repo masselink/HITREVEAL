@@ -490,6 +490,8 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
             skipsPerPlayer={settings.skipsPerPlayer}
             currentPlayerSkipsRemaining={playerSkips[currentPlayer.id] || 0}
             songListName={songList.name}
+            currentPlayerName={currentPlayer.name}
+            currentPlayerId={currentPlayer.id}
           />
         </div>
       </div>
