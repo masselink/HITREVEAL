@@ -266,6 +266,19 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
     selectRandomSong();
   };
 
+  const handleFreeSkip = () => {
+    // Mark current song as used (free skip)
+    if (currentSong) {
+      setUsedSongs(prev => new Set([...prev, currentSong.youtube_url]));
+    }
+
+    // Select a new song for the same player without any penalties
+    selectRandomSong();
+    
+    // Return to dashboard
+    setShowPlayerInterface(false);
+  };
+
   const nextTurn = () => {
     const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
     
