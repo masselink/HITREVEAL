@@ -409,21 +409,11 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
               {/* Error Reporting Link */}
               <div className="error-reporting-section">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                  <button 
-                    className="scan-another-button" 
+                  <button
+                    className="scan-another-button"
                     onClick={() => {
                       console.log('🆓 FREE SKIP BUTTON CLICKED!');
-                      // Select a new song for the same player without penalty
-                      if (currentSong) {
-                        // Mark current song as used but don't advance player
-                        const availableSongs = allSongs.filter(song => song.youtube_url !== currentSong.youtube_url);
-                        if (availableSongs.length > 0) {
-                          const randomIndex = Math.floor(Math.random() * availableSongs.length);
-                          const newSong = availableSongs[randomIndex];
-                          // This will trigger a re-render with the new song for the same player
-                          window.location.reload(); // Simple approach to get a new song
-                        }
-                      }
+                      onScanAnother();
                     }}
                     type="button"
                     style={{ fontSize: '12px', padding: '6px 12px' }}
