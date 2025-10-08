@@ -272,9 +272,8 @@ export const CompetitionGame: React.FC<CompetitionGameProps> = ({
       setUsedSongs(prev => new Set([...prev, currentSong.youtube_url]));
     }
 
-    // Select a new song for the same player without any penalties and show player interface
+    // Select a new song for the same player without any penalties
     selectRandomSong();
-    setShowPlayerInterface(true);
   };
 
   const nextTurn = () => {
