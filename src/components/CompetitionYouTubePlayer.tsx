@@ -58,6 +58,16 @@ export const CompetitionYouTubePlayer: React.FC<CompetitionYouTubePlayerProps> =
   const hiddenPlayerRef = useRef<any>(null);
   const visiblePlayerRef = useRef<any>(null);
 
+  // Reset state when currentSong changes (for free skip)
+  useEffect(() => {
+    setShowReveal(false);
+    setShowVideo(false);
+    setGuessedArtist(false);
+    setGuessedTitle(false);
+    setGuessedYear(false);
+    setIsPlaying(false);
+  }, [currentSong]);
+
   // Initialize YouTube Player
   useEffect(() => {
     const initYouTubePlayer = () => {
